@@ -19,35 +19,45 @@ public class Menu {
         getMenuChoice();
     }
 
-    public void getMenuChoice() {
-        Scanner scanner = new Scanner(System.in);
-        String string = scanner.nextLine();
+    private void getMenuChoice() {
+        byte menuChoice = getUserInput();
 
-        switch (string) {
-            case "1":
+        switch (menuChoice) {
+            case 1:
                 System.out.println("Wybrales 1 - Wyszukaj ogloszenie z oferowana usluga");
                 break;
-            case "2":
+            case 2:
                 System.out.println("Wybrales 2 - Wyszukaj ogloszenie z poszukiwana usluga");
                 break;
-            case "3":
+            case 3:
                 System.out.println("Wybrales 3 - Dodaj ogloszenie z oferowana usluga");
                 break;
-            case "4":
+            case 4:
                 System.out.println("Wybrales 4 - Dodaj ogloszenie z poszukiwana usluga");
                 break;
-            case "5":
+            case 5:
                 System.out.println("Wybrales 5 - Edytuj ogloszenie");
                 break;
-            case "6":
+            case 6:
                 System.out.println("Wybrales 6 - Usun ogloszenie");
                 break;
-            case "7":
+            case 7:
                 System.out.println("Wybrales 7 - Zakoncz program <<--- I'll Be Back !");
+                break;
             default: {
-                System.out.println("Ej Ty! Ogarnij sie i wprowadz poprawny parametr !");
+                System.out.println("Podales zly parametr");
                 getMenuChoice();
             }
         }
+    }
+
+    private byte getUserInput() {
+        byte menuChoice = -1;
+        try {
+            Scanner scanner = new Scanner(System.in);
+            menuChoice = scanner.nextByte();
+        } catch (Exception ignored) {
+        }
+        return menuChoice;
     }
 }
