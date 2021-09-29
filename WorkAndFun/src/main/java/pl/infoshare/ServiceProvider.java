@@ -5,4 +5,5 @@ public class ServiceProvider extends User {
     private int businessPhone;
     private String description;
     private float rating;
+    public String[] serviceTypes; //enum?
 }
