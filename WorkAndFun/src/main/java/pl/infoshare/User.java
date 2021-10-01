@@ -9,8 +9,8 @@ public class User {
     private String mail;
     private int age;
     private String languages;
-    private double rating;
-    public User (int id, String firstName, String lastName, String password, int phone, String mail,int age,String languages, double rating)
+    private float rating;
+    public User (int id, String firstName, String lastName, String password, int phone, String mail,int age,String languages, float rating)
     {
         this.id=id;
         this.firstName=firstName;
@@ -55,7 +55,7 @@ public class User {
         return languages;
     }
 
-    public double getRating() {
+    public float getRating() {
         return rating;
     }
 }

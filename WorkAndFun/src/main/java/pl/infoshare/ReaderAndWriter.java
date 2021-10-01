@@ -3,14 +3,12 @@ package pl.infoshare;
 import java.io.*;
 import java.util.Iterator;
 
-public class UserReaderAndWriter {
+public class ReaderAndWriter {
 
-    public static String[][] reader() {
-        String path ="src/Users.csv";
+    public static String[][] reader(String path, int numOfColumns) {
         String line ="";
         String[] values;
         int lines = 0;
-        int valuesLength=9; //declerate num of columns
         try{
             BufferedReader reader = new BufferedReader(new FileReader(path));
 
@@ -23,13 +21,13 @@ public class UserReaderAndWriter {
         catch(IOException e){
             e.printStackTrace();
         }
-        String[][] userData = new String[lines][valuesLength];
+        String[][] userData = new String[lines][numOfColumns];
         try {
             int i = 0;
             BufferedReader br = new BufferedReader(new FileReader(path));
             while ((line = br.readLine()) != null) {
                 values = line.split(",");
-                for(int j=0;j<valuesLength;j++){
+                for(int j=0;j<numOfColumns;j++){
                     userData[i][j]=values[j];
                 }
                 i++;
