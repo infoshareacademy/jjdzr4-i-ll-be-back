@@ -5,10 +5,11 @@ public class User {
     private String firstName;
     private String lastName;
     private String password;
-    private String voivodeship; //typ do zmiany na ENUM
+    private String voivodeship;
     private String city;
-    private String street;  //rozbić na streetName i streetNr + houseNr?
-    private int postalCode; //dodać obsługę klasy Decimal Format?
+    private String street;
+    private int postalCode;
     private int phone;
     private String mail;
+    private float rating;
 }
