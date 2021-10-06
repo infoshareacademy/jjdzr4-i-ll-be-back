@@ -18,6 +18,8 @@ public class Main {
         catch (IOException e){
             e.printStackTrace();
         }
+        Menu menu = new Menu();
+        menu.display();
     }
 
 }
