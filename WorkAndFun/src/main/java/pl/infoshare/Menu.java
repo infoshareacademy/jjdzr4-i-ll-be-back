@@ -3,60 +3,59 @@ package pl.infoshare;
 import java.util.Scanner;
 
 public class Menu {
-    public void menu() {
+    public void display() {
         System.out.println("----------------------------------------------------");
         System.out.println("&&&&&&&&&&&--->> Work & Fun Service <<---&&&&&&&&&&&");
         System.out.println("----------------------------------------------------");
-        System.out.println("Wybierz jedna z opcji wprowadzajac odpowiednia cyfre");
-        System.out.println("1 - Wyszukaj ogloszenie z oferowana usluga");
-        System.out.println("2 - Wyszukaj ogloszenie z poszukiwana usluga");
-        System.out.println("3 - Dodaj ogloszenie z oferowana usluga");
-        System.out.println("4 - Dodaj ogloszenie z poszukiwana usluga");
-        System.out.println("5 - Edytuj ogloszenie");
-        System.out.println("6 - Usun ogloszenie");
-        System.out.println("7 - Zakoncz program");
+        System.out.println("Wybierz jedną z opcji wprowadzając odpowiednią cyfrę");
+        System.out.println("1 - Wyszukaj ogłoszenie z oferowana uslugą");
+        System.out.println("2 - Wyszukaj ogłoszenie z poszukiwaną uslugą");
+        System.out.println("3 - Dodaj ogłoszenie z oferowaną uslugą");
+        System.out.println("4 - Dodaj ogłoszenie z poszukiwaną uslugą");
+        System.out.println("5 - Edytuj ogłoszenie");
+        System.out.println("6 - Usun ogłoszenie");
+        System.out.println("0 - Zakończ program");
         System.out.println("----------------------------------------------------");
         getMenuChoice();
     }
 
     private void getMenuChoice() {
-        byte menuChoice = getUserInput();
-
-        switch (menuChoice) {
+        switch (getUserInput()) {
             case 1:
-                System.out.println("Wybrales 1 - Wyszukaj ogloszenie z oferowana usluga");
+                System.out.println("Wybrałes 1 - Wyszukaj ogłoszenie z oferowaną uslugą");
                 break;
             case 2:
-                System.out.println("Wybrales 2 - Wyszukaj ogloszenie z poszukiwana usluga");
+                System.out.println("Wybrałes 2 - Wyszukaj ogłoszenie z poszukiwaną uslugą");
                 break;
             case 3:
-                System.out.println("Wybrales 3 - Dodaj ogloszenie z oferowana usluga");
+                System.out.println("Wybrałes 3 - Dodaj ogłoszenie z oferowaną uslugą");
                 break;
             case 4:
-                System.out.println("Wybrales 4 - Dodaj ogloszenie z poszukiwana usluga");
+                System.out.println("Wybrałes 4 - Dodaj ogłoszenie z poszukiwaną uslugą");
                 break;
             case 5:
-                System.out.println("Wybrales 5 - Edytuj ogloszenie");
+                System.out.println("Wybrałes 5 - Edytuj ogłoszenie");
                 break;
             case 6:
-                System.out.println("Wybrales 6 - Usun ogloszenie");
+                System.out.println("Wybrałes 6 - Usun ogłoszenie");
                 break;
-            case 7:
-                System.out.println("Wybrales 7 - Zakoncz program <<--- I'll Be Back !");
+            case 0:
+                System.out.println("Wybrałes 0 - Zakończ program <<--- I'll Be Back !");
                 break;
             default: {
-                System.out.println("Podales zly parametr");
+                System.out.println("Podałeś zły parametr");
                 getMenuChoice();
             }
         }
     }
 
     private byte getUserInput() {
-        byte menuChoice = -1;
+        byte menuChoice;
         try {
             Scanner scanner = new Scanner(System.in);
             menuChoice = scanner.nextByte();
         } catch (Exception ignored) {
+            return -1;
         }
         return menuChoice;
     }
