@@ -3,6 +3,8 @@ package pl.infoshare;
 import java.util.Scanner;
 
 public class Menu {
+    private final Scanner scanner = new Scanner(System.in);
+
     public void display() {
         System.out.println("----------------------------------------------------");
         System.out.println("&&&&&&&&&&&--->> Work & Fun Service <<---&&&&&&&&&&&");
@@ -52,9 +54,9 @@ public class Menu {
     private byte getUserInput() {
         byte menuChoice;
         try {
-            Scanner scanner = new Scanner(System.in);
             menuChoice = scanner.nextByte();
         } catch (Exception ignored) {
+            scanner.next();
             return -1;
         }
         return menuChoice;
