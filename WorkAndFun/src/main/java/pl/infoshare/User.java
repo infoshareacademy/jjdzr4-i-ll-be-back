@@ -14,6 +14,7 @@ public class User {
     private String cityDistrict;
     private int postalCode;
     private float rating;
+
     public User (int id, String firstName, String lastName, String password, int phone, String mail,int age,String languages, float rating)
     {
         this.id=id;
@@ -27,12 +28,28 @@ public class User {
         this.rating=rating;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public User(int id, String firstName, String lastName, String password, int phone, String mail, int age, String languages, String voivodeship, String city, String cityDistrict, int postalCode, float rating) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.phone = phone;
+        this.mail = mail;
+        this.age = age;
+        this.languages = languages;
+        this.voivodeship = voivodeship;
+        this.city = city;
+        this.cityDistrict = cityDistrict;
+        this.postalCode = postalCode;
+        this.rating = rating;
     }
 
     public int getId() {
         return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
     }
 
     public String getLastName() {
@@ -57,6 +74,22 @@ public class User {
 
     public String getLanguages() {
         return languages;
+    }
+
+    public String getVoivodeship() {
+        return voivodeship;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getCityDistrict() {
+        return cityDistrict;
+    }
+
+    public int getPostalCode() {
+        return postalCode;
     }
 
     public float getRating() {
