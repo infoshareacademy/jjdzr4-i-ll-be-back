@@ -9,6 +9,10 @@ public class User {
     private String mail;
     private int age;
     private String languages;
+    private String voivodeship;
+    private String city;
+    private String cityDistrict;
+    private int postalCode;
     private float rating;
     public User (int id, String firstName, String lastName, String password, int phone, String mail,int age,String languages, float rating)
     {
