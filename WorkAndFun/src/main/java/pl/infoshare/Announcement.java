@@ -32,44 +32,52 @@ public class Announcement {
 
 
         Voivodeship selectedVoivodeship = selectVoivodeshipForAnnouncement();
-        if (selectedVoivodeship == null){
+        if (selectedVoivodeship == null) {
             return;
         }
 
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Wpisz miejscowość, w której proponujesz usługę. Na przykład: Warszawa");
+        System.out.println("[Wpisz 0 jeśli chcesz przerwać i zamknąć dodawanie ogłoszenia]");
+        String selectedCity = scanner.nextLine();
+        if (selectedCity.equals("0")) {
+            return;
+        }
 
 
     }
 
     private Voivodeship selectVoivodeshipForAnnouncement() {
-        System.out.println("Wybierz województwo z listy. Wpisz odpowiedni numer:");
+        System.out.println("Wybierz województwo, w którym proponujesz usługę, z listy. Wpisz odpowiedni numer:");
 
         TechnicalMethods.makeDelay(500);
-
+        System.out.println("______________________________");
         for (int i = 0; i < Voivodeship.values().length; i++) {
             System.out.println(Voivodeship.values()[i].getSequentialNumber() + " - " + Voivodeship.values()[i].getVoivodeshipName());
-            TechnicalMethods.makeDelay(100);
         }
         System.out.println("0 - Przerwij i zamknij dodawanie ogłoszenia");
+        System.out.println("______________________________");
 
         Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
-        if (userInput.equals("0")){
+        if (userInput.equals("0")) {
             System.out.println("Wybrałeś(-aś) 0 - przerwanie dodawania ogłoszenia...");
             return null;
         }
 
-        return checkVoivodeship(userInput);
+        return assignVoivodeship(userInput);
     }
 
-    public Voivodeship checkVoivodeship(String userInput){
+    public Voivodeship assignVoivodeship(String userInput) {
         try {
             for (Voivodeship i : Voivodeship.values()) {
                 if (i.getSequentialNumber().equals(userInput)) {
                     return i;
                 }
             }
-            throw new Exception("Wprowadzono niepoprawne dane. Spróbuj jeszcze raz.");
-        } catch (Exception e){
+            throw new Exception();
+        } catch (Exception e) {
+            System.out.println("Wprowadzono niepoprawne dane. Spróbuj jeszcze raz.");
             addAnnouncementOfferService();
         }
         return null;
