@@ -27,7 +27,7 @@ public class Announcement {
     private int lowerPriceLimit;
     private int higherPriceLimit;
     private String description;
-    private String phoneNumberToContact;
+    private String phoneNumber;
 
     public void setPrice(int lowerPriceLimit, int higherPriceLimit) {
         this.price = lowerPriceLimit + " - " + higherPriceLimit + "zł";
@@ -40,20 +40,21 @@ public class Announcement {
         if (selectedVoivodeship == null) {
             return;
         }
-
         //przypis miejscowosci
         String selectedCity = selectCityForAnnouncement();
         if (selectedCity == null) {
             return;
         }
-
         //przypis telefonu
         String selectedPhone = selectPhoneNumberForAnnouncement();
         if (selectedPhone == null) {
             return;
         }
-
-
+        //przypis mailu
+        String selectedEmail = selectEmailForAnnouncement();
+        if (selectedEmail == null) {
+            return;
+        }
 
     }
 
@@ -97,6 +98,7 @@ public class Announcement {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Wpisz miejscowość, w której proponujesz usługę. Na przykład: Warszawa");
         System.out.println(BREAKANDCLOSE);
+        System.out.println("______________________________");
         String selectedCity = scanner.nextLine();
         if (selectedCity.equals("0")) {
             return null;
@@ -105,24 +107,45 @@ public class Announcement {
     }
 
     private String selectPhoneNumberForAnnouncement() {
-        Scanner scannerPhoneNumberAsking = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Wpisz polski numer telefonu, do kontaktu w sprawie ogłoszenia, w formacie: XXXXXXXXX ");
         System.out.println(BREAKANDCLOSE);
-        String selectedPhoneNumberToContact = scannerPhoneNumberAsking.nextLine();
-        if (selectedPhoneNumberToContact.equals("0")) {
+        System.out.println("______________________________");
+        String selectedPhoneNumber = scanner.nextLine();
+        if (selectedPhoneNumber.equals("0")) {
             return null;
-        } else if (!validateSelectedPhoneNumber(selectedPhoneNumberToContact)) {
+        } else if (!validateSelectedPhoneNumber(selectedPhoneNumber)) {
             System.out.println("Błąd w numerze telefonu. Spróbuj jeszcze raz.");
             selectPhoneNumberForAnnouncement();
         }
-        return selectedPhoneNumberToContact;
+        return selectedPhoneNumber;
     }
 
-    private boolean validateSelectedPhoneNumber(String userInput) {
+    private boolean validateSelectedPhoneNumber(String userInputPhoneNumber) {
         Pattern ptrn = Pattern.compile("(\\+48)?\\d{9}");
-        Matcher match = ptrn.matcher(userInput);
+        Matcher match = ptrn.matcher(userInputPhoneNumber);
         return match.matches();
     }
 
+    private String selectEmailForAnnouncement() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Wpisz mail do kontaktu, w sprawie ogłoszenia:");
+        System.out.println(BREAKANDCLOSE);
+        System.out.println("______________________________");
+        String selectedEmail = scanner.nextLine();
+        if (selectedEmail.equals("0")) {
+            return null;
+        } else if (!validateSelectedEmail(selectedEmail)) {
+            System.out.println("Niepoprawnie wprowadzony mail. Spróbuj jeszcze raz.");
+            selectEmailForAnnouncement();
+        }
+        return selectedEmail;
+    }
+
+    private boolean validateSelectedEmail(String userInputEmail) {
+        Pattern ptrn = Pattern.compile(".+@.+\\..+");
+        Matcher match = ptrn.matcher(userInputEmail);
+        return match.matches();
+    }
 
 }
