@@ -6,8 +6,12 @@ package pl.infoshare;
 
 import java.time.LocalDate;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Announcement {
+    private static final String BREAKANDCLOSE = "[0 - Przerwij i zamknij dodawanie ogłoszenia]";
+
     private boolean isService; //true=usługa/false=zapotrzebowanie
     private int adID;
     private String serviceType; //enum?
@@ -23,6 +27,7 @@ public class Announcement {
     private int lowerPriceLimit;
     private int higherPriceLimit;
     private String description;
+    private String phoneNumberToContact;
 
     public void setPrice(int lowerPriceLimit, int higherPriceLimit) {
         this.price = lowerPriceLimit + " - " + higherPriceLimit + "zł";
@@ -30,19 +35,24 @@ public class Announcement {
 
     public void addAnnouncementOfferService() {
 
-
+        //przypis wojewodzstwa
         Voivodeship selectedVoivodeship = selectVoivodeshipForAnnouncement();
         if (selectedVoivodeship == null) {
             return;
         }
 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Wpisz miejscowość, w której proponujesz usługę. Na przykład: Warszawa");
-        System.out.println("[Wpisz 0 jeśli chcesz przerwać i zamknąć dodawanie ogłoszenia]");
-        String selectedCity = scanner.nextLine();
-        if (selectedCity.equals("0")) {
+        //przypis miejscowosci
+        String selectedCity = selectCityForAnnouncement();
+        if (selectedCity == null) {
             return;
         }
+
+        //przypis telefonu
+        String selectedPhone = selectPhoneNumberForAnnouncement();
+        if (selectedPhone == null) {
+            return;
+        }
+
 
 
     }
@@ -55,7 +65,7 @@ public class Announcement {
         for (int i = 0; i < Voivodeship.values().length; i++) {
             System.out.println(Voivodeship.values()[i].getSequentialNumber() + " - " + Voivodeship.values()[i].getVoivodeshipName());
         }
-        System.out.println("0 - Przerwij i zamknij dodawanie ogłoszenia");
+        System.out.println(BREAKANDCLOSE);
         System.out.println("______________________________");
 
         Scanner scanner = new Scanner(System.in);
@@ -65,21 +75,54 @@ public class Announcement {
             return null;
         }
 
-        return assignVoivodeship(userInput);
+        return validateAndAssignVoivodeship(userInput);
     }
 
-    public Voivodeship assignVoivodeship(String userInput) {
-        try {
-            for (Voivodeship i : Voivodeship.values()) {
-                if (i.getSequentialNumber().equals(userInput)) {
-                    return i;
-                }
+    private Voivodeship validateAndAssignVoivodeship(String userInput) {
+        Voivodeship voivodeshipToAssign = null;
+        for (Voivodeship i : Voivodeship.values()) {
+            if (i.getSequentialNumber().equals(userInput)) {
+                voivodeshipToAssign = i;
+                break;
             }
-            throw new Exception();
-        } catch (Exception e) {
+        }
+        if (voivodeshipToAssign == null) {
             System.out.println("Wprowadzono niepoprawne dane. Spróbuj jeszcze raz.");
             addAnnouncementOfferService();
         }
-        return null;
+        return voivodeshipToAssign;
     }
+
+    private String selectCityForAnnouncement() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Wpisz miejscowość, w której proponujesz usługę. Na przykład: Warszawa");
+        System.out.println(BREAKANDCLOSE);
+        String selectedCity = scanner.nextLine();
+        if (selectedCity.equals("0")) {
+            return null;
+        }
+        return selectedCity;
+    }
+
+    private String selectPhoneNumberForAnnouncement() {
+        Scanner scannerPhoneNumberAsking = new Scanner(System.in);
+        System.out.println("Wpisz polski numer telefonu, do kontaktu w sprawie ogłoszenia, w formacie: XXXXXXXXX ");
+        System.out.println(BREAKANDCLOSE);
+        String selectedPhoneNumberToContact = scannerPhoneNumberAsking.nextLine();
+        if (selectedPhoneNumberToContact.equals("0")) {
+            return null;
+        } else if (!validateSelectedPhoneNumber(selectedPhoneNumberToContact)) {
+            System.out.println("Błąd w numerze telefonu. Spróbuj jeszcze raz.");
+            selectPhoneNumberForAnnouncement();
+        }
+        return selectedPhoneNumberToContact;
+    }
+
+    private boolean validateSelectedPhoneNumber(String userInput) {
+        Pattern ptrn = Pattern.compile("(\\+48)?\\d{9}");
+        Matcher match = ptrn.matcher(userInput);
+        return match.matches();
+    }
+
+
 }
