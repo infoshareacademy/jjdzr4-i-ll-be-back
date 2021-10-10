@@ -5,6 +5,7 @@ package pl.infoshare;
 
 
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,52 +25,85 @@ public class Announcement {
     private LocalDate date; //local date time - IDE pruje się o zmiany w pom.xml, do obadania
     private String nameOfAdvertiser;
     private String mail;
-    private int lowerPriceLimit;
-    private int higherPriceLimit;
+    private Integer lowerPriceLimit;
+    private Integer higherPriceLimit;
     private String description;
     private String phoneNumber;
+    private String priceAdditionComment = "";
+    private boolean isPriceToBeDetermined = false;
 
-    private void setPrice(int lowerPriceLimit, int higherPriceLimit) {
-        this.price = lowerPriceLimit + " - " + higherPriceLimit + "zł";
+    private void setPrice(Integer lowerPriceLimit, Integer higherPriceLimit, String priceAdditionComment) throws Exception {
+        if (higherPriceLimit > lowerPriceLimit){
+            throw new Exception("Górny próg cenowy nie może być mniejszy od dolnego progu");
+        } else if (higherPriceLimit == lowerPriceLimit){
+            this.price = higherPriceLimit + " zł";
+        } else {
+            this.price = lowerPriceLimit + " - " + higherPriceLimit + " zł";
+        }
+        if (!(priceAdditionComment.equals(""))){
+            this.priceAdditionComment = priceAdditionComment;
+        }
     }
 
     public void addAnnouncementOfferService() {
 
         //assigning voivodeship
         Voivodeship selectedVoivodeship = selectVoivodeship();
-        if (selectedVoivodeship == null) {
-            return;
-        }
+        if (selectedVoivodeship == null) {return;}
         //assigning city
         String selectedCity = selectCity();
-        if (selectedCity == null) {
-            return;
-        }
+        if (selectedCity == null) {return;}
         //assigning phone number
         String selectedPhone = selectPhoneNumber();
-        if (selectedPhone == null) {
-            return;
-        }
+        if (selectedPhone == null) {return;}
         //assigning email
         String selectedEmail = selectEmail();
-        if (selectedEmail == null) {
-            return;
-        }
+        if (selectedEmail == null) {return;}
         //assigning name/nickname of advertiser
         String selectedNameOfAdvertiser = selectNameOfAdvertiser();
-        if (selectedNameOfAdvertiser == null) {
-            return;
-        }
+        if (selectedNameOfAdvertiser == null) {return;}
         //assigning service type
         ServiceTypes selectedServiceType = selectServiceType();
-        if (selectedServiceType == null) {
-            return;
-        }
+        if (selectedServiceType == null) {return;}
         //input description
         String inputtedDescription = inputDescription();
-        if (inputtedDescription == null) {
-            return;
+        if (inputtedDescription == null) {return;}
+
+
+
+
+    }
+
+    private void cena(){
+
+
+        Character answerIsWannaSetPrice = getAnswerYesOrNoFromUser("Czy chcesz podać cenę usługi [T/N]? \n T - tak; N - nie, będzie do ustalenia prywatnie \n Wpisz odpowiedź:");
+        if (answerIsWannaSetPrice == null) {return;}
+        if (answerIsWannaSetPrice.equals("T")){
+
+
         }
+    }
+
+    public void lowestPrice(){
+        String lowestPrice;
+        lowestPrice = getInputFromUser("Podaj dolną granicę ceny.\n Wpisz \"FREE\" jeśli ma być gratis");
+        if(lowestPrice.equals(0)){
+            return;
+        } else if(!(validateString(lowestPrice, "[(FREE){1}\\d+]"))){
+
+        }
+    }
+
+    private Character getAnswerYesOrNoFromUser(String messageForUser){
+        String isPriceToBeDeterminedAnswer = getInputFromUser(messageForUser);
+        if (isPriceToBeDeterminedAnswer.equals("0")) {
+            return null;
+        } else if (!(validateString(isPriceToBeDeterminedAnswer.toUpperCase(Locale.ROOT), "([TN]{1}"))){
+            System.out.println("Niedopuszczalna odpowiedź. Wybierz \"T\" lub \"N\"");
+            getAnswerYesOrNoFromUser(messageForUser);
+        }
+        return isPriceToBeDeterminedAnswer.toUpperCase(Locale.ROOT).charAt(0);
     }
 
     private String getInputFromUser(String messageForUser) {
@@ -110,7 +144,7 @@ public class Announcement {
         String selectedPhoneNumber = getInputFromUser("Wpisz polski numer telefonu, do kontaktu w sprawie ogłoszenia, w formacie: XXXXXXXXX ");
         if (selectedPhoneNumber.equals("0")) {
             return null;
-        } else if (!validateSelectedPhoneNumber(selectedPhoneNumber)) {
+        } else if (!validateString(selectedPhoneNumber,"(\\+48)?\\d{9}")) {
             System.out.println("Błąd w numerze telefonu. Spróbuj jeszcze raz.");
             selectPhoneNumber();
         }
@@ -121,7 +155,7 @@ public class Announcement {
         String selectedEmail = getInputFromUser("Wpisz mail do kontaktu, w sprawie ogłoszenia:");
         if (selectedEmail.equals("0")) {
             return null;
-        } else if (!validateSelectedEmail(selectedEmail)) {
+        } else if (!validateString(selectedEmail,".+@.+\\..+")) {
             System.out.println("Niepoprawnie wprowadzony mail. Spróbuj jeszcze raz.");
             selectEmail();
         }
@@ -132,7 +166,7 @@ public class Announcement {
         String selectedNameOfAdvertiser = getInputFromUser("Wpisz imię/nick, które będzie wyświetlone w ogłoszeniu. Unikaj spacji.");
         if (selectedNameOfAdvertiser.equals("0")) {
             return null;
-        } else if (!validateSelectedNameOfAdvertiser(selectedNameOfAdvertiser)) {
+        } else if (!validateString(selectedNameOfAdvertiser,"\\w{2,50}")) {
             System.out.println("Zbyt długie/krótkie imie, lub wpisana spacja. Spróbuj jeszcze raz.");
             selectNameOfAdvertiser();
         }
@@ -178,20 +212,6 @@ public class Announcement {
             selectVoivodeship();
         }
         return voivodeshipToAssign;
-    }
-    
-    private boolean validateSelectedPhoneNumber(String userInputPhoneNumber) {
-        //9 numbers; +48 optional
-        return validateString(userInputPhoneNumber, "(\\+48)?\\d{9}");
-    }
-    
-    private boolean validateSelectedEmail(String userInputEmail) {
-        return validateString(userInputEmail, ".+@.+\\..+");
-    }
-
-    private boolean validateSelectedNameOfAdvertiser(String userInputNameOfAdvertiser) {
-        //any character, except white spaces, in the amount from 2 to 50
-        return validateString(userInputNameOfAdvertiser, "\\w{2,50}");
     }
 
     private ServiceTypes validateAndAssignServiceType(String userInput) {
