@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class Announcement {
     private static final String BREAKANDCLOSE = "[0 - Przerwij i zamknij dodawanie ogłoszenia]";
 
-    private boolean isService; //true=usługa/false=zapotrzebowanie
+    private boolean isOffer; //true=usługa/false=zapotrzebowanie
     private int adID;
     private String serviceType; //enum?
     private String city;
@@ -29,39 +29,59 @@ public class Announcement {
     private String description;
     private String phoneNumber;
 
-    public void setPrice(int lowerPriceLimit, int higherPriceLimit) {
+    private void setPrice(int lowerPriceLimit, int higherPriceLimit) {
         this.price = lowerPriceLimit + " - " + higherPriceLimit + "zł";
     }
 
     public void addAnnouncementOfferService() {
 
-        //przypis wojewodzstwa
-        Voivodeship selectedVoivodeship = selectVoivodeshipForAnnouncement();
+        //assigning voivodeship
+        Voivodeship selectedVoivodeship = selectVoivodeship();
         if (selectedVoivodeship == null) {
             return;
         }
-        //przypis miejscowosci
-        String selectedCity = selectCityForAnnouncement();
+        //assigning city
+        String selectedCity = selectCity();
         if (selectedCity == null) {
             return;
         }
-        //przypis telefonu
-        String selectedPhone = selectPhoneNumberForAnnouncement();
+        //assigning phone number
+        String selectedPhone = selectPhoneNumber();
         if (selectedPhone == null) {
             return;
         }
-        //przypis mailu
-        String selectedEmail = selectEmailForAnnouncement();
+        //assigning email
+        String selectedEmail = selectEmail();
         if (selectedEmail == null) {
             return;
         }
-
+        //assigning name/nickname of advertiser
+        String selectedNameOfAdvertiser = selectNameOfAdvertiser();
+        if (selectedNameOfAdvertiser == null) {
+            return;
+        }
+        //assigning service type
+        ServiceTypes selectedServiceType = selectServiceType();
+        if (selectedServiceType == null) {
+            return;
+        }
+        //input description
+        String inputtedDescription = inputDescription();
+        if (inputtedDescription == null) {
+            return;
+        }
     }
 
-    private Voivodeship selectVoivodeshipForAnnouncement() {
-        System.out.println("Wybierz województwo, w którym proponujesz usługę, z listy. Wpisz odpowiedni numer:");
+    private String getInputFromUser(String messageForUser) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println(messageForUser);
+        System.out.println(BREAKANDCLOSE);
+        System.out.println("______________________________");
+        return scanner.nextLine();
+    }
 
-        TechnicalMethods.makeDelay(500);
+    private Voivodeship selectVoivodeship() {
+        System.out.println("Wybierz województwo, w którym proponujesz usługę, z listy. Wpisz odpowiedni numer:");
         System.out.println("______________________________");
         for (int i = 0; i < Voivodeship.values().length; i++) {
             System.out.println(Voivodeship.values()[i].getSequentialNumber() + " - " + Voivodeship.values()[i].getVoivodeshipName());
@@ -75,8 +95,74 @@ public class Announcement {
             System.out.println("Wybrałeś(-aś) 0 - przerwanie dodawania ogłoszenia...");
             return null;
         }
-
         return validateAndAssignVoivodeship(userInput);
+    }
+
+    private String selectCity() {
+        String selectedCity = getInputFromUser("Wpisz miejscowość, w której proponujesz usługę. Na przykład: Warszawa");
+        if (selectedCity.equals("0")) {
+            return null;
+        }
+        return selectedCity;
+    }
+
+    private String selectPhoneNumber() {
+        String selectedPhoneNumber = getInputFromUser("Wpisz polski numer telefonu, do kontaktu w sprawie ogłoszenia, w formacie: XXXXXXXXX ");
+        if (selectedPhoneNumber.equals("0")) {
+            return null;
+        } else if (!validateSelectedPhoneNumber(selectedPhoneNumber)) {
+            System.out.println("Błąd w numerze telefonu. Spróbuj jeszcze raz.");
+            selectPhoneNumber();
+        }
+        return selectedPhoneNumber;
+    }
+
+    private String selectEmail() {
+        String selectedEmail = getInputFromUser("Wpisz mail do kontaktu, w sprawie ogłoszenia:");
+        if (selectedEmail.equals("0")) {
+            return null;
+        } else if (!validateSelectedEmail(selectedEmail)) {
+            System.out.println("Niepoprawnie wprowadzony mail. Spróbuj jeszcze raz.");
+            selectEmail();
+        }
+        return selectedEmail;
+    }
+
+    private String selectNameOfAdvertiser() {
+        String selectedNameOfAdvertiser = getInputFromUser("Wpisz imię/nick, które będzie wyświetlone w ogłoszeniu. Unikaj spacji.");
+        if (selectedNameOfAdvertiser.equals("0")) {
+            return null;
+        } else if (!validateSelectedNameOfAdvertiser(selectedNameOfAdvertiser)) {
+            System.out.println("Zbyt długie/krótkie imie, lub wpisana spacja. Spróbuj jeszcze raz.");
+            selectNameOfAdvertiser();
+        }
+        return selectedNameOfAdvertiser;
+    }
+
+    private ServiceTypes selectServiceType() {
+        System.out.println("Wybierz typ usługi, którą proponujesz, z listy, wpisując odpowiedni numer. Jeśli nie masz odpowiedniej kategorii na liście, wybierz \"Inne\":");
+        System.out.println("______________________________");
+        for (int i = 0; i < ServiceTypes.values().length; i++) {
+            System.out.println(ServiceTypes.values()[i].getSequentialNumber() + " - " + ServiceTypes.values()[i].getServiceTypeName());
+        }
+        System.out.println(BREAKANDCLOSE);
+        System.out.println("______________________________");
+
+        Scanner scanner = new Scanner(System.in);
+        String userInput = scanner.nextLine();
+        if (userInput.equals("0")) {
+            System.out.println("Wybrałeś(-aś) 0 - przerwanie dodawania ogłoszenia...");
+            return null;
+        }
+        return validateAndAssignServiceType(userInput);
+    }
+
+    private String inputDescription() {
+        String inputtedDescription = getInputFromUser("Wpisz treść ogłoszenia:");
+        if (inputtedDescription.equals("0")) {
+            return null;
+        }
+        return inputtedDescription;
     }
 
     private Voivodeship validateAndAssignVoivodeship(String userInput) {
@@ -89,62 +175,43 @@ public class Announcement {
         }
         if (voivodeshipToAssign == null) {
             System.out.println("Wprowadzono niepoprawne dane. Spróbuj jeszcze raz.");
-            addAnnouncementOfferService();
+            selectVoivodeship();
         }
         return voivodeshipToAssign;
     }
-
-    private String selectCityForAnnouncement() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Wpisz miejscowość, w której proponujesz usługę. Na przykład: Warszawa");
-        System.out.println(BREAKANDCLOSE);
-        System.out.println("______________________________");
-        String selectedCity = scanner.nextLine();
-        if (selectedCity.equals("0")) {
-            return null;
-        }
-        return selectedCity;
-    }
-
-    private String selectPhoneNumberForAnnouncement() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Wpisz polski numer telefonu, do kontaktu w sprawie ogłoszenia, w formacie: XXXXXXXXX ");
-        System.out.println(BREAKANDCLOSE);
-        System.out.println("______________________________");
-        String selectedPhoneNumber = scanner.nextLine();
-        if (selectedPhoneNumber.equals("0")) {
-            return null;
-        } else if (!validateSelectedPhoneNumber(selectedPhoneNumber)) {
-            System.out.println("Błąd w numerze telefonu. Spróbuj jeszcze raz.");
-            selectPhoneNumberForAnnouncement();
-        }
-        return selectedPhoneNumber;
-    }
-
+    
     private boolean validateSelectedPhoneNumber(String userInputPhoneNumber) {
-        Pattern ptrn = Pattern.compile("(\\+48)?\\d{9}");
-        Matcher match = ptrn.matcher(userInputPhoneNumber);
-        return match.matches();
+        //9 numbers; +48 optional
+        return validateString(userInputPhoneNumber, "(\\+48)?\\d{9}");
     }
-
-    private String selectEmailForAnnouncement() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Wpisz mail do kontaktu, w sprawie ogłoszenia:");
-        System.out.println(BREAKANDCLOSE);
-        System.out.println("______________________________");
-        String selectedEmail = scanner.nextLine();
-        if (selectedEmail.equals("0")) {
-            return null;
-        } else if (!validateSelectedEmail(selectedEmail)) {
-            System.out.println("Niepoprawnie wprowadzony mail. Spróbuj jeszcze raz.");
-            selectEmailForAnnouncement();
-        }
-        return selectedEmail;
-    }
-
+    
     private boolean validateSelectedEmail(String userInputEmail) {
-        Pattern ptrn = Pattern.compile(".+@.+\\..+");
-        Matcher match = ptrn.matcher(userInputEmail);
+        return validateString(userInputEmail, ".+@.+\\..+");
+    }
+
+    private boolean validateSelectedNameOfAdvertiser(String userInputNameOfAdvertiser) {
+        //any character, except white spaces, in the amount from 2 to 50
+        return validateString(userInputNameOfAdvertiser, "\\w{2,50}");
+    }
+
+    private ServiceTypes validateAndAssignServiceType(String userInput) {
+        ServiceTypes serviceTypeToAssign = null;
+        for (ServiceTypes i : ServiceTypes.values()) {
+            if (i.getSequentialNumber().equals(userInput)) {
+                serviceTypeToAssign = i;
+                break;
+            }
+        }
+        if (serviceTypeToAssign == null) {
+            System.out.println("Wprowadzono niepoprawne dane. Spróbuj jeszcze raz.");
+            selectServiceType();
+        }
+        return serviceTypeToAssign;
+    }
+
+    private boolean validateString(String userInput, String rules) {
+        Pattern ptrn = Pattern.compile(rules);
+        Matcher match = ptrn.matcher(userInput);
         return match.matches();
     }
 
