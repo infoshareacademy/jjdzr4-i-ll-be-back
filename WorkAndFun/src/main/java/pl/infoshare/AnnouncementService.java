@@ -1,6 +1,7 @@
 package pl.infoshare;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
 import java.util.regex.Matcher;
@@ -46,17 +47,25 @@ public class AnnouncementService {
         String isPriceNegotiable = selectKindOfPrice();
         if (isPriceNegotiable == null) {return;}
         boolean isPriceNegotiableBoolean = convertStringAnswerToBoolean(isPriceNegotiable);
-
         // input additional comment to price
         String inputtedPriceAdditionalComment = selectPriceAdditionalComment();
         if (inputtedPriceAdditionalComment == null) {return;}
         // get date of creating announcement
         LocalDateTime dateOfAnnouncementCreating = LocalDateTime.now();
+        //generate ID based on existing announcements
+        ArrayList<String[]> baseOfAnnouncements = FileActions.makeArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        long generatedID = Long.valueOf(baseOfAnnouncements.get(baseOfAnnouncements.size()-1)[0])+1;
 
-        Announcement newAnnouncement = new Announcement(true, 1, selectedServiceType, selectedCity, selectedCityDistrict, selectedUnit, inputtedPrice, selectedVoivodeship, dateOfAnnouncementCreating, selectedNameOfAdvertiser, selectedEmail, isPriceNegotiableBoolean, inputtedDescription, selectedPhone, inputtedPriceAdditionalComment);
+        System.out.println("--------------To już prawie koniec...-----------------");
+        if (ifWantToSaveAnnouncement("Czy chcesz dodać ogłoszenie?\n[1 - Dodaj ogłoszenie]","Wybierz 1 lub 0") == null){return;}
 
+        Announcement newAnnouncement = new Announcement(true, generatedID, selectedServiceType, selectedCity, selectedCityDistrict, selectedUnit, inputtedPrice, selectedVoivodeship, dateOfAnnouncementCreating, selectedNameOfAdvertiser, selectedEmail, isPriceNegotiableBoolean, inputtedDescription, selectedPhone, inputtedPriceAdditionalComment);
+        FileActions.writeToFile(Main.ANNOUNCEMENTS_FILE_PATH, String.valueOf(newAnnouncement.getID()), String.valueOf(newAnnouncement.getIsOffer()),String.valueOf(newAnnouncement.getServiceType()),String.valueOf(newAnnouncement.getVoivodeship()),String.valueOf(newAnnouncement.getCity()),newAnnouncement.getCityDistrict(),newAnnouncement.getUnit(),newAnnouncement.getNameOfAdvertiser(),newAnnouncement.getPhoneNumber(),newAnnouncement.getEmail(),newAnnouncement.getDescription(),newAnnouncement.getPrice(),String.valueOf(newAnnouncement.getIsPriceNegotiable()),newAnnouncement.getPriceAdditionComment(),String.valueOf(newAnnouncement.getDate()),String.valueOf(newAnnouncement.getClient()));
+        System.out.println("--Ogłoszenie pomyślnie zapisane! Teraz wrócisz do głównego menu--");
+        TechnicalMethods.makeDelay(1500);
     }
 
+    //turn String answer, like "T" or "N", into boolean type
     private boolean convertStringAnswerToBoolean(String isPriceNegotiable) {
         boolean isPriceNegotiableBoolean;
         if (isPriceNegotiable.equals("T")){
@@ -95,6 +104,15 @@ public class AnnouncementService {
             return null;
         } else {
             return answer.toUpperCase(Locale.ROOT).charAt(0);
+        }
+    }
+
+    private Integer ifWantToSaveAnnouncement(String messageForUser, String errorMessage){
+        String answer = getInputFromUser(messageForUser,"[0-1]{1}","Niedopuszczalna odpowiedź. Wybierz \"1\" lub \"0\"");
+        if(answer == null){
+            return null;
+        } else {
+            return Integer.valueOf(answer);
         }
     }
 
