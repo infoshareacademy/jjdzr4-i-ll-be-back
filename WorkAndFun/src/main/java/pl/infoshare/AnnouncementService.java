@@ -10,8 +10,10 @@ import java.util.regex.Pattern;
 public class AnnouncementService {
 
     private static final String BREAKANDCLOSE = "[0 - Przerwij i zamknij dodawanie ogłoszenia]";
+    private static final Scanner scanner = new Scanner(System.in);
 
     public void addAnnouncementOfferService() {
+
 
         //assigning voivodeship
         Voivodeship selectedVoivodeship = selectVoivodeship();
@@ -77,19 +79,19 @@ public class AnnouncementService {
     }
 
     private String getInputFromUser(String messageForUser, String rules, String errorMessage) {
-        String InputFromUser;
-        Scanner scanner = new Scanner(System.in);
+        String inputFromUser;
+
         System.out.println(messageForUser);
         System.out.println(BREAKANDCLOSE);
         System.out.println("______________________________");
-        InputFromUser = scanner.nextLine();
-        if (InputFromUser.equals("0")) {
+        inputFromUser = scanner.nextLine();
+        if (inputFromUser.equals("0")) {
             return null;
-        } else if (!(validateString(InputFromUser, rules))) {
+        } else if (!(validateString(inputFromUser, rules))) {
             System.out.println(errorMessage);
-            InputFromUser = getInputFromUser(messageForUser, rules, errorMessage);
+            inputFromUser = getInputFromUser(messageForUser, rules, errorMessage);
         }
-        return InputFromUser;
+        return inputFromUser;
     }
 
     /**
@@ -125,7 +127,6 @@ public class AnnouncementService {
         System.out.println(BREAKANDCLOSE);
         System.out.println("______________________________");
 
-        Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
         if (userInput.equals("0")) {
             System.out.println("Wybrałeś(-aś) 0 - przerwanie dodawania ogłoszenia...");
@@ -167,7 +168,6 @@ public class AnnouncementService {
         System.out.println(BREAKANDCLOSE);
         System.out.println("______________________________");
 
-        Scanner scanner = new Scanner(System.in);
         String userInput = scanner.nextLine();
         if (userInput.equals("0")) {
             System.out.println("Wybrałeś(-aś) 0 - przerwanie dodawania ogłoszenia...");
