@@ -21,22 +21,26 @@ public class FileActions {
 
         //fill array line by line, and separate each line into another list, by "," sign
         for (int i = 0; i < particularLines.length; i++) {
-            String[] newString = particularLines[i].split(",");
-            arrayFromFile.add(particularLines[i].split(","));
+            String[] newString = particularLines[i].split("~");
+            arrayFromFile.add(particularLines[i].split("~"));
         }
         return arrayFromFile;
     }
 
-    public static void writeToFile(Path path, String... parts) throws IOException {
-        FileWriter fstream = new FileWriter(String.valueOf(path), true);
-        BufferedWriter out = new BufferedWriter(fstream);
-        out.newLine();
+    public static void writeToFile(Path path, String... parts) {
+        try {
+            FileWriter fstream = new FileWriter(String.valueOf(path), true);
+            BufferedWriter out = new BufferedWriter(fstream);
+            out.newLine();
+            String lineToFill = String.join("~",parts);
 
-        String lineToFill = String.join(",",parts);
-
-        out.write(lineToFill);
-        //close buffer writer
-        out.close();
+            out.write(lineToFill);
+            //close buffer writer
+            out.close();
+        }catch (IOException e){
+            e.printStackTrace();
+            System.out.println("Nie znaleziono pliku do zapisu pod wskazaną ścieżką!");
+        }
 
     }
 }

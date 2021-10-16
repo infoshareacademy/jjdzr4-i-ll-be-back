@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Menu {
     private final Scanner scanner = new Scanner(System.in);
+    private final AnnouncementService myAnnouncementService = new AnnouncementService();;
 
     public void display() {
         System.out.println("----------------------------------------------------");
@@ -31,6 +32,8 @@ public class Menu {
                 break;
             case 3:
                 System.out.println("Wybrałes 3 - Dodaj ogłoszenie z oferowaną uslugą");
+                myAnnouncementService.addAnnouncement(true);
+                display();
                 break;
             case 4:
                 System.out.println("Wybrałes 4 - Dodaj ogłoszenie z poszukiwaną uslugą");
@@ -45,7 +48,7 @@ public class Menu {
                 System.out.println("Wybrałes 0 - Zakończ program <<--- I'll Be Back !");
                 break;
             default: {
-                System.out.println("Podałeś zły parametr");
+                System.out.println("Podałeś zły parametr. Spróbuj jeszcze raz:");
                 getMenuChoice();
             }
         }
