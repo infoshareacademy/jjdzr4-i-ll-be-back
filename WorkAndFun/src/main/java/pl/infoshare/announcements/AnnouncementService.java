@@ -1,4 +1,8 @@
-package pl.infoshare;
+package pl.infoshare.announcements;
+
+import pl.infoshare.FileActions;
+import pl.infoshare.Main;
+import pl.infoshare.TechnicalMethods;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -13,94 +17,68 @@ public class AnnouncementService {
     private static final Scanner scanner = new Scanner(System.in);
 
     public void addAnnouncement(boolean isOffer) {
+        try {
+            addAnnouncementOfferService(isOffer);
+        } catch (ReturnToMenuException returnToMenuException) {
+            System.out.println(returnToMenuException.getMessage());
+        }
+    }
 
+    public void addAnnouncementOfferService(boolean isOffer) throws ReturnToMenuException {
 
         //assigning voivodeship
-        Voivodeship selectedVoivodeship = selectVoivodeship();
-        if (selectedVoivodeship == null) {
-            return;
-        }
+        Voivodeship selectedVoivodeship = (Voivodeship) userInputCheck(selectVoivodeship());
         //assigning city
-        String selectedCity = selectCity();
-        if (selectedCity == null) {
-            return;
-        }
+        String selectedCity = (String) userInputCheck(selectCity());
         //assigning city district
-        String selectedCityDistrict = selectCityDistrict();
-        if (selectedCityDistrict == null) {
-            return;
-        }
+        String selectedCityDistrict = (String) userInputCheck(selectCityDistrict());
         //assigning city unit (osiedle)
-        String selectedUnit = selectUnitName();
-        if (selectedUnit == null) {
-            return;
-        }
+        String selectedUnit = (String) userInputCheck(selectUnitName());
         //assigning phone number
-        String selectedPhone = selectPhoneNumber();
-        if (selectedPhone == null) {
-            return;
-        }
+        String selectedPhone = (String) userInputCheck(selectPhoneNumber());
         //assigning email
-        String selectedEmail = selectEmail();
-        if (selectedEmail == null) {
-            return;
-        }
+        String selectedEmail = (String) userInputCheck(selectEmail());
         //assigning name/nickname of advertiser
-        String selectedNameOfAdvertiser = selectNameOfAdvertiser();
-        if (selectedNameOfAdvertiser == null) {
-            return;
-        }
+        String selectedNameOfAdvertiser = (String) userInputCheck(selectNameOfAdvertiser());
         //assigning service type
-        ServiceTypes selectedServiceType = selectServiceType();
-        if (selectedServiceType == null) {
-            return;
-        }
+        ServiceType selectedServiceType = (ServiceType) userInputCheck(selectServiceType());
         //input description
-        String inputtedDescription = inputDescription();
-        if (inputtedDescription == null) {
-            return;
-        }
+        String inputtedDescription = (String) userInputCheck(inputDescription());
         //input price
-        String inputtedPrice = selectPrice();
-        if (inputtedPrice == null) {
-            return;
-        }
+        String inputtedPrice = (String) userInputCheck(selectPrice());
         // input is price negotiable
-        String isPriceNegotiable = selectKindOfPrice();
-        if (isPriceNegotiable == null) {
-            return;
-        }
+        String isPriceNegotiable = (String) userInputCheck(selectKindOfPrice());
         boolean isPriceNegotiableBoolean = convertStringAnswerToBoolean(isPriceNegotiable);
         // input additional comment to price
-        String inputtedPriceAdditionalComment = selectPriceAdditionalComment();
-        if (inputtedPriceAdditionalComment == null) {
-            return;
-        }
+        String inputtedPriceAdditionalComment = (String) userInputCheck(selectPriceAdditionalComment());
         // get date of creating announcement
         LocalDateTime dateOfAnnouncementCreating = LocalDateTime.now();
         //generate ID based on existing announcements
         ArrayList<String[]> baseOfAnnouncements = FileActions.makeArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
-        long generatedID = Long.valueOf(baseOfAnnouncements.get(baseOfAnnouncements.size() - 1)[0]) + 1;
-
+        long generatedID = Long.parseLong(baseOfAnnouncements.get(baseOfAnnouncements.size() - 1)[0]) + 1;
         System.out.println("--------------To już prawie koniec...-----------------");
-        if (ifWantToSaveAnnouncement("Czy chcesz dodać ogłoszenie?\n[1 - Dodaj ogłoszenie]", "Wybierz 1 lub 0") == null) {
-            return;
-        }
+        ifWantToSaveAnnouncement();
 
-        Announcement newAnnouncement = new Announcement(isOffer, generatedID, selectedServiceType, selectedCity, selectedCityDistrict, selectedUnit, inputtedPrice, selectedVoivodeship, dateOfAnnouncementCreating, selectedNameOfAdvertiser, selectedEmail, isPriceNegotiableBoolean, inputtedDescription, selectedPhone, inputtedPriceAdditionalComment);
-        FileActions.writeToFile(Main.ANNOUNCEMENTS_FILE_PATH, String.valueOf(newAnnouncement.getID()), String.valueOf(newAnnouncement.getIsOffer()), String.valueOf(newAnnouncement.getServiceType()), String.valueOf(newAnnouncement.getVoivodeship()), String.valueOf(newAnnouncement.getCity()), newAnnouncement.getCityDistrict(), newAnnouncement.getUnit(), newAnnouncement.getNameOfAdvertiser(), newAnnouncement.getPhoneNumber(), newAnnouncement.getEmail(), newAnnouncement.getDescription(), newAnnouncement.getPrice(), String.valueOf(newAnnouncement.getIsPriceNegotiable()), newAnnouncement.getPriceAdditionComment(), String.valueOf(newAnnouncement.getDate()), String.valueOf(newAnnouncement.getClient()));
-        System.out.println("--Ogłoszenie pomyślnie zapisane! Teraz wrócisz do głównego menu--");
+        Announcement newAnnouncement = new Announcement(isOffer, generatedID, selectedServiceType, selectedCity,
+                selectedCityDistrict, selectedUnit, inputtedPrice, selectedVoivodeship, dateOfAnnouncementCreating,
+                selectedNameOfAdvertiser, selectedEmail, isPriceNegotiableBoolean, inputtedDescription, selectedPhone,
+                inputtedPriceAdditionalComment);
+        FileActions.writeToFile(Main.ANNOUNCEMENTS_FILE_PATH, String.valueOf(newAnnouncement.getID()),
+                String.valueOf(newAnnouncement.getIsOffer()), String.valueOf(newAnnouncement.getServiceType()),
+                String.valueOf(newAnnouncement.getVoivodeship()), String.valueOf(newAnnouncement.getCity()),
+                newAnnouncement.getCityDistrict(), newAnnouncement.getUnit(), newAnnouncement.getNameOfAdvertiser(),
+                newAnnouncement.getPhoneNumber(), newAnnouncement.getEmail(), newAnnouncement.getDescription(),
+                newAnnouncement.getPrice(), String.valueOf(newAnnouncement.getIsPriceNegotiable()),
+                newAnnouncement.getPriceAdditionComment(), String.valueOf(newAnnouncement.getDate()),
+                String.valueOf(newAnnouncement.getClient()));
+        System.out.println("--Ogłoszenie pomyślnie zapisane! Teraz wrócisz do menu głównego--");
         TechnicalMethods.makeDelay(1500);
     }
 
     //turn String answer, like "T" or "N", into boolean type
     private boolean convertStringAnswerToBoolean(String isPriceNegotiable) {
         boolean isPriceNegotiableBoolean;
-        if (isPriceNegotiable.equals("T")) {
-            isPriceNegotiableBoolean = true;
-        } else {
-            isPriceNegotiableBoolean = false;
-        }
+        isPriceNegotiableBoolean = isPriceNegotiable.equals("T");
         return isPriceNegotiableBoolean;
     }
 
@@ -121,14 +99,16 @@ public class AnnouncementService {
     }
 
     /**
-     * Ask user for answer "T" or "N". Also supports lower cases "t" and "n". Ask user again, if correct type of input wasn't found, displaying warning message
+     * Ask user for answer "T" or "N". Also supports lower cases "t" and "n". Ask user again, if correct type of input
+     * wasn't found, displaying warning message
      *
      * @param messageForUser message (question), displays to user
      * @param errorMessage   warning message, displays to user in case of deviating from the correct answer
      * @return Character "T" or "N"
      */
     private Character getAnswerYesOrNoFromUser(String messageForUser, String errorMessage) {
-        String answer = getInputFromUser(messageForUser, "[TNtn]{1}", "Niedopuszczalna odpowiedź. Wybierz \"T\" lub \"N\"");
+        String answer = getInputFromUser(messageForUser, "[TNtn]{1}", "Niedopuszczalna odpowiedź. " +
+                "Wybierz \"T\" lub \"N\"");
         if (answer == null) {
             return null;
         } else {
@@ -136,20 +116,25 @@ public class AnnouncementService {
         }
     }
 
-    private Integer ifWantToSaveAnnouncement(String messageForUser, String errorMessage) {
-        String answer = getInputFromUser(messageForUser, "[0-1]{1}", "Niedopuszczalna odpowiedź. Wybierz \"1\" lub \"0\"");
-        if (answer == null) {
-            return null;
-        } else {
-            return Integer.valueOf(answer);
+    private String ifWantToSaveAnnouncement() {
+        return getInputFromUser("Czy chcesz dodać ogłoszenie?\n1 - Dodaj ogłoszenie", "[0-1]{1}",
+                "Niedopuszczalna odpowiedź. Wybierz \"1\" lub \"0\"");
+    }
+
+
+    private Object userInputCheck(Object object) throws ReturnToMenuException {
+        if (object == null) {
+            throw new ReturnToMenuException("Wybrałeś powrót do menu głównego");
         }
+        return object;
     }
 
     private Voivodeship selectVoivodeship() {
-        System.out.println("Wybierz województwo, w którym proponujesz usługę, z listy. Wpisz odpowiedni numer:");
+        System.out.println("Wybierz województwo, w którym proponujesz wybraną usługę z listy. Wpisz odpowiedni numer:");
         System.out.println("______________________________");
         for (int i = 0; i < Voivodeship.values().length; i++) {
-            System.out.println(Voivodeship.values()[i].getSequentialNumber() + " - " + Voivodeship.values()[i].getVoivodeshipName());
+            System.out.println(Voivodeship.values()[i].getSequentialNumber() + " - " +
+                    Voivodeship.values()[i].getVoivodeshipName());
         }
         System.out.println(BREAK_AND_CLOSE);
         System.out.println("______________________________");
@@ -163,34 +148,43 @@ public class AnnouncementService {
     }
 
     private String selectCity() {
-        return getInputFromUser("Wpisz miejscowość, w której proponujesz usługę. Na przykład: Warszawa", "\\D+", "Źle wprowadzony typ danych. Podaj prawidłową miejscowość");
+        return getInputFromUser("Wpisz miejscowość wykonania usługi. Na przykład: Warszawa",
+                "\\D+", "Źle wprowadzony typ danych. Podaj prawidłową miejscowość");
     }
 
     private String selectCityDistrict() {
-        return getInputFromUser("Wpisz dzielnicę miasta, gdzie wykonujesz usługę, lub pozostaw pole pustym:", "\\D*", "Źle wprowadzony typ danych.");
+        return getInputFromUser("Wpisz dzielnicę miasta lub pozostaw puste pole:", "\\D*",
+                "Źle wprowadzony typ danych.");
     }
 
     private String selectUnitName() {
-        return getInputFromUser("Wpisz nazwę osiedla, gdzie wykonujesz usługę, lub pozostaw pole pustym:", "\\D*", "Źle wprowadzony typ danych.");
+        return getInputFromUser("Wpisz nazwę osiedla lub pozostaw puste pole:", "\\D*",
+                "Źle wprowadzony typ danych.");
     }
 
     private String selectPhoneNumber() {
-        return getInputFromUser("Wpisz polski numer telefonu, do kontaktu w sprawie ogłoszenia, w formacie: XXXXXXXXX ", "(\\+48)?\\d{9}", "Błąd w numerze telefonu. Spróbuj jeszcze raz.");
+        return getInputFromUser("Wpisz polski numer telefonu do kontaktu w sprawie ogłoszenia w " +
+                "formacie: XXXXXXXXX ", "(\\+48)?\\d{9}", "Błąd w numerze telefonu. Spróbuj jeszcze raz.");
     }
 
     private String selectEmail() {
-        return getInputFromUser("Wpisz mail do kontaktu, w sprawie ogłoszenia:", "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-]+$", "Niepoprawnie wprowadzony mail. Spróbuj jeszcze raz.");
+        return getInputFromUser("Wpisz mail do kontaktu w sprawie ogłoszenia:",
+                "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-]+$", "Niepoprawnie wprowadzony mail. " +
+                        "Spróbuj jeszcze raz.");
     }
 
     private String selectNameOfAdvertiser() {
-        return getInputFromUser("Wpisz imię lub nick, które będzie wyświetlone w ogłoszeniu. Unikaj spacji.", "\\w{2,50}", "Zbyt długie/krótkie imie, lub wpisana spacja. Spróbuj jeszcze raz.");
+        return getInputFromUser("Wpisz imię lub nick, które będzie wyświetlone w ogłoszeniu. Unikaj spacji.",
+                "\\w{2,50}", "Zbyt długie/krótkie imie lub wpisana spacja. Spróbuj jeszcze raz.");
     }
 
-    private ServiceTypes selectServiceType() {
-        System.out.println("Wybierz typ usługi, którą proponujesz, z listy, wpisując odpowiedni numer. Jeśli nie masz odpowiedniej kategorii na liście, wybierz \"Inne\":");
+    private ServiceType selectServiceType() {
+        System.out.println("Wybierz typ usługi z listy wpisując odpowiedni numer. Jeśli nie masz odpowiedniej " +
+                "kategorii na liście, wybierz \"Inne\":");
         System.out.println("______________________________");
-        for (int i = 0; i < ServiceTypes.values().length; i++) {
-            System.out.println(ServiceTypes.values()[i].getSequentialNumber() + " - " + ServiceTypes.values()[i].getServiceTypeName());
+        for (int i = 0; i < ServiceType.values().length; i++) {
+            System.out.println(ServiceType.values()[i].getSequentialNumber() + " - " +
+                    ServiceType.values()[i].getServiceTypeName());
         }
         System.out.println(BREAK_AND_CLOSE);
         System.out.println("______________________________");
@@ -204,31 +198,35 @@ public class AnnouncementService {
     }
 
     private String inputDescription() {
-        String inputtedDescription = getInputFromUser("Wpisz treść ogłoszenia:", ".+", "Treść nie znaleziono. Ogłoszenie musi zawierać opis.");
-        return inputtedDescription;
+        return getInputFromUser("Wpisz treść ogłoszenia:", ".+", "Treści nie " +
+                "znaleziono. Ogłoszenie musi zawierać opis.");
     }
 
     private String selectPrice() {
-        Character ifWantToSetPrice = getAnswerYesOrNoFromUser("Czy chcesz podać cenę usługi [T/N]? \n T - tak; N - nie, będzie do ustalenia prywatnie \n Wpisz odpowiedź:", "Niedopuszczalna odpowiedź. Wybierz \"T\" lub \"N\"");
+        Character ifWantToSetPrice = getAnswerYesOrNoFromUser("Czy chcesz podać cenę usługi [T/N]? " +
+                        "\n T - tak; N - nie, będzie do ustalenia prywatnie \n Wpisz odpowiedź:",
+                "Niedopuszczalna odpowiedź. Wybierz \"T\" lub \"N\"");
         String price;
         if (ifWantToSetPrice == null) {
             return null;
         } else if (ifWantToSetPrice.equals('N')) {
             price = "do ustalenia indywidualnie";
         } else {
-            price = getInputFromUser("Podaj cenę usługi.\n Wpisz \"FREE\" jeśli ma być gratis", "FREE|\\d+", "Podaj prawidłową kwotę.");
+            price = getInputFromUser("Podaj cenę usługi.\nWpisz \"FREE\" jeśli ma być gratis",
+                    "(?i)FREE|\\d+", "Podaj prawidłową kwotę.");
         }
 
         if (price == null) {
             return null;
-        } else if (price.equals("FREE")) {
+        } else if (price.equalsIgnoreCase("FREE")) {
             price = "0";
         }
         return price;
     }
 
     private String selectKindOfPrice() {
-        Character isWantToSetPriceNegotiable = getAnswerYesOrNoFromUser("Czy podana cena jest do negocjacji [T/N]?", "Niedopuszczalna odpowiedź. Wybierz \"T\" lub \"N\"");
+        Character isWantToSetPriceNegotiable = getAnswerYesOrNoFromUser("Czy podana cena jest do " +
+                "negocjacji [T/N]?", "Niedopuszczalna odpowiedź. Wybierz \"T\" lub \"N\"");
         if (isWantToSetPriceNegotiable == null) {
             return null;
         }
@@ -236,7 +234,9 @@ public class AnnouncementService {
     }
 
     private String selectPriceAdditionalComment() {
-        return getInputFromUser("W razie potrzeby, wpisz dodatkowy komentarz do ceny, na przykład: cena za 1 godzinę pacy. Zostaw pusty, jeśli nie chcesz dodawać komentarz", ".*", "Wpisz komentarz lub pozostaw puste pole");
+        return getInputFromUser("W razie potrzeby, wpisz dodatkowy komentarz do ceny, na przykład: " +
+                        "cena za 1 godzinę pacy. Zostaw pusty, jeśli nie chcesz dodawać komentarz", ".*",
+                "Wpisz komentarz lub pozostaw puste pole");
     }
 
     private Voivodeship validateAndAssignVoivodeship(String userInput) {
@@ -254,9 +254,9 @@ public class AnnouncementService {
         return voivodeshipToAssign;
     }
 
-    private ServiceTypes validateAndAssignServiceType(String userInput) {
-        ServiceTypes serviceTypeToAssign = null;
-        for (ServiceTypes i : ServiceTypes.values()) {
+    private ServiceType validateAndAssignServiceType(String userInput) {
+        ServiceType serviceTypeToAssign = null;
+        for (ServiceType i : ServiceType.values()) {
             if (i.getSequentialNumber().equals(userInput)) {
                 serviceTypeToAssign = i;
                 break;
@@ -277,7 +277,7 @@ public class AnnouncementService {
 
 }
 
-enum ServiceTypes {
+enum ServiceType {
     BUDOWA_DOMU("1", "Budowa domu"),
     ELEKTRYK("2", "Elektryk"),
     HYDRAULIK("3", "Hydraulik"),
@@ -303,7 +303,7 @@ enum ServiceTypes {
     private String sequentialNumber;
     private String serviceTypeName;
 
-    ServiceTypes(String sequentialNumber, String serviceTypeName) {
+    ServiceType(String sequentialNumber, String serviceTypeName) {
         this.sequentialNumber = sequentialNumber;
         this.serviceTypeName = serviceTypeName;
     }

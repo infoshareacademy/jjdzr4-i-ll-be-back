@@ -15,20 +15,21 @@ public class User {
     private int postalCode;
     private float rating;
 
-    public User (int id, String firstName, String lastName, String password, int phone, String mail,int age,String languages, float rating)
-    {
-        this.id=id;
-        this.firstName=firstName;
-        this.lastName=lastName;
-        this.password=password;
-        this.phone=phone;
-        this.mail=mail;
-        this.age=age;
-        this.languages=languages;
-        this.rating=rating;
+    public User(int id, String firstName, String lastName, String password, int phone, String mail, int age,
+                String languages, float rating) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.phone = phone;
+        this.mail = mail;
+        this.age = age;
+        this.languages = languages;
+        this.rating = rating;
     }
 
-    public User(int id, String firstName, String lastName, String password, int phone, String mail, int age, String languages, String voivodeship, String city, String cityDistrict, int postalCode, float rating) {
+    public User(int id, String firstName, String lastName, String password, int phone, String mail, int age,
+                String languages, String voivodeship, String city, String cityDistrict, int postalCode, float rating) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
