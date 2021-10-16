@@ -39,7 +39,7 @@ public class FileActions {
             out.close();
         }catch (IOException e){
             e.printStackTrace();
-            System.out.println("Nie znaleziono plik do zapisu pod wskaaną ścieżką!");
+            System.out.println("Nie znaleziono pliku do zapisu pod wskazaną ścieżką!");
         }
 
     }

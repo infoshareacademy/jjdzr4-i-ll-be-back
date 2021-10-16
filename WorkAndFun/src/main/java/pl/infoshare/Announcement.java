@@ -39,36 +39,68 @@ public class Announcement {
         this.priceAdditionComment = priceAdditionComment;
     }
 
-    public boolean getIsOffer() {return isOffer;}
+    public boolean getIsOffer() {
+        return isOffer;
+    }
 
-    public long getID() {return ID;}
+    public long getID() {
+        return ID;
+    }
 
-    public ServiceTypes getServiceType() {return serviceType;}
+    public ServiceTypes getServiceType() {
+        return serviceType;
+    }
 
-    public String getCity() {return city;}
+    public String getCity() {
+        return city;
+    }
 
-    public String getCityDistrict() {return cityDistrict;}
+    public String getCityDistrict() {
+        return cityDistrict;
+    }
 
-    public String getUnit() {return unit;}
+    public String getUnit() {
+        return unit;
+    }
 
-    public String getPrice() {return price;}
+    public String getPrice() {
+        return price;
+    }
 
-    public User getClient() {return client;}
+    public User getClient() {
+        return client;
+    }
 
-    public Voivodeship getVoivodeship() {return voivodeship;}
+    public Voivodeship getVoivodeship() {
+        return voivodeship;
+    }
 
-    public LocalDateTime getDate() {return date;}
+    public LocalDateTime getDate() {
+        return date;
+    }
 
-    public String getNameOfAdvertiser() {return nameOfAdvertiser;}
+    public String getNameOfAdvertiser() {
+        return nameOfAdvertiser;
+    }
 
-    public String getEmail() {return email;}
+    public String getEmail() {
+        return email;
+    }
 
-    public boolean getIsPriceNegotiable() {return isPriceNegotiable;}
+    public boolean getIsPriceNegotiable() {
+        return isPriceNegotiable;
+    }
 
-    public String getDescription() {return description;}
+    public String getDescription() {
+        return description;
+    }
 
-    public String getPhoneNumber() {return phoneNumber;}
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-    public String getPriceAdditionComment() {return priceAdditionComment;}
+    public String getPriceAdditionComment() {
+        return priceAdditionComment;
+    }
 }
 
