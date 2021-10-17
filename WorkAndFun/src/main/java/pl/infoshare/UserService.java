@@ -6,6 +6,8 @@ import java.nio.file.Path;
 
 public class UserService {
     public static void addUser(User user, Path path) {
-       FileActions.writeToFile(path, String.valueOf(user.getId()),user.getFirstName(),user.getLastName(),user.getPassword(),String.valueOf(user.getPhone()),user.getMail(),String.valueOf(user.getAge()),user.getLanguages(),String.valueOf(user.getRating()));
+        FileActions.writeToFile(path, String.valueOf(user.getId()), user.getFirstName(), user.getLastName(),
+                user.getPassword(), String.valueOf(user.getPhone()), user.getMail(), String.valueOf(user.getAge()),
+                user.getLanguages(), String.valueOf(user.getRating()));
     }
 }

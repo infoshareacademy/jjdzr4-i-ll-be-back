@@ -1,4 +1,6 @@
-package pl.infoshare;
+package pl.infoshare.announcements;
+
+import pl.infoshare.User;
 
 import java.time.LocalDateTime;
 
@@ -6,7 +8,7 @@ public class Announcement {
 
     private boolean isOffer; //true=usługa/false=zapotrzebowanie
     private long ID;
-    private ServiceTypes serviceType;
+    private ServiceType serviceType;
     private String city;
     private String cityDistrict;
     private String unit; //osiedle
@@ -21,7 +23,7 @@ public class Announcement {
     private String phoneNumber;
     private String priceAdditionComment = "";
 
-    public Announcement(boolean isOffer, long ID, ServiceTypes serviceType, String city, String cityDistrict, String unit, String price, Voivodeship voivodeship, LocalDateTime date, String nameOfAdvertiser, String email, boolean isPriceNegotiable, String description, String phoneNumber, String priceAdditionComment) {
+    public Announcement(boolean isOffer, long ID, ServiceType serviceType, String city, String cityDistrict, String unit, String price, Voivodeship voivodeship, LocalDateTime date, String nameOfAdvertiser, String email, boolean isPriceNegotiable, String description, String phoneNumber, String priceAdditionComment) {
         this.isOffer = isOffer;
         this.ID = ID;
         this.serviceType = serviceType;
@@ -47,7 +49,7 @@ public class Announcement {
         return ID;
     }
 
-    public ServiceTypes getServiceType() {
+    public ServiceType getServiceType() {
         return serviceType;
     }
 

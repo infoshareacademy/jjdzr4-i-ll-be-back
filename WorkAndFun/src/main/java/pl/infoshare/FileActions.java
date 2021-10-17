@@ -32,12 +32,12 @@ public class FileActions {
             FileWriter fstream = new FileWriter(String.valueOf(path), true);
             BufferedWriter out = new BufferedWriter(fstream);
             out.newLine();
-            String lineToFill = String.join("~",parts);
+            String lineToFill = String.join("~", parts);
 
             out.write(lineToFill);
             //close buffer writer
             out.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Nie znaleziono pliku do zapisu pod wskazaną ścieżką!");
         }

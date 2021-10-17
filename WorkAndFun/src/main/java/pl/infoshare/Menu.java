@@ -1,10 +1,12 @@
 package pl.infoshare;
 
+import pl.infoshare.announcements.AnnouncementService;
+
 import java.util.Scanner;
 
 public class Menu {
     private final Scanner scanner = new Scanner(System.in);
-    private final AnnouncementService myAnnouncementService = new AnnouncementService();;
+    private final AnnouncementService myAnnouncementService = new AnnouncementService();
 
     public void display() {
         System.out.println("----------------------------------------------------");
@@ -37,6 +39,8 @@ public class Menu {
                 break;
             case 4:
                 System.out.println("Wybrałes 4 - Dodaj ogłoszenie z poszukiwaną uslugą");
+                myAnnouncementService.addAnnouncement(false);
+                display();
                 break;
             case 5:
                 System.out.println("Wybrałes 5 - Edytuj ogłoszenie");
