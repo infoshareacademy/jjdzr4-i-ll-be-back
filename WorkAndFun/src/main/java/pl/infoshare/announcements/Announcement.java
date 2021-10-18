@@ -2,9 +2,11 @@ package pl.infoshare.announcements;
 
 import pl.infoshare.User;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Period;
 
-public class Announcement {
+public class Announcement implements Comparable<Announcement>{
 
     private boolean isOffer; //true=usługa/false=zapotrzebowanie
     private long ID;
@@ -13,7 +15,7 @@ public class Announcement {
     private String cityDistrict;
     private String unit; //osiedle
     private String price;
-    private User client;
+    private Integer clientId;
     private Voivodeship voivodeship;
     private LocalDateTime date;
     private String nameOfAdvertiser;
@@ -23,7 +25,7 @@ public class Announcement {
     private String phoneNumber;
     private String priceAdditionComment = "";
 
-    public Announcement(boolean isOffer, long ID, ServiceType serviceType, String city, String cityDistrict, String unit, String price, Voivodeship voivodeship, LocalDateTime date, String nameOfAdvertiser, String email, boolean isPriceNegotiable, String description, String phoneNumber, String priceAdditionComment) {
+    public Announcement(boolean isOffer, long ID, ServiceType serviceType, String city, String cityDistrict, String unit, String price, Voivodeship voivodeship, LocalDateTime date, String nameOfAdvertiser, String email, boolean isPriceNegotiable, String description, String phoneNumber, String priceAdditionComment, Integer clientId) {
         this.isOffer = isOffer;
         this.ID = ID;
         this.serviceType = serviceType;
@@ -40,6 +42,8 @@ public class Announcement {
         this.phoneNumber = phoneNumber;
         this.priceAdditionComment = priceAdditionComment;
     }
+
+
 
     public boolean getIsOffer() {
         return isOffer;
@@ -69,8 +73,8 @@ public class Announcement {
         return price;
     }
 
-    public User getClient() {
-        return client;
+    public int getClientId() {
+        return clientId;
     }
 
     public Voivodeship getVoivodeship() {
@@ -103,6 +107,16 @@ public class Announcement {
 
     public String getPriceAdditionComment() {
         return priceAdditionComment;
+    }
+
+    @Override
+    public int compareTo(Announcement o) {
+        if (!this.date.equals(o.date)){
+            Duration duration = Duration.between(o.date,this.date);
+            return Integer.valueOf(String.valueOf(duration.getSeconds())) ;
+        } else {
+            return Integer.valueOf(String.valueOf(o.ID - this.ID));
+        }
     }
 }
 

@@ -1,2 +1,5 @@
-ID~isOffer~serviceType~voivodeship~city~cityDistrict~unit~nameOfAdvertiser~phoneNumber~email~description~price~isPriceNegotiable~priceAdditionComment~date~client
-1~true~ELEKTRYK~Dolnoslaskie~Wrocław~Krzyki~Powstańców Śląskich~PiotrPiotrowski~+48123456789~example@gmail.com~Wkręcam żarówki~10~false~cena za sztukę~2021-10-11T21:53:23.727880~null
+ID~isOffer~serviceType~voivodeship~city~cityDistrict~unit~nameOfAdvertiser~phoneNumber~email~description~price~isPriceNegotiable~priceAdditionComment~date~clientId
+1~true~ELEKTRYK~DOLNOSLASKIE~Wrocław~Krzyki~Powstańców Śląskich~PiotrPiotrowski~+48123456789~example@gmail.com~Wkręcam żarówki~10~false~cena za sztukę~2021-10-11T21:53:23.727880~null
+2~true~INNE~DOLNOSLASKIE~Wrocław~Krzyki~Powstańców Śląskich~PiotrPiotrowski~+48123456789~example@gmail.com~Wkręcam żarówki~10~false~cena za sztukę~2021-10-11T21:53:23.727882~null
+3~true~ELEKTRYK~DOLNOSLASKIE~Wrocław~Krzyki~Powstańców Śląskich~PiotrPiotrowski~+48123456789~example@gmail.com~Wkręcam żarówki~10~false~cena za sztukę~2021-10-11T23:21:23.727880~null
+4~true~INNE~DOLNOSLASKIE~Wrocław~Krzyki~Powstańców Śląskich~PiotrPiotrowski~+48123456789~example@gmail.com~Wkręcam żarówki~10~false~cena za sztukę~2021-10-11T23:21:23.727881~null
