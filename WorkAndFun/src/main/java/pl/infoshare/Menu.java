@@ -1,6 +1,7 @@
 package pl.infoshare;
 
 import pl.infoshare.announcements.AnnouncementService;
+import pl.infoshare.announcements.SerchEngine;
 
 import java.util.Scanner;
 
@@ -28,9 +29,11 @@ public class Menu {
         switch (getUserInput()) {
             case 1:
                 System.out.println("Wybrałes 1 - Wyszukaj ogłoszenie z oferowaną uslugą");
+                SerchEngine.searchAnnoucementOffer();
                 break;
             case 2:
                 System.out.println("Wybrałes 2 - Wyszukaj ogłoszenie z poszukiwaną uslugą");
+                SerchEngine.searchAnnoucementDemand();
                 break;
             case 3:
                 System.out.println("Wybrałes 3 - Dodaj ogłoszenie z oferowaną uslugą");

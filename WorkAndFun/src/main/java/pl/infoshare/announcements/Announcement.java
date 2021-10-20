@@ -104,5 +104,7 @@ public class Announcement {
     public String getPriceAdditionComment() {
         return priceAdditionComment;
     }
+
+
 }
 
