@@ -1,5 +1,5 @@
-ID~isOffer~serviceType~voivodeship~city~cityDistrict~unit~nameOfAdvertiser~phoneNumber~email~description~price~isPriceNegotiable~priceAdditionComment~date~clientId
-1~true~ELEKTRYK~DOLNOSLASKIE~Wrocław~Krzyki~Powstańców Śląskich~PiotrPiotrowski~+48123456789~example@gmail.com~Wkręcam żarówki~10~false~cena za sztukę~2021-10-11T21:53:23.727880~null
-2~true~INNE~DOLNOSLASKIE~Wrocław~Krzyki~Powstańców Śląskich~PiotrPiotrowski~+48123456789~example@gmail.com~Wkręcam żarówki~10~false~cena za sztukę~2021-10-11T21:53:23.727882~null
-3~true~ELEKTRYK~DOLNOSLASKIE~Wrocław~Krzyki~Powstańców Śląskich~PiotrPiotrowski~+48123456789~example@gmail.com~Wkręcam żarówki~10~false~cena za sztukę~2021-10-11T23:21:23.727880~null
-4~true~INNE~DOLNOSLASKIE~Wrocław~Krzyki~Powstańców Śląskich~PiotrPiotrowski~+48123456789~example@gmail.com~Wkręcam żarówki~10~false~cena za sztukę~2021-10-11T23:21:23.727881~null
+ID~isOffer~serviceType~voivodeship~city~cityDistrict~unit~nameOfAdvertiser~phoneNumber~email~description~price~isPriceNegotiable~priceAdditionComment~date~clientId~Header
+1~true~ELEKTRYK~DOLNOSLASKIE~Wrocław~Krzyki~Powstańców Śląskich~PiotrPiotrowski~+48123456789~example@gmail.com~Wkręcam żarówki~10~false~cena za sztukę~2021-10-11T21:53:23.727880~null~Wkręcam żarówki TANIO!
+2~true~INNE~DOLNOSLASKIE~Wrocław~Krzyki~Powstańców Śląskich~PiotrPiotrowski~+48123456789~example@gmail.com~Wyprowadzam psy rano~20~false~cena za spacer 30 min~2021-10-11T21:53:23.727882~null~Wyprowadzam psy
+3~true~MOTORYZACJA~DOLNOSLASKIE~Legnica~Krzyki~~Damian~+48123456789~example@gmail.com~serwis samochodów. Diagnostyka~~false~cena w zależności od rodzaju usługi~2021-10-11T23:21:23.727880~null~Diagnostyka i serwis samochodu
+4~true~USLUGI_FINANSOWE~MAZOWIECKIE~Warszawa~~~Rafał~+48123456789~example@gmail.com~Rozliczam PIT~30~false~cena za formularz~2021-10-12T23:21:23.727881~null~Rozliczam PIT

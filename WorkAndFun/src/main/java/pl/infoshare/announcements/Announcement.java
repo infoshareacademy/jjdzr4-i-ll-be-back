@@ -1,15 +1,14 @@
 package pl.infoshare.announcements;
 
-import pl.infoshare.User;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.Period;
 
 public class Announcement implements Comparable<Announcement>{
 
     private boolean isOffer; //true=usługa/false=zapotrzebowanie
-    private long ID;
+    private String header;
+    private long id;
     private ServiceType serviceType;
     private String city;
     private String cityDistrict;
@@ -20,14 +19,15 @@ public class Announcement implements Comparable<Announcement>{
     private LocalDateTime date;
     private String nameOfAdvertiser;
     private String email;
-    private boolean isPriceNegotiable = false;
+    private Boolean isPriceNegotiable = false;
     private String description;
     private String phoneNumber;
     private String priceAdditionComment = "";
 
-    public Announcement(boolean isOffer, long ID, ServiceType serviceType, String city, String cityDistrict, String unit, String price, Voivodeship voivodeship, LocalDateTime date, String nameOfAdvertiser, String email, boolean isPriceNegotiable, String description, String phoneNumber, String priceAdditionComment, Integer clientId) {
+    public Announcement(boolean isOffer, String header, long id, ServiceType serviceType, String city, String cityDistrict, String unit, String price, Voivodeship voivodeship, LocalDateTime date, String nameOfAdvertiser, String email, boolean isPriceNegotiable, String description, String phoneNumber, String priceAdditionComment, Integer clientId) {
         this.isOffer = isOffer;
-        this.ID = ID;
+        this.header = header;
+        this.id = id;
         this.serviceType = serviceType;
         this.city = city;
         this.cityDistrict = cityDistrict;
@@ -41,6 +41,7 @@ public class Announcement implements Comparable<Announcement>{
         this.description = description;
         this.phoneNumber = phoneNumber;
         this.priceAdditionComment = priceAdditionComment;
+        this.clientId = clientId;
     }
 
 
@@ -49,8 +50,8 @@ public class Announcement implements Comparable<Announcement>{
         return isOffer;
     }
 
-    public long getID() {
-        return ID;
+    public long getId() {
+        return id;
     }
 
     public ServiceType getServiceType() {
@@ -73,7 +74,7 @@ public class Announcement implements Comparable<Announcement>{
         return price;
     }
 
-    public int getClientId() {
+    public Integer getClientId() {
         return clientId;
     }
 
@@ -109,13 +110,21 @@ public class Announcement implements Comparable<Announcement>{
         return priceAdditionComment;
     }
 
+    public boolean isOffer() {return isOffer;}
+
+    public boolean isPriceNegotiable() {return isPriceNegotiable;}
+
+    public String getHeader() {
+        return header;
+    }
+
     @Override
     public int compareTo(Announcement o) {
-        if (!this.date.equals(o.date)){
+        if (!this.date.isEqual(o.date)){
             Duration duration = Duration.between(o.date,this.date);
             return Integer.valueOf(String.valueOf(duration.getSeconds())) ;
         } else {
-            return Integer.valueOf(String.valueOf(o.ID - this.ID));
+            return Integer.valueOf(String.valueOf(o.id - this.id));
         }
     }
 }

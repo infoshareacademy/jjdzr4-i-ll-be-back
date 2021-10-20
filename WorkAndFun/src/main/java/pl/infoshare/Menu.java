@@ -28,6 +28,7 @@ public class Menu {
         switch (getUserInput()) {
             case 1:
                 System.out.println("Wybrałes 1 - Wyszukaj ogłoszenie z oferowaną uslugą");
+                myAnnouncementService.displayAllAnnouncements(true);
                 break;
             case 2:
                 System.out.println("Wybrałes 2 - Wyszukaj ogłoszenie z poszukiwaną uslugą");

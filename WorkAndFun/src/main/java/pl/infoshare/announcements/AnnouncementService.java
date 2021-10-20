@@ -5,6 +5,7 @@ import pl.infoshare.Main;
 import pl.infoshare.TechnicalMethods;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
@@ -27,70 +28,108 @@ public class AnnouncementService {
 
     public void addAnnouncementOfferService(boolean isOffer) throws ReturnToMenuException {
 
-//        //assigning voivodeship
-//        Voivodeship selectedVoivodeship = (Voivodeship) userInputCheck(selectVoivodeship());
-//        //assigning city
-//        String selectedCity = (String) userInputCheck(selectCity());
-//        //assigning city district
-//        String selectedCityDistrict = (String) userInputCheck(selectCityDistrict());
-//        //assigning city unit (osiedle)
-//        String selectedUnit = (String) userInputCheck(selectUnitName());
-//        //assigning phone number
-//        String selectedPhone = (String) userInputCheck(selectPhoneNumber());
-//        //assigning email
-//        String selectedEmail = (String) userInputCheck(selectEmail());
-//        //assigning name/nickname of advertiser
-//        String selectedNameOfAdvertiser = (String) userInputCheck(selectNameOfAdvertiser());
-//        //assigning service type
-//        ServiceType selectedServiceType = (ServiceType) userInputCheck(selectServiceType());
-//        //input description
-//        String inputtedDescription = (String) userInputCheck(inputDescription());
-//        //input price
-//        String inputtedPrice = (String) userInputCheck(selectPrice());
-//        // input is price negotiable
-//        String isPriceNegotiable = (String) userInputCheck(selectKindOfPrice());
-//        boolean isPriceNegotiableBoolean = convertStringAnswerToBoolean(isPriceNegotiable);
-//        // input additional comment to price
-//        String inputtedPriceAdditionalComment = (String) userInputCheck(selectPriceAdditionalComment());
-//        // get date of creating announcement
-//        LocalDateTime dateOfAnnouncementCreating = LocalDateTime.now();
-//        //generate ID based on existing announcements
-//        ArrayList<String[]> baseOfAnnouncementsStrings = FileActions.makeArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
-//        long generatedID = Long.parseLong(baseOfAnnouncementsStrings.get(baseOfAnnouncementsStrings.size() - 1)[0]) + 1;
-        //TODO: add clientId assigning functionality to announcement
-
-        ArrayList<Announcement> baseOfAnnouncements = makeAnnouncementArrayFromFile();
-        // sort desc
-        Collections.sort(baseOfAnnouncements, Collections.reverseOrder());
-
-        for (Announcement i: baseOfAnnouncements) {
-            System.out.println(i.getDate());
+        //assigning voivodeship
+        Voivodeship selectedVoivodeship = (Voivodeship) userInputCheck(selectVoivodeship());
+        //assigning city
+        String selectedCity = (String) userInputCheck(selectCity());
+        //assigning city district
+        String selectedCityDistrict = (String) userInputCheck(selectCityDistrict());
+        //assigning city unit (osiedle)
+        String selectedUnit = (String) userInputCheck(selectUnitName());
+        //assigning phone number
+        String selectedPhone = (String) userInputCheck(selectPhoneNumber());
+        //assigning email
+        String selectedEmail = (String) userInputCheck(selectEmail());
+        //assigning name/nickname of advertiser
+        String selectedNameOfAdvertiser = (String) userInputCheck(selectNameOfAdvertiser());
+        //assigning service type
+        ServiceType selectedServiceType = (ServiceType) userInputCheck(selectServiceType());
+        //input header
+        String inputtedHeader = (String) userInputCheck(inputHeader());
+        //input description
+        String inputtedDescription = (String) userInputCheck(inputDescription());
+        //input price
+        String inputtedPrice = (String) userInputCheck(selectPrice());
+        // input is price negotiable
+        String isPriceNegotiable;
+        if (inputtedPrice.equals("do ustalenia indywidualnie") || inputtedPrice.equals("0") ){
+            isPriceNegotiable = null;
+        } else {
+            isPriceNegotiable = (String) userInputCheck(selectKindOfPrice());
         }
+        boolean isPriceNegotiableBoolean = convertStringAnswerToBoolean(isPriceNegotiable);
+        // input additional comment to price
+        String inputtedPriceAdditionalComment = (String) userInputCheck(selectPriceAdditionalComment());
+        // get date of creating announcement
+        LocalDateTime dateOfAnnouncementCreating = LocalDateTime.now();
+        //generate ID based on existing announcements
+        ArrayList<String[]> baseOfAnnouncementsStrings = FileActions.makeArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        long generatedID = Long.parseLong(baseOfAnnouncementsStrings.get(baseOfAnnouncementsStrings.size() - 1)[0]) + 1;
+        //TODO: add clientId assigning functionality to announcement; change code below
+        Integer selectedClientId = null;
+
 
         System.out.println("--------------To już prawie koniec...-----------------");
         ifWantToSaveAnnouncement();
 
-//        Announcement newAnnouncement = new Announcement(isOffer, generatedID, selectedServiceType, selectedCity,
-//                selectedCityDistrict, selectedUnit, inputtedPrice, selectedVoivodeship, dateOfAnnouncementCreating,
-//                selectedNameOfAdvertiser, selectedEmail, isPriceNegotiableBoolean, inputtedDescription, selectedPhone,
-//                inputtedPriceAdditionalComment);
-//        FileActions.writeToFile(Main.ANNOUNCEMENTS_FILE_PATH, String.valueOf(newAnnouncement.getID()),
-//                String.valueOf(newAnnouncement.getIsOffer()), String.valueOf(newAnnouncement.getServiceType()),
-//                String.valueOf(newAnnouncement.getVoivodeship()), String.valueOf(newAnnouncement.getCity()),
-//                newAnnouncement.getCityDistrict(), newAnnouncement.getUnit(), newAnnouncement.getNameOfAdvertiser(),
-//                newAnnouncement.getPhoneNumber(), newAnnouncement.getEmail(), newAnnouncement.getDescription(),
-//                newAnnouncement.getPrice(), String.valueOf(newAnnouncement.getIsPriceNegotiable()),
-//                newAnnouncement.getPriceAdditionComment(), String.valueOf(newAnnouncement.getDate()),
-//                String.valueOf(newAnnouncement.getClient()));
+        Announcement newAnnouncement = new Announcement(isOffer, inputtedHeader, generatedID, selectedServiceType, selectedCity,
+                selectedCityDistrict, selectedUnit, inputtedPrice, selectedVoivodeship, dateOfAnnouncementCreating,
+                selectedNameOfAdvertiser, selectedEmail, isPriceNegotiableBoolean, inputtedDescription, selectedPhone,
+                inputtedPriceAdditionalComment, selectedClientId);
+        FileActions.writeToFile(Main.ANNOUNCEMENTS_FILE_PATH, String.valueOf(newAnnouncement.getId()),
+                String.valueOf(newAnnouncement.getIsOffer()), String.valueOf(newAnnouncement.getServiceType()),
+                String.valueOf(newAnnouncement.getVoivodeship()), String.valueOf(newAnnouncement.getCity()),
+                newAnnouncement.getCityDistrict(), newAnnouncement.getUnit(), newAnnouncement.getNameOfAdvertiser(),
+                newAnnouncement.getPhoneNumber(), newAnnouncement.getEmail(), newAnnouncement.getDescription(),
+                newAnnouncement.getPrice(), String.valueOf(newAnnouncement.getIsPriceNegotiable()),
+                newAnnouncement.getPriceAdditionComment(), String.valueOf(newAnnouncement.getDate()),
+                String.valueOf(newAnnouncement.getClientId()), String.valueOf(newAnnouncement.getHeader()));
         System.out.println("--Ogłoszenie pomyślnie zapisane! Teraz wrócisz do menu głównego--");
         TechnicalMethods.makeDelay(1500);
     }
 
+    public void displayAllAnnouncements(boolean typeOfAnnouncementToShow) {
+        ArrayList<Announcement> baseOfAnnouncements = makeAnnouncementArrayFromFile();
+        // sort desc
+        Collections.sort(baseOfAnnouncements, Collections.reverseOrder());
+
+        for (Announcement i : baseOfAnnouncements) {
+            //typeOfAnnouncementToShow true = offer announcement; false = demand announcement
+            if (i.getIsOffer() == typeOfAnnouncementToShow) {
+                showAnnouncement(i);
+            }
+        }
+    }
+
+    private void showAnnouncement(Announcement announcement) {
+        LocalDateTime now = java.time.LocalDateTime.now();
+
+        System.out.println("-----------------------------------------------------------");
+        System.out.println("|--" + announcement.getHeader());
+        System.out.println("|                                                      " + announcement.getPrice() + " zł");
+        System.out.println("|--" + announcement.getCity() + ", " + prepareDateToDisplayFormat(now, announcement.getDate()));
+        System.out.println("-----------------------------------------------------------\n");
+    }
+
+    private String prepareDateToDisplayFormat(LocalDateTime now, LocalDateTime comparable) {
+        if (now.getYear() != comparable.getYear()){
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return comparable.format(formatter);
+        } else if ((now.getMonthValue() != comparable.getMonthValue()) || ((now.getMonthValue() == comparable.getMonthValue()) && ((now.getDayOfMonth()-comparable.getDayOfMonth()) > 1))){
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM");
+            return comparable.format(formatter);
+        } else if ((now.getDayOfMonth()-comparable.getDayOfMonth()) > 0){
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            return "wczoraj " + comparable.format(formatter);
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            return "dzisiaj " + comparable.format(formatter);
+        }
+    }
+
     //turn String answer, like "T" or "N", into boolean type
     private boolean convertStringAnswerToBoolean(String isPriceNegotiable) {
-        boolean isPriceNegotiableBoolean;
-        isPriceNegotiableBoolean = isPriceNegotiable.equals("T");
-        return isPriceNegotiableBoolean;
+        return isPriceNegotiable.equals("T");
     }
 
     private String getInputFromUser(String messageForUser, String regex, String errorMessage) {
@@ -141,7 +180,7 @@ public class AnnouncementService {
     }
 
     private Voivodeship selectVoivodeship() {
-        System.out.println("Wybierz województwo, w którym proponujesz wybraną usługę z listy. Wpisz odpowiedni numer:");
+        System.out.println("Wybierz województwo, w którym proponujesz/poszukujesz usługę, z listy. Wpisz odpowiedni numer:");
         System.out.println("______________________________");
         for (int i = 0; i < Voivodeship.values().length; i++) {
             System.out.println(Voivodeship.values()[i].getSequentialNumber() + " - " +
@@ -208,29 +247,34 @@ public class AnnouncementService {
         return validateAndAssignServiceType(userInput);
     }
 
+    private String inputHeader() {
+        return getInputFromUser("Wpisz tytuł ogłoszenia, który będzie widoczny przy wyszukiwaniu:", ".+", "Treści nie " +
+                "znaleziono. Ogłoszenie musi zawierać tytuł.");
+    }
+
     private String inputDescription() {
         return getInputFromUser("Wpisz treść ogłoszenia:", ".+", "Treści nie " +
                 "znaleziono. Ogłoszenie musi zawierać opis.");
     }
 
     private String selectPrice() {
-        Character ifWantToSetPrice = getAnswerYesOrNoFromUser("Czy chcesz podać cenę usługi [T/N]? " +
-                        "\n T - tak; N - nie, będzie do ustalenia prywatnie \n Wpisz odpowiedź:",
-                "Niedopuszczalna odpowiedź. Wybierz \"T\" lub \"N\"");
+        String ifWantToSetPrice = getInputFromUser("Czy chcesz podać cenę usługi [T/N/F]? " +
+                "\n T - tak; N - nie, będzie do ustalenia prywatnie; F - gratis \n Wpisz odpowiedź:", "[TtNnFf]{1}",
+                "Niedopuszczalna odpowiedź. Wybierz \"T\", \"N\" lub \"F\":");
         String price;
         if (ifWantToSetPrice == null) {
             return null;
-        } else if (ifWantToSetPrice.equals('N')) {
+        } else if (ifWantToSetPrice.equals("T")) {
+            price = getInputFromUser("Podaj cenę usługi:",
+                    "\\d+", "Podaj prawidłową kwotę. Dopuszcza się wprowadzenie tylko cyfr:");
+        } else if (ifWantToSetPrice.equals("N")) {
             price = "do ustalenia indywidualnie";
         } else {
-            price = getInputFromUser("Podaj cenę usługi.\nWpisz \"FREE\" jeśli ma być gratis",
-                    "(?i)FREE|\\d+", "Podaj prawidłową kwotę.");
+            price = "0";
         }
 
         if (price == null) {
             return null;
-        } else if (price.equalsIgnoreCase("FREE")) {
-            price = "0";
         }
         return price;
     }
@@ -303,7 +347,7 @@ public class AnnouncementService {
 
             //TODO: change code below after adding clientId assigning functionality
             Integer clientId;
-            if(line[15].equals("null")){
+            if (line[15].equals("null")) {
                 clientId = null;
             } else clientId = Integer.valueOf(line[15]);
 
@@ -315,8 +359,10 @@ public class AnnouncementService {
             String description = line[10];
             String phoneNumber = line[8];
             String priceAdditionComment = line[13];
+            String header = line[16];
 
             Announcement newAnnouncement = new Announcement(isOffer,
+                    header,
                     ID,
                     serviceType,
                     city,
