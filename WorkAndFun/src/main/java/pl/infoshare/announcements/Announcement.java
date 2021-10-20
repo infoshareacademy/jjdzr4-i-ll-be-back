@@ -24,7 +24,7 @@ public class Announcement implements Comparable<Announcement>{
     private String phoneNumber;
     private String priceAdditionComment = "";
 
-    public Announcement(boolean isOffer, String header, long id, ServiceType serviceType, String city, String cityDistrict, String unit, String price, Voivodeship voivodeship, LocalDateTime date, String nameOfAdvertiser, String email, boolean isPriceNegotiable, String description, String phoneNumber, String priceAdditionComment, Integer clientId) {
+    public Announcement(boolean isOffer, String header, long id, ServiceType serviceType, String city, String cityDistrict, String unit, String price, Voivodeship voivodeship, LocalDateTime date, String nameOfAdvertiser, String email, Boolean isPriceNegotiable, String description, String phoneNumber, String priceAdditionComment, Integer clientId) {
         this.isOffer = isOffer;
         this.header = header;
         this.id = id;
@@ -94,7 +94,7 @@ public class Announcement implements Comparable<Announcement>{
         return email;
     }
 
-    public boolean getIsPriceNegotiable() {
+    public Boolean getIsPriceNegotiable() {
         return isPriceNegotiable;
     }
 
@@ -109,10 +109,6 @@ public class Announcement implements Comparable<Announcement>{
     public String getPriceAdditionComment() {
         return priceAdditionComment;
     }
-
-    public boolean isOffer() {return isOffer;}
-
-    public boolean isPriceNegotiable() {return isPriceNegotiable;}
 
     public String getHeader() {
         return header;
