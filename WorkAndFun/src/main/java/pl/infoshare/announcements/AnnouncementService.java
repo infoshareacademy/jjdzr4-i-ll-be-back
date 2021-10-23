@@ -53,7 +53,10 @@ public class AnnouncementService {
             } else {
                 System.out.println("|                                                      " + announcement.getPrice() + " zł");
             }
+            System.out.println("|");
+            System.out.println("|--" + announcement.getNameOfAdvertiser() + ", " + announcement.getEmail());
             System.out.println("|--" + announcement.getCity() + ", " + prepareDateToDisplayFormat(now, announcement.getDate()));
+            System.out.println("|--id:" + announcement.getId());
             System.out.println("------------------------------------------------------------\n");
         }
 
