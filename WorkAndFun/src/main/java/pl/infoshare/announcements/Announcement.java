@@ -1,31 +1,33 @@
 package pl.infoshare.announcements;
 
-import pl.infoshare.User;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class Announcement {
+public class Announcement implements Comparable<Announcement>{
 
     private boolean isOffer; //true=usługa/false=zapotrzebowanie
-    private long ID;
+    private String header;
+    private long id;
     private ServiceType serviceType;
     private String city;
     private String cityDistrict;
     private String unit; //osiedle
     private String price;
-    private User client;
+    private Integer clientId;
     private Voivodeship voivodeship;
     private LocalDateTime date;
     private String nameOfAdvertiser;
     private String email;
-    private boolean isPriceNegotiable = false;
+    private Boolean isPriceNegotiable = false;
     private String description;
     private String phoneNumber;
     private String priceAdditionComment = "";
 
-    public Announcement(boolean isOffer, long ID, ServiceType serviceType, String city, String cityDistrict, String unit, String price, Voivodeship voivodeship, LocalDateTime date, String nameOfAdvertiser, String email, boolean isPriceNegotiable, String description, String phoneNumber, String priceAdditionComment) {
+    public Announcement(boolean isOffer, String header, long id, ServiceType serviceType, String city, String cityDistrict, String unit, String price, Voivodeship voivodeship, LocalDateTime date, String nameOfAdvertiser, String email, Boolean isPriceNegotiable, String description, String phoneNumber, String priceAdditionComment, Integer clientId) {
         this.isOffer = isOffer;
-        this.ID = ID;
+        this.header = header;
+        this.id = id;
         this.serviceType = serviceType;
         this.city = city;
         this.cityDistrict = cityDistrict;
@@ -39,14 +41,17 @@ public class Announcement {
         this.description = description;
         this.phoneNumber = phoneNumber;
         this.priceAdditionComment = priceAdditionComment;
+        this.clientId = clientId;
     }
+
+
 
     public boolean getIsOffer() {
         return isOffer;
     }
 
-    public long getID() {
-        return ID;
+    public long getId() {
+        return id;
     }
 
     public ServiceType getServiceType() {
@@ -69,8 +74,8 @@ public class Announcement {
         return price;
     }
 
-    public User getClient() {
-        return client;
+    public Integer getClientId() {
+        return clientId;
     }
 
     public Voivodeship getVoivodeship() {
@@ -89,7 +94,7 @@ public class Announcement {
         return email;
     }
 
-    public boolean getIsPriceNegotiable() {
+    public Boolean getIsPriceNegotiable() {
         return isPriceNegotiable;
     }
 
@@ -103,6 +108,20 @@ public class Announcement {
 
     public String getPriceAdditionComment() {
         return priceAdditionComment;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    @Override
+    public int compareTo(Announcement o) {
+        if (!this.date.isEqual(o.date)){
+            Duration duration = Duration.between(o.date,this.date);
+            return Integer.valueOf(String.valueOf(duration.getSeconds())) ;
+        } else {
+            return Integer.valueOf(String.valueOf(o.id - this.id));
+        }
     }
 }
 
