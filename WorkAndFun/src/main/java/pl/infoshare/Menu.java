@@ -29,11 +29,11 @@ public class Menu {
         switch (getUserInput()) {
             case 1:
                 System.out.println("Wybrałes 1 - Wyszukaj ogłoszenie z oferowaną uslugą");
-                SerchEngine.searchAnnoucementOffer();
+                SerchEngine.searchAnnoucement(true);
                 break;
             case 2:
                 System.out.println("Wybrałes 2 - Wyszukaj ogłoszenie z poszukiwaną uslugą");
-                SerchEngine.searchAnnoucementDemand();
+                SerchEngine.searchAnnoucement(false);
                 break;
             case 3:
                 System.out.println("Wybrałes 3 - Dodaj ogłoszenie z oferowaną uslugą");
