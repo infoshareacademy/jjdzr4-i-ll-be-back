@@ -2,6 +2,7 @@ package pl.infoshare;
 
 import pl.infoshare.announcements.AnnouncementEditionService;
 import pl.infoshare.announcements.AnnouncementService;
+import pl.infoshare.announcements.ReturnToMenuException;
 
 import java.util.Scanner;
 
@@ -36,34 +37,35 @@ public class Menu {
             case 2:
                 System.out.println("Wybrałes 2 - Wyświetl ogłoszenia");
                 displaying.displayAllAnnouncements();
-                display();
                 break;
             case 3:
                 System.out.println("Wybrałes 3 - Dodaj ogłoszenie z oferowaną uslugą");
                 adding.addAnnouncement(true);
-                display();
                 break;
             case 4:
                 System.out.println("Wybrałes 4 - Dodaj ogłoszenie z poszukiwaną uslugą");
                 adding.addAnnouncement(false);
-                display();
                 break;
             case 5:
                 System.out.println("Wybrałes 5 - Edytuj ogłoszenie");
-                announcementEditionService.editAnnouncement();
-                display();
+                try {
+                    announcementEditionService.editAnnouncement();
+                } catch (ReturnToMenuException returnToMenuException) {
+                    System.out.println(returnToMenuException.getMessage());
+                }
                 break;
             case 6:
                 System.out.println("Wybrałes 6 - Usun ogłoszenie");
                 break;
             case 0:
                 System.out.println("Wybrałes 0 - Zakończ program <<--- I'll Be Back !");
-                break;
+                System.exit(0);
             default: {
                 System.out.println("Podałeś zły parametr. Spróbuj jeszcze raz:");
                 getMenuChoice();
             }
         }
+        display();
     }
 
     private byte getUserInput() {

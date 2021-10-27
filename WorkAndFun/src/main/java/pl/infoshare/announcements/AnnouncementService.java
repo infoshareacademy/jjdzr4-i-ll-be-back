@@ -192,7 +192,7 @@ public class AnnouncementService {
         return baseOfAnnouncements;
     }
 
-    private String getInputFromUser(String messageForUser, String regex, String errorMessage) {
+    protected String getInputFromUser(String messageForUser, String regex, String errorMessage) {
         String inputFromUser;
 
         System.out.println(messageForUser);
@@ -235,7 +235,7 @@ public class AnnouncementService {
 
             List<Announcement> baseOfAnnouncements = makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
             // sort desc
-            Collections.sort(baseOfAnnouncements, Collections.reverseOrder());
+            baseOfAnnouncements.sort(Collections.reverseOrder());
 
             System.out.println("=======================LISTA OGŁOSZEŃ=======================");
             for (Announcement announcement : baseOfAnnouncements) {
