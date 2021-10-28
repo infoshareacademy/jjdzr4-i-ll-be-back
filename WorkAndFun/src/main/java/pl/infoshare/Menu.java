@@ -8,14 +8,16 @@ import java.util.Scanner;
 public class Menu {
     private final Scanner scanner = new Scanner(System.in);
     private final AnnouncementService myAnnouncementService = new AnnouncementService();
+    private final AnnouncementService.Displaying displaying = myAnnouncementService.new Displaying();
+    private final AnnouncementService.Adding adding = myAnnouncementService.new Adding();
 
     public void display() {
         System.out.println("----------------------------------------------------");
         System.out.println("&&&&&&&&&&&--->> Work & Fun Service <<---&&&&&&&&&&&");
         System.out.println("----------------------------------------------------");
         System.out.println("Wybierz jedną z opcji wprowadzając odpowiednią cyfrę");
-        System.out.println("1 - Wyszukaj ogłoszenie z oferowana uslugą");
-        System.out.println("2 - Wyszukaj ogłoszenie z poszukiwaną uslugą");
+        System.out.println("1 - Wyszukaj ogłoszenie");
+        System.out.println("2 - Wyświetl ogłoszenia");
         System.out.println("3 - Dodaj ogłoszenie z oferowaną uslugą");
         System.out.println("4 - Dodaj ogłoszenie z poszukiwaną uslugą");
         System.out.println("5 - Edytuj ogłoszenie");
@@ -28,21 +30,30 @@ public class Menu {
     private void getMenuChoice() {
         switch (getUserInput()) {
             case 1:
+<<<<<<< HEAD
                 System.out.println("Wybrałes 1 - Wyszukaj ogłoszenie z oferowaną uslugą");
                 SerchEngine.searchAnnoucement(true);
                 break;
             case 2:
                 System.out.println("Wybrałes 2 - Wyszukaj ogłoszenie z poszukiwaną uslugą");
                 SerchEngine.searchAnnoucement(false);
+=======
+                System.out.println("Wybrałes 1 - Wyszukaj ogłoszenie");
+                break;
+            case 2:
+                System.out.println("Wybrałes 2 - Wyświetl ogłoszenia");
+                displaying.displayAllAnnouncements();
+                display();
+>>>>>>> origin/master
                 break;
             case 3:
                 System.out.println("Wybrałes 3 - Dodaj ogłoszenie z oferowaną uslugą");
-                myAnnouncementService.addAnnouncement(true);
+                adding.addAnnouncement(true);
                 display();
                 break;
             case 4:
                 System.out.println("Wybrałes 4 - Dodaj ogłoszenie z poszukiwaną uslugą");
-                myAnnouncementService.addAnnouncement(false);
+                adding.addAnnouncement(false);
                 display();
                 break;
             case 5:
