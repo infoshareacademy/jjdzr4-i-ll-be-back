@@ -110,9 +110,6 @@ public class Announcement implements Comparable<Announcement>{
         return priceAdditionComment;
     }
 
-<<<<<<< HEAD
-
-=======
     public String getHeader() {
         return header;
     }
@@ -126,6 +123,5 @@ public class Announcement implements Comparable<Announcement>{
             return Integer.valueOf(String.valueOf(o.id - this.id));
         }
     }
->>>>>>> origin/master
 }
 

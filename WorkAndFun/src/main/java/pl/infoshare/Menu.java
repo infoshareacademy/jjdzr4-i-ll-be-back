@@ -30,21 +30,12 @@ public class Menu {
     private void getMenuChoice() {
         switch (getUserInput()) {
             case 1:
-<<<<<<< HEAD
-                System.out.println("Wybrałes 1 - Wyszukaj ogłoszenie z oferowaną uslugą");
-                SerchEngine.searchAnnoucement(true);
-                break;
-            case 2:
-                System.out.println("Wybrałes 2 - Wyszukaj ogłoszenie z poszukiwaną uslugą");
-                SerchEngine.searchAnnoucement(false);
-=======
                 System.out.println("Wybrałes 1 - Wyszukaj ogłoszenie");
                 break;
             case 2:
                 System.out.println("Wybrałes 2 - Wyświetl ogłoszenia");
                 displaying.displayAllAnnouncements();
                 display();
->>>>>>> origin/master
                 break;
             case 3:
                 System.out.println("Wybrałes 3 - Dodaj ogłoszenie z oferowaną uslugą");
