@@ -2,14 +2,14 @@ package pl.infoshare.announcements;
 
 import pl.infoshare.FileActions;
 import pl.infoshare.Main;
-
 import java.util.Comparator;
 import java.util.List;
 
 public class AnnouncementRepository {
-    public static List<Announcement> announcementList = AnnouncementService.makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+    public List<Announcement> announcementList = AnnouncementService.makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
 
     public Announcement findById(long id) {
+        announcementList = AnnouncementService.makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
         for (Announcement announcement : announcementList) {
             if (announcement.getId() == id) {
                 return announcement;

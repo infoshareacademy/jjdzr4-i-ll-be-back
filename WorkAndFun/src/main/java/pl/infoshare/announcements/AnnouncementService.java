@@ -17,15 +17,10 @@ public class AnnouncementService {
     protected static final Scanner scanner = new Scanner(System.in);
     protected final AnnouncementRepository announcementRepository = new AnnouncementRepository();
 
-    private boolean convertStringAnswerToBoolean(Character isPriceNegotiable) {
-        return isPriceNegotiable == 'T';
-    }
-
     protected String ifWantToSaveAnnouncement() {
         return getInputFromUser("Czy chcesz dodać ogłoszenie?\n1 - Dodaj ogłoszenie", "[0-1]{1}",
                 "Niedopuszczalna odpowiedź. Wybierz \"1\" lub \"0\"");
     }
-
 
     protected Object userInputCheck(Object object) throws ReturnToMenuException {
         if (object == null) {
@@ -113,34 +108,30 @@ public class AnnouncementService {
     }
 
     protected String selectPrice() {
-        Character ifWantToSetPrice = getAnswerYesOrNoFromUser("Czy chcesz podać cenę usługi [T/N]? " +
-                        "\n T - tak; N - nie, będzie do ustalenia prywatnie \n Wpisz odpowiedź:",
-                "Niedopuszczalna odpowiedź. Wybierz \"T\" lub \"N\"");
+        String ifWantToSetPrice = getInputFromUser("Czy chcesz podać cenę usługi [T/N/F]? " +
+                        "\n T - tak; N - nie, będzie do ustalenia prywatnie; F - gratis \n Wpisz odpowiedź:", "[TtNnFf]{1}",
+                "Niedopuszczalna odpowiedź. Wybierz \"T\", \"N\" lub \"F\":");
         String price;
         if (ifWantToSetPrice == null) {
             return null;
-        } else if (ifWantToSetPrice.equals('N')) {
+        } else if (ifWantToSetPrice.toUpperCase(Locale.ROOT).equals("T")) {
+            price = getInputFromUser("Podaj cenę usługi:",
+                    "\\d+", "Podaj prawidłową kwotę. Dopuszcza się wprowadzenie tylko cyfr:");
+        } else if (ifWantToSetPrice.toUpperCase(Locale.ROOT).equals("N")) {
             price = "do ustalenia indywidualnie";
         } else {
-            price = getInputFromUser("Podaj cenę usługi.\nWpisz \"FREE\" jeśli ma być gratis",
-                    "(?i)FREE|\\d+", "Podaj prawidłową kwotę.");
-        }
-
-        if (price == null) {
-            return null;
-        } else if (price.equalsIgnoreCase("FREE")) {
             price = "0";
         }
         return price;
     }
 
     protected Boolean selectKindOfPrice() {
-        Character isWantToSetPriceNegotiable = getAnswerYesOrNoFromUser("Czy podana cena jest do " +
-                "negocjacji [T/N]?", "Niedopuszczalna odpowiedź. Wybierz \"T\" lub \"N\"");
+        String isWantToSetPriceNegotiable = getInputFromUser("Czy podana cena jest do negocjacji [T/N]?",
+                "[TNtn]{1}", "Niedopuszczalna odpowiedź. Wybierz \"T\" lub \"N\"");
         if (isWantToSetPriceNegotiable == null) {
             return null;
         }
-        return convertStringAnswerToBoolean(isWantToSetPriceNegotiable);
+        return isWantToSetPriceNegotiable.toUpperCase(Locale.ROOT).equals("T");
     }
 
     protected String selectPriceAdditionalComment() {
@@ -179,7 +170,6 @@ public class AnnouncementService {
         return serviceTypeToAssign;
     }
 
-
     public static ArrayList<Announcement> makeAnnouncementArrayFromFile(Path file) {
         ArrayList<String[]> baseOfAnnouncementsStrings = FileActions.makeArrayFromFile(file);
         ArrayList<Announcement> baseOfAnnouncements = new ArrayList<>();
@@ -208,22 +198,11 @@ public class AnnouncementService {
         return inputFromUser;
     }
 
-    private Character getAnswerYesOrNoFromUser(String messageForUser, String errorMessage) {
-        String answer = getInputFromUser(messageForUser, "[TNtn]{1}", "Niedopuszczalna odpowiedź. " +
-                "Wybierz \"T\" lub \"N\"");
-        if (answer == null) {
-            return null;
-        } else {
-            return answer.toUpperCase(Locale.ROOT).charAt(0);
-        }
-    }
-
     private boolean isStringValid(String userInput, String regex) {
         Pattern ptrn = Pattern.compile(regex);
         Matcher match = ptrn.matcher(userInput);
         return match.matches();
     }
-
 
     public class Displaying {
         public void displayAllAnnouncements() {
@@ -271,7 +250,7 @@ public class AnnouncementService {
             if (now.getYear() != comparable.getYear()) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 return comparable.format(formatter);
-            } else if ((now.getMonthValue() != comparable.getMonthValue()) || ((now.getMonthValue() == comparable.getMonthValue()) && ((now.getDayOfMonth() - comparable.getDayOfMonth()) > 1))) {
+            } else if (now.getMonthValue() != comparable.getMonthValue() || now.getDayOfMonth() - comparable.getDayOfMonth() > 1) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM");
                 return comparable.format(formatter);
             } else if ((now.getDayOfMonth() - comparable.getDayOfMonth()) > 0) {
@@ -332,7 +311,12 @@ public class AnnouncementService {
             //input price
             String inputtedPrice = (String) userInputCheck(selectPrice());
             // input is price negotiable
-            boolean isPriceNegotiableBoolean = (boolean) userInputCheck(selectKindOfPrice());
+            Boolean isPriceNegotiableBoolean;
+            if (inputtedPrice.equals("do ustalenia indywidualnie") || inputtedPrice.equals("0")) {
+                isPriceNegotiableBoolean = null;
+            } else {
+                isPriceNegotiableBoolean = (Boolean) userInputCheck(selectKindOfPrice());
+            }
             // input additional comment to price
             String inputtedPriceAdditionalComment = (String) userInputCheck(selectPriceAdditionalComment());
             // get date of creating announcement
