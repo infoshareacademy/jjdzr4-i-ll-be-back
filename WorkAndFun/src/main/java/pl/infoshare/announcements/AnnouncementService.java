@@ -216,7 +216,7 @@ public class AnnouncementService {
             // sort desc
             baseOfAnnouncements.sort(Collections.reverseOrder());
 
-            System.out.println("=======================LISTA OGŁOSZEŃ=======================");
+            System.out.println("\n\n=======================LISTA OGŁOSZEŃ=======================");
             for (Announcement announcement : baseOfAnnouncements) {
                 //typeOfAnnouncementToShow true = offer announcement; false = demand announcement
                 if (announcement.getIsOffer() == typeOfAnnouncementIsOffer) {
@@ -224,9 +224,12 @@ public class AnnouncementService {
                 }
             }
             System.out.println("===========================KONIEC===========================");
+            //ask if user want to display details of particular announcement
+            chooseAndShowAnnouncementDetails(typeOfAnnouncementIsOffer);
 
-            System.out.println("Wciśnij Enter, żeby wrócić do głównego menu:");
+            System.out.println("Wciśnij Enter, żeby wrócić do listy ogłoszeń:");
             scanner.nextLine();
+            displayAllAnnouncements();
         }
 
         private void showAnnouncement(Announcement announcement) {
@@ -244,6 +247,73 @@ public class AnnouncementService {
             System.out.println("|--" + announcement.getCity() + ", " + prepareDateToDisplayFormat(now, announcement.getDate()));
             System.out.println("|--id:" + announcement.getId());
             System.out.println("------------------------------------------------------------\n");
+        }
+
+        public void chooseAndShowAnnouncementDetails(Boolean typeOfAnnouncementIsOffer) {
+            System.out.println("Podaj Id ogłoszenia, aby wyświetlić szczególy, lub wpisz 0, aby wrócić do Menu");
+            long id = -1;
+            while (id <= -1) {
+                try {
+                    id = Long.parseLong(scanner.nextLine());
+                    if (id == 0) {
+                        break;
+                    }
+                    Announcement announcementToShowDetails = announcementRepository.findById(id);
+                    if (announcementToShowDetails == null || announcementToShowDetails.getIsOffer() != typeOfAnnouncementIsOffer) {
+                        System.out.printf("Nie ma ogłoszenia o id = { %s }. Podaj poprawny numer Id ogłoszenia lub 0 aby " +
+                                "wrócić do Menu%n", id);
+                        id = -1;
+                    } else {
+                        showAnnouncementDetails(announcementToShowDetails);
+                    }
+                } catch (NumberFormatException numberFormatException) {
+                    System.out.println("Podaj poprawny numer Id ogłoszenia lub 0 aby wrócić do Menu");
+                }
+            }
+        }
+
+        private void showAnnouncementDetails(Announcement announcementToShowDetails) {
+            LocalDateTime now = java.time.LocalDateTime.now();
+            String typeOfAnnouncement;
+            String isNegotiable = "";
+
+            if (announcementToShowDetails.getIsOffer()){
+                typeOfAnnouncement = "OFEROWANIE USŁUGI";
+            } else {
+                typeOfAnnouncement = "ZAPOTRZEBOWANIE NA USŁUGĘ";
+            }
+
+            if (Boolean.TRUE.equals(announcementToShowDetails.getIsPriceNegotiable())){
+                isNegotiable = " (do negocjacji)";
+            }
+
+            System.out.println("\n\n");
+            System.out.println("=============================================" + typeOfAnnouncement + "=============================================");
+            System.out.println("|");
+            System.out.println("|----------" + announcementToShowDetails.getHeader().toUpperCase(Locale.ROOT) + "----------");
+            System.out.println("|--KATEGORIA: " + announcementToShowDetails.getServiceType().getServiceTypeName());
+            System.out.println("|--" + announcementToShowDetails.getVoivodeship().getVoivodeshipName() + ", " + announcementToShowDetails.getCity());
+            if (!("".equals(announcementToShowDetails.getCityDistrict()))){
+                System.out.println("|--" + announcementToShowDetails.getCityDistrict());
+            }
+            if (!("".equals(announcementToShowDetails.getUnit()))){
+                System.out.println("|--" + announcementToShowDetails.getUnit());
+            }
+            System.out.println("|\n|");
+            System.out.println("|--CENA: " + announcementToShowDetails.getPrice() + isNegotiable);
+            if (!("".equals(announcementToShowDetails.getPriceAdditionComment()))){
+                System.out.println("|--" + announcementToShowDetails.getPriceAdditionComment());
+            }
+            System.out.println("|\n|");
+            System.out.println("|--OPIS:");
+            System.out.println("|  " + announcementToShowDetails.getDescription());
+            System.out.println("|\n|");
+            System.out.println("|--" + announcementToShowDetails.getNameOfAdvertiser() + ", " + announcementToShowDetails.getEmail());
+            System.out.println("|--Tel: " + announcementToShowDetails.getPhoneNumber());
+            System.out.println("|");
+            System.out.println("|--Data ogłoszenia: " + prepareDateToDisplayFormat(now, announcementToShowDetails.getDate()));
+            System.out.println("|--id:" + announcementToShowDetails.getId());
+            System.out.println("=========================================================================================================\n");
         }
 
         private String prepareDateToDisplayFormat(LocalDateTime now, LocalDateTime comparable) {
