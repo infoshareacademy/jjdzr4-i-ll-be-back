@@ -12,6 +12,7 @@ public class Menu {
     private final AnnouncementService.Displaying displaying = myAnnouncementService.new Displaying();
     private final AnnouncementService.Adding adding = myAnnouncementService.new Adding();
     private final AnnouncementEditionService announcementEditionService = new AnnouncementEditionService();
+    private final AnnouncementService.Searching searching = myAnnouncementService.new Searching();
 
     public void display() {
         System.out.println("----------------------------------------------------");
@@ -33,6 +34,7 @@ public class Menu {
         switch (getUserInput()) {
             case 1:
                 System.out.println("Wybrałes 1 - Wyszukaj ogłoszenie");
+                searching.searchMenu();
                 break;
             case 2:
                 System.out.println("Wybrałes 2 - Wyświetl ogłoszenia");
