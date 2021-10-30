@@ -1,12 +1,6 @@
 package pl.infoshare;
 
-import pl.infoshare.announcements.AnnouncementEditionService;
 import pl.infoshare.announcements.AnnouncementService;
-<<<<<<< HEAD
-import pl.infoshare.announcements.SerchEngine;
-=======
-import pl.infoshare.announcements.ReturnToMenuException;
->>>>>>> origin
 
 import java.util.Scanner;
 
@@ -15,7 +9,7 @@ public class Menu {
     private final AnnouncementService myAnnouncementService = new AnnouncementService();
     private final AnnouncementService.Displaying displaying = myAnnouncementService.new Displaying();
     private final AnnouncementService.Adding adding = myAnnouncementService.new Adding();
-    private final AnnouncementEditionService announcementEditionService = new AnnouncementEditionService();
+    private final AnnouncementService.Searching searching = myAnnouncementService.new Searching();
 
     public void display() {
         System.out.println("----------------------------------------------------");
@@ -37,39 +31,37 @@ public class Menu {
         switch (getUserInput()) {
             case 1:
                 System.out.println("Wybrałes 1 - Wyszukaj ogłoszenie");
+                searching.searchMenu();
                 break;
             case 2:
                 System.out.println("Wybrałes 2 - Wyświetl ogłoszenia");
                 displaying.displayAllAnnouncements();
+                display();
                 break;
             case 3:
                 System.out.println("Wybrałes 3 - Dodaj ogłoszenie z oferowaną uslugą");
                 adding.addAnnouncement(true);
+                display();
                 break;
             case 4:
                 System.out.println("Wybrałes 4 - Dodaj ogłoszenie z poszukiwaną uslugą");
                 adding.addAnnouncement(false);
+                display();
                 break;
             case 5:
                 System.out.println("Wybrałes 5 - Edytuj ogłoszenie");
-                try {
-                    announcementEditionService.editAnnouncement();
-                } catch (ReturnToMenuException returnToMenuException) {
-                    System.out.println(returnToMenuException.getMessage());
-                }
                 break;
             case 6:
                 System.out.println("Wybrałes 6 - Usun ogłoszenie");
                 break;
             case 0:
                 System.out.println("Wybrałes 0 - Zakończ program <<--- I'll Be Back !");
-                System.exit(0);
+                break;
             default: {
                 System.out.println("Podałeś zły parametr. Spróbuj jeszcze raz:");
                 getMenuChoice();
             }
         }
-        display();
     }
 
     private byte getUserInput() {
