@@ -38,7 +38,11 @@ public class Menu {
                 break;
             case 2:
                 System.out.println("Wybrałes 2 - Wyświetl ogłoszenia");
-                displaying.displayAllAnnouncements();
+                try {
+                    displaying.displayAllAnnouncements();
+                } catch (ReturnToMenuException returnToMenuException) {
+                    System.out.println(returnToMenuException.getMessage());
+                }
                 break;
             case 3:
                 System.out.println("Wybrałes 3 - Dodaj ogłoszenie z oferowaną uslugą");
@@ -58,6 +62,11 @@ public class Menu {
                 break;
             case 6:
                 System.out.println("Wybrałes 6 - Usun ogłoszenie");
+                try {
+                    displaying.displayAndDeleteAnnouncement();
+                } catch (ReturnToMenuException returnToMenuException) {
+                    System.out.println(returnToMenuException.getMessage());
+                }
                 break;
             case 0:
                 System.out.println("Wybrałes 0 - Zakończ program <<--- I'll Be Back !");

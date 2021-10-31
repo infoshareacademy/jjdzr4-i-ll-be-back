@@ -17,6 +17,7 @@ public class AnnouncementService {
     protected static final String BREAK_AND_CLOSE = "0 - Przerwij i zamknij bez zapisu";
     protected static final Scanner scanner = new Scanner(System.in);
     protected final AnnouncementRepository announcementRepository = new AnnouncementRepository();
+    protected final Displaying displaying = new Displaying();
     protected static final Menu menu = new Menu();
     private final Searching searching = new Searching();
 
@@ -201,6 +202,37 @@ public class AnnouncementService {
         return inputFromUser;
     }
 
+    /**
+     * Method return chosen by user announcement (used id) or throw ReturnToMenuException if user would like to back to Menu
+     * @param initialMessage message will be printed to user with asking to input announcement id;
+     * @return chosen by user announcement or throwing ReturnToMenuException
+     * @throws ReturnToMenuException
+     */
+    public Announcement askUserForAnnouncement(String initialMessage) throws ReturnToMenuException {
+        System.out.println(initialMessage);
+        long id = -1;
+        Announcement chosenAnnouncement = null;
+        while (id <= -1) {
+            try {
+                id = Long.parseLong(scanner.nextLine());
+                if (id == 0) {
+                    break;
+                }
+                chosenAnnouncement = announcementRepository.findById(id);
+                if (chosenAnnouncement == null) {
+                    System.out.printf("Nie ma ogłoszenia o id = { %s }. Podaj poprawny numer Id ogłoszenia lub 0 aby " +
+                            "wrócić do Menu%n", id);
+                    id = -1;
+                } else {
+                    return chosenAnnouncement;
+                }
+            } catch (NumberFormatException numberFormatException) {
+                System.out.println("Podaj poprawny numer Id ogłoszenia lub 0 aby wrócić do Menu");
+            }
+        }
+        throw new ReturnToMenuException("Wybrałes powrót do menu");
+    }
+
     private boolean isStringValid(String userInput, String regex) {
         Pattern ptrn = Pattern.compile(regex);
         Matcher match = ptrn.matcher(userInput);
@@ -208,7 +240,7 @@ public class AnnouncementService {
     }
 
     public class Displaying {
-        public void displayAllAnnouncements() {
+        public void displayAllAnnouncements() throws ReturnToMenuException {
             //ask user about type of displayed announcement; exit if selected 0
             Boolean typeOfAnnouncementIsOffer = offerOrDemandAnswer();
             if (typeOfAnnouncementIsOffer == null) {
@@ -227,12 +259,36 @@ public class AnnouncementService {
                 }
             }
             System.out.println("===========================KONIEC===========================");
-            //ask if user want to display details of particular announcement
-            chooseAndShowAnnouncementDetails(typeOfAnnouncementIsOffer);
-
-            System.out.println("Wciśnij Enter, żeby wrócić do listy ogłoszeń:");
+            chooseAndShowAnnouncementDetails();
+            System.out.println("Wybierz 0 lub Enter, żeby wrócić do listy ogłoszeń:");
             scanner.nextLine();
             displayAllAnnouncements();
+        }
+
+        public void displayAndDeleteAnnouncement() throws ReturnToMenuException {
+            //ask user about type of displayed announcement; exit if selected 0
+            Boolean typeOfAnnouncementIsOffer = offerOrDemandAnswer();
+            if (typeOfAnnouncementIsOffer == null) {
+                return;
+            }
+
+            List<Announcement> baseOfAnnouncements = makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+            // sort desc
+            baseOfAnnouncements.sort(Collections.reverseOrder());
+
+            System.out.println("\n\n=======================LISTA OGŁOSZEŃ=======================");
+            for (Announcement announcement : baseOfAnnouncements) {
+                //typeOfAnnouncementToShow true = offer announcement; false = demand announcement
+                if (announcement.getIsOffer() == typeOfAnnouncementIsOffer) {
+                    showAnnouncement(announcement);
+                }
+            }
+            System.out.println("===========================KONIEC===========================");
+
+            Announcement announcementToDelete = askUserForAnnouncement("Podaj Id ogłoszenia, które chcesz usunąć, lub 0 aby wrócić do Menu");
+            announcementRepository.delete(announcementToDelete);
+            System.out.println("Ogłoszenie usunięto");
+            displayAndDeleteAnnouncement();
         }
 
         private void showAnnouncement(Announcement announcement) {
@@ -252,28 +308,9 @@ public class AnnouncementService {
             System.out.println("------------------------------------------------------------\n");
         }
 
-        public void chooseAndShowAnnouncementDetails(Boolean typeOfAnnouncementIsOffer) {
-            System.out.println("Podaj Id ogłoszenia, aby wyświetlić szczególy, lub wpisz 0, aby wrócić do Menu");
-            long id = -1;
-            while (id <= -1) {
-                try {
-                    id = Long.parseLong(scanner.nextLine());
-                    if (id == 0) {
-                        menu.display();
-                        break;
-                    }
-                    Announcement announcementToShowDetails = announcementRepository.findById(id);
-                    if (announcementToShowDetails == null || announcementToShowDetails.getIsOffer() != typeOfAnnouncementIsOffer) {
-                        System.out.printf("Nie ma ogłoszenia o id = { %s }. Podaj poprawny numer Id ogłoszenia lub 0 aby " +
-                                "wrócić do Menu%n", id);
-                        id = -1;
-                    } else {
-                        showAnnouncementDetails(announcementToShowDetails);
-                    }
-                } catch (NumberFormatException numberFormatException) {
-                    System.out.println("Podaj poprawny numer Id ogłoszenia lub 0 aby wrócić do Menu");
-                }
-            }
+        public void chooseAndShowAnnouncementDetails() throws ReturnToMenuException {
+            Announcement announcementToShowDetails = askUserForAnnouncement("Podaj Id ogłoszenia, aby wyświetlić szczególy, lub wpisz 0, aby wrócić do Menu");
+            showAnnouncementDetails(announcementToShowDetails);
         }
 
         private void showAnnouncementDetails(Announcement announcementToShowDetails) {
