@@ -5,27 +5,9 @@ import java.util.function.Consumer;
 public class AnnouncementEditionService extends AnnouncementService {
 
     public void editAnnouncement() throws ReturnToMenuException {
-        System.out.println("Podaj Id ogłoszenia do edycji lub 0 aby wrócić do Menu");
-        long id = -1;
-        while (id <= -1) {
-            try {
-                id = Long.parseLong(scanner.nextLine());
-                if (id == 0) {
-                    break;
-                }
-                Announcement announcementToEdit = announcementRepository.findById(id);
-                if (announcementToEdit == null) {
-                    System.out.printf("Nie ma ogłoszenia o id = { %s }. Podaj poprawny numer Id ogłoszenia lub 0 aby " +
-                            "wrócić do Menu%n", id);
-                    id = -1;
-                } else {
-                    Announcement announcementAfterEdit = editAnnouncement(announcementToEdit);
-                    announcementRepository.update(announcementAfterEdit);
-                }
-            } catch (NumberFormatException numberFormatException) {
-                System.out.println("Podaj poprawny numer Id ogłoszenia lub 0 aby wrócić do Menu");
-            }
-        }
+        Announcement announcementToEdit = askUserForAnnouncement("Podaj Id ogłoszenia do edycji lub 0 aby wrócić do Menu");
+        Announcement announcementAfterEdit = editAnnouncement(announcementToEdit);
+        announcementRepository.update(announcementAfterEdit);
     }
 
     private Announcement editAnnouncement(Announcement announcementToEdit) throws ReturnToMenuException {

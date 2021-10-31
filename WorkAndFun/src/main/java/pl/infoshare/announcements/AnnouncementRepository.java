@@ -4,9 +4,11 @@ import pl.infoshare.FileActions;
 import pl.infoshare.Main;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Scanner;
 
 public class AnnouncementRepository {
     public List<Announcement> announcementList = AnnouncementService.makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+    static final Scanner scanner = new Scanner(System.in);
 
     public Announcement findById(long id) {
         announcementList = AnnouncementService.makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
@@ -18,7 +20,9 @@ public class AnnouncementRepository {
         return null;
     }
 
+
     public boolean update(Announcement announcement) {
+        announcementList = AnnouncementService.makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
         if (announcement != null) {
             removeFromList(announcement.getId());
             announcementList.add(announcement);
@@ -44,6 +48,7 @@ public class AnnouncementRepository {
         return false;
     }
     public boolean delete(Announcement announcement) {
+        announcementList = AnnouncementService.makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
         if (announcement != null) {
             removeFromList(announcement.getId());
             updateFile();
