@@ -477,7 +477,7 @@ public class AnnouncementService {
     }
     public class Searching{
 
-        public void searchMenu(){
+        public void searchMenu() throws ReturnToMenuException {
             AnnouncementRepository announcementRepository = new AnnouncementRepository();
             System.out.println("1. Wyszukaj oferty na wykonanie usług.");
             System.out.println("2. Wyszukaj oferty na zapotrzebowanie usług.");
@@ -485,12 +485,12 @@ public class AnnouncementService {
             switch (userInput){
                 case "1":
                     System.out.println("Wybrałeś wyszukiwanie wykonywania usług.");
-                    searchAnnoucement(true);
+                    searchAnnouncement(true);
                     break;
                 case "2":
                     System.out.println("Wybrałeś wyszukiwanie zapotrzebowania usług.");
 
-                    searchAnnoucement(false);
+                    searchAnnouncement(false);
                     break;
                 default:{
                     System.out.println("Podałeś zły parametr!");
@@ -502,7 +502,7 @@ public class AnnouncementService {
 
         }
 
-        public void searchAnnoucement(Boolean isOffer) {
+        public void searchAnnouncement(Boolean isOffer) throws ReturnToMenuException {
             Displaying displaying = new Displaying();
             ArrayList<String[]> arrayFromFile = FileActions.makeArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
             boolean isEmpty = true;
@@ -538,7 +538,7 @@ public class AnnouncementService {
                 }
             }
             else{
-                displaying.chooseAndShowAnnouncementDetails(isOffer);
+                displaying.chooseAndShowAnnouncementDetails();
             }
             System.out.println("1. Wyszukaj ponownie ogłoszenie");
             System.out.println("2. Wróć do menu");
@@ -546,7 +546,7 @@ public class AnnouncementService {
 
 
         }
-        public void menuAfterSearching (String userInput) {
+        public void menuAfterSearching (String userInput) throws ReturnToMenuException {
 
             switch (userInput) {
                 case "1":

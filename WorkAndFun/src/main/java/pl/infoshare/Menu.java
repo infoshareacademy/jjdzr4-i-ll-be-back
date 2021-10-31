@@ -34,7 +34,11 @@ public class Menu {
         switch (getUserInput()) {
             case 1:
                 System.out.println("Wybrałes 1 - Wyszukaj ogłoszenie");
-                searching.searchMenu();
+                try {
+                    searching.searchMenu();;
+                } catch (ReturnToMenuException returnToMenuException) {
+                    System.out.println(returnToMenuException.getMessage());
+                }
                 break;
             case 2:
                 System.out.println("Wybrałes 2 - Wyświetl ogłoszenia");
