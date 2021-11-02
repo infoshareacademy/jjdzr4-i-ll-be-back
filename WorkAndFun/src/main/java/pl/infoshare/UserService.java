@@ -1,6 +1,5 @@
 package pl.infoshare;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 

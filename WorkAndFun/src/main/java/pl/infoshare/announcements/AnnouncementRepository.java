@@ -24,7 +24,6 @@ public class AnnouncementRepository {
         return null;
     }
 
-
     public boolean update(Announcement announcement) {
         announcementList = AnnouncementService.makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
         if (announcement != null) {

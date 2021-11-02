@@ -1,19 +1,15 @@
 package pl.infoshare;
 
-import pl.infoshare.announcements.AnnouncementEditionService;
-import pl.infoshare.announcements.AnnouncementSearchService;
-import pl.infoshare.announcements.AnnouncementService;
-import pl.infoshare.announcements.ReturnToMenuException;
-
+import pl.infoshare.announcements.*;
 import java.util.Scanner;
 
 public class Menu {
     private final Scanner scanner = new Scanner(System.in);
-    private final AnnouncementService myAnnouncementService = new AnnouncementService();
-    private final AnnouncementService.Displaying displaying = myAnnouncementService.new Displaying();
-    private final AnnouncementService.Adding adding = myAnnouncementService.new Adding();
+    protected final AnnouncementDisplayService announcementDisplayService = new AnnouncementDisplayService();
     private final AnnouncementEditionService announcementEditionService = new AnnouncementEditionService();
     private final AnnouncementSearchService announcementSearchService = new AnnouncementSearchService();
+    private final AnnouncementAddService announcementAddService = new AnnouncementAddService();
+    private final AnnouncementDeleteService announcementDeleteService = new AnnouncementDeleteService();
 
     public void display() {
         System.out.println("----------------------------------------------------");
@@ -44,18 +40,18 @@ public class Menu {
             case 2:
                 System.out.println("Wybrałes 2 - Wyświetl ogłoszenia");
                 try {
-                    displaying.displayAllAnnouncements();
+                    announcementDisplayService.displayAnnouncements();
                 } catch (ReturnToMenuException returnToMenuException) {
                     System.out.println(returnToMenuException.getMessage());
                 }
                 break;
             case 3:
                 System.out.println("Wybrałes 3 - Dodaj ogłoszenie z oferowaną uslugą");
-                adding.addAnnouncement(true);
+                announcementAddService.addAnnouncement(true);
                 break;
             case 4:
                 System.out.println("Wybrałes 4 - Dodaj ogłoszenie z poszukiwaną uslugą");
-                adding.addAnnouncement(false);
+                announcementAddService.addAnnouncement(false);
                 break;
             case 5:
                 System.out.println("Wybrałes 5 - Edytuj ogłoszenie");
@@ -68,7 +64,7 @@ public class Menu {
             case 6:
                 System.out.println("Wybrałes 6 - Usun ogłoszenie");
                 try {
-                    displaying.displayAndDeleteAnnouncement();
+                    announcementDeleteService.displayAndDeleteAnnouncement();
                 } catch (ReturnToMenuException returnToMenuException) {
                     System.out.println(returnToMenuException.getMessage());
                 }

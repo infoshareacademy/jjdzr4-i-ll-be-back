@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AnnouncementSearchService extends AnnouncementService {
+
     public void displaySearchMenu() throws ReturnToMenuException {
         System.out.println("1. Wyszukaj oferty na wykonanie usług.");
         System.out.println("2. Wyszukaj oferty na zapotrzebowanie usług.");
@@ -40,9 +41,9 @@ public class AnnouncementSearchService extends AnnouncementService {
                 var announcementsByLocalisation = searchByLocalisation(announcementList, isOffer);
                 if (!announcementsByLocalisation.isEmpty()) {
                     for (Announcement announcement : announcementsByLocalisation) {
-                        displaying.showAnnouncement(announcement);
+                        showAnnouncement(announcement);
                     }
-                    displaying.chooseAndShowAnnouncementDetails();
+                    chooseAndShowAnnouncementDetails();
                     System.out.println("Powrót do menu wyszukiwania");
                 } else {
                     System.out.println("brak ogłoszeń");
@@ -54,9 +55,9 @@ public class AnnouncementSearchService extends AnnouncementService {
                 var announcementsByCategory = searchByCategory(announcementList, isOffer);
                 if (!announcementsByCategory.isEmpty()) {
                     for (Announcement announcement : announcementsByCategory) {
-                        displaying.showAnnouncement(announcement);
+                        showAnnouncement(announcement);
                     }
-                    displaying.chooseAndShowAnnouncementDetails();
+                    chooseAndShowAnnouncementDetails();
                     System.out.println("Powrót do menu wyszukiwania");
                 } else {
                     System.out.println("brak ogłoszeń");
@@ -68,9 +69,9 @@ public class AnnouncementSearchService extends AnnouncementService {
                 var announcementsByDescription = searchByDescription(announcementList, isOffer);
                 if (!announcementsByDescription.isEmpty()) {
                     for (Announcement announcement : announcementsByDescription) {
-                        displaying.showAnnouncement(announcement);
+                        showAnnouncement(announcement);
                     }
-                    displaying.chooseAndShowAnnouncementDetails();
+                    chooseAndShowAnnouncementDetails();
                     System.out.println("Powrót do menu wyszukiwania");
                 } else {
                     System.out.println("brak ogłoszeń");
