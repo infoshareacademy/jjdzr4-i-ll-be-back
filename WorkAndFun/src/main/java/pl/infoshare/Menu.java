@@ -1,6 +1,7 @@
 package pl.infoshare;
 
 import pl.infoshare.announcements.AnnouncementEditionService;
+import pl.infoshare.announcements.AnnouncementSearchService;
 import pl.infoshare.announcements.AnnouncementService;
 import pl.infoshare.announcements.ReturnToMenuException;
 
@@ -12,7 +13,7 @@ public class Menu {
     private final AnnouncementService.Displaying displaying = myAnnouncementService.new Displaying();
     private final AnnouncementService.Adding adding = myAnnouncementService.new Adding();
     private final AnnouncementEditionService announcementEditionService = new AnnouncementEditionService();
-    private final AnnouncementService.Searching searching = myAnnouncementService.new Searching();
+    private final AnnouncementSearchService announcementSearchService = new AnnouncementSearchService();
 
     public void display() {
         System.out.println("----------------------------------------------------");
@@ -35,7 +36,7 @@ public class Menu {
             case 1:
                 System.out.println("Wybrałes 1 - Wyszukaj ogłoszenie");
                 try {
-                    searching.searchMenu();;
+                    announcementSearchService.displaySearchMenu();
                 } catch (ReturnToMenuException returnToMenuException) {
                     System.out.println(returnToMenuException.getMessage());
                 }

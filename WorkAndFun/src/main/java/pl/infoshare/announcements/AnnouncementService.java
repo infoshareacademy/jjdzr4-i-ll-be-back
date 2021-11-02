@@ -2,7 +2,6 @@ package pl.infoshare.announcements;
 
 import pl.infoshare.FileActions;
 import pl.infoshare.Main;
-import pl.infoshare.Menu;
 import pl.infoshare.TechnicalMethods;
 
 import java.nio.file.Path;
@@ -14,12 +13,10 @@ import java.util.regex.Pattern;
 
 public class AnnouncementService {
 
-    protected static final String BREAK_AND_CLOSE = "0 - Przerwij i zamknij bez zapisu";
+    protected static final String BREAK_AND_CLOSE = "0 - Przerwij i zamknij";
     protected static final Scanner scanner = new Scanner(System.in);
     protected final AnnouncementRepository announcementRepository = new AnnouncementRepository();
     protected final Displaying displaying = new Displaying();
-    protected static final Menu menu = new Menu();
-    private final Searching searching = new Searching();
 
     protected String ifWantToSaveAnnouncement() {
         return getInputFromUser("Czy chcesz dodać ogłoszenie?\n1 - Dodaj ogłoszenie", "[0-1]{1}",
@@ -204,14 +201,14 @@ public class AnnouncementService {
 
     /**
      * Method return chosen by user announcement (used id) or throw ReturnToMenuException if user would like to back to Menu
+     *
      * @param initialMessage message will be printed to user with asking to input announcement id;
      * @return chosen by user announcement or throwing ReturnToMenuException
-     * @throws ReturnToMenuException
      */
     public Announcement askUserForAnnouncement(String initialMessage) throws ReturnToMenuException {
         System.out.println(initialMessage);
         long id = -1;
-        Announcement chosenAnnouncement = null;
+        Announcement chosenAnnouncement;
         while (id <= -1) {
             try {
                 id = Long.parseLong(scanner.nextLine());
@@ -291,7 +288,7 @@ public class AnnouncementService {
             displayAndDeleteAnnouncement();
         }
 
-        private void showAnnouncement(Announcement announcement) {
+        protected void showAnnouncement(Announcement announcement) {
             LocalDateTime now = java.time.LocalDateTime.now();
 
             System.out.println("------------------------------------------------------------");
@@ -318,13 +315,13 @@ public class AnnouncementService {
             String typeOfAnnouncement;
             String isNegotiable = "";
 
-            if (announcementToShowDetails.getIsOffer()){
+            if (announcementToShowDetails.getIsOffer()) {
                 typeOfAnnouncement = "OFEROWANIE USŁUGI";
             } else {
                 typeOfAnnouncement = "ZAPOTRZEBOWANIE NA USŁUGĘ";
             }
 
-            if (Boolean.TRUE.equals(announcementToShowDetails.getIsPriceNegotiable())){
+            if (Boolean.TRUE.equals(announcementToShowDetails.getIsPriceNegotiable())) {
                 isNegotiable = " (do negocjacji)";
             }
 
@@ -334,15 +331,15 @@ public class AnnouncementService {
             System.out.println("|----------" + announcementToShowDetails.getHeader().toUpperCase(Locale.ROOT) + "----------");
             System.out.println("|--KATEGORIA: " + announcementToShowDetails.getServiceType().getServiceTypeName());
             System.out.println("|--" + announcementToShowDetails.getVoivodeship().getVoivodeshipName() + ", " + announcementToShowDetails.getCity());
-            if (!("".equals(announcementToShowDetails.getCityDistrict()))){
+            if (!("".equals(announcementToShowDetails.getCityDistrict()))) {
                 System.out.println("|--" + announcementToShowDetails.getCityDistrict());
             }
-            if (!("".equals(announcementToShowDetails.getUnit()))){
+            if (!("".equals(announcementToShowDetails.getUnit()))) {
                 System.out.println("|--" + announcementToShowDetails.getUnit());
             }
             System.out.println("|\n|");
             System.out.println("|--CENA: " + announcementToShowDetails.getPrice() + isNegotiable);
-            if (!("".equals(announcementToShowDetails.getPriceAdditionComment()))){
+            if (!("".equals(announcementToShowDetails.getPriceAdditionComment()))) {
                 System.out.println("|--" + announcementToShowDetails.getPriceAdditionComment());
             }
             System.out.println("|\n|");
@@ -385,23 +382,6 @@ public class AnnouncementService {
                 return null;
             }
         }
-        private void showAnnouncementFromArray(ArrayList<String[]> announcement, int i) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            LocalDateTime now = java.time.LocalDateTime.now();
-
-            System.out.println("------------------------------------------------------------");
-            System.out.println("|--" + announcement.get(i)[16]);
-            if ("do ustalenia indywidualnie".equals(announcement.get(i)[11])) {
-                System.out.println("|                                 " + announcement.get(i)[11]);
-            } else {
-                System.out.println("|                                                      " + announcement.get(i)[11] + " zł");
-            }
-            System.out.println("|");
-            System.out.println("|--" + announcement.get(i)[7] + ", " + announcement.get(i)[9]);
-            System.out.println("|--" + announcement.get(i)[5] + ", " + prepareDateToDisplayFormat(now, LocalDateTime.parse(announcement.get(i)[14])));
-            System.out.println("|--id:" + announcement.get(i)[0]);
-            System.out.println("------------------------------------------------------------\n");
-        }
     }
 
     public class Adding {
@@ -415,7 +395,6 @@ public class AnnouncementService {
         }
 
         private void addAnnouncementOfferService(boolean isOffer) throws ReturnToMenuException {
-
             //assigning voivodeship
             Voivodeship selectedVoivodeship = (Voivodeship) userInputCheck(selectVoivodeship());
             //assigning city
@@ -475,96 +454,6 @@ public class AnnouncementService {
             TechnicalMethods.makeDelay(1500);
         }
     }
-    public class Searching{
-
-        public void searchMenu() throws ReturnToMenuException {
-            AnnouncementRepository announcementRepository = new AnnouncementRepository();
-            System.out.println("1. Wyszukaj oferty na wykonanie usług.");
-            System.out.println("2. Wyszukaj oferty na zapotrzebowanie usług.");
-            String userInput = scanner.nextLine();
-            switch (userInput){
-                case "1":
-                    System.out.println("Wybrałeś wyszukiwanie wykonywania usług.");
-                    searchAnnouncement(true);
-                    break;
-                case "2":
-                    System.out.println("Wybrałeś wyszukiwanie zapotrzebowania usług.");
-
-                    searchAnnouncement(false);
-                    break;
-                default:{
-                    System.out.println("Podałeś zły parametr!");
-                    searchMenu();
-                    break;
-                }
-            }
-
-
-        }
-
-        public void searchAnnouncement(Boolean isOffer) throws ReturnToMenuException {
-            Displaying displaying = new Displaying();
-            ArrayList<String[]> arrayFromFile = FileActions.makeArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
-            boolean isEmpty = true;
-            System.out.println("Wpisz co chcesz wyszukać (Lokalizacja, kategoria lub opis):");
-            String searchInput = scanner.nextLine();
-            int numOfColumns = arrayFromFile.get(0).length;
-            for (int i = 0; i < arrayFromFile.size(); i++) {
-                for (int j = 0; j < numOfColumns; j++) {
-                    if (isOffer.toString().equals(arrayFromFile.get(i)[1])) {
-                        if (searchInput.toLowerCase(Locale.ROOT).equals(arrayFromFile.get(i)[j].toLowerCase(Locale.ROOT))) {
-                            displaying.showAnnouncementFromArray(arrayFromFile, i);
-                            isEmpty = false;
-                            System.out.println();
-                        }
-                    }
-                }
-            }
-            if (isEmpty) {
-                System.out.println("Przykro mi nic nie znaleziono :/");
-                while(true) {
-                    System.out.println("Czy chcesz wrócić do menu? Y/N");
-                    String yesOrNo = scanner.nextLine();
-                    if (yesOrNo.toLowerCase(Locale.ROOT).equals("y")) {
-                        menu.display();
-                        break;
-                    } else if (yesOrNo.toLowerCase(Locale.ROOT).equals("n")) {
-                        System.out.println("Zakonczyłeś działanie programu");
-                        System.exit(0);
-                    } else {
-                        System.out.println("Podałeś zły parametr!");
-
-                    }
-                }
-            }
-            else{
-                displaying.chooseAndShowAnnouncementDetails();
-            }
-            System.out.println("1. Wyszukaj ponownie ogłoszenie");
-            System.out.println("2. Wróć do menu");
-            menuAfterSearching(scanner.nextLine());
-
-
-        }
-        public void menuAfterSearching (String userInput) throws ReturnToMenuException {
-
-            switch (userInput) {
-                case "1":
-                    searching.searchMenu();
-                    break;
-                case "2":
-                    menu.display();
-                    break;
-                default: {
-                    System.out.println("Podałeś zły parametr!");
-                    System.out.println("1. Wyszukaj ponownie ogłoszenie");
-                    System.out.println("2. Wróć do menu");
-                    menuAfterSearching(scanner.nextLine());
-                }
-            }
-        }
-    }
-
 }
 
 enum ServiceType {
