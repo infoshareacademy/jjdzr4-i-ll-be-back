@@ -7,6 +7,6 @@ public class AnnouncementDisplayService extends AnnouncementService {
         chooseAndShowAnnouncementDetails();
         System.out.println("Wybierz 0 aby wrócić do menu wyszukiwania ogłoszeń lub Enter, żeby wrócić do listy ogłoszeń:");
         scanner.nextLine();
-        displayAllAnnouncements();
+        displayAnnouncements();
     }
 }

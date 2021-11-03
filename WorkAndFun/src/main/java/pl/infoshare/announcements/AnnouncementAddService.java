@@ -58,12 +58,15 @@ public class AnnouncementAddService extends AnnouncementService {
         Integer selectedClientId = null;
 
         System.out.println("--------------To już prawie koniec...-----------------");
-        ifWantToSaveAnnouncement();
 
         Announcement newAnnouncement = new Announcement(isOffer, inputtedHeader, generatedID, selectedServiceType, selectedCity,
                 selectedCityDistrict, selectedUnit, inputtedPrice, selectedVoivodeship, dateOfAnnouncementCreating,
                 selectedNameOfAdvertiser, selectedEmail, isPriceNegotiableBoolean, inputtedDescription, selectedPhone,
                 inputtedPriceAdditionalComment, selectedClientId);
+
+        showAnnouncementDetails(newAnnouncement);
+        userInputCheck(ifWantToSaveAnnouncement());
+
         FileActions.writeToFile(Main.ANNOUNCEMENTS_FILE_PATH, true, String.valueOf(newAnnouncement.getId()),
                 String.valueOf(newAnnouncement.getIsOffer()), String.valueOf(newAnnouncement.getServiceType()),
                 String.valueOf(newAnnouncement.getVoivodeship()), String.valueOf(newAnnouncement.getCity()),

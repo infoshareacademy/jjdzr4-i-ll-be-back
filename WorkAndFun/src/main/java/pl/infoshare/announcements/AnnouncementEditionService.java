@@ -79,8 +79,8 @@ public class AnnouncementEditionService extends AnnouncementService {
     }
 
     private void printAnnouncementFields(Announcement announcement) {
-        System.out.println("2 -  Typ usługi ----------------------> " + announcement.getServiceType());
-        System.out.println("3 -  Województwo ---------------------> " + announcement.getVoivodeship());
+        System.out.println("2 -  Typ usługi ----------------------> " + announcement.getServiceType().getServiceTypeName());
+        System.out.println("3 -  Województwo ---------------------> " + announcement.getVoivodeship().getVoivodeshipName());
         System.out.println("4 -  Miasto --------------------------> " + announcement.getCity());
         System.out.println("5 -  Dzielnica -----------------------> " + announcement.getCityDistrict());
         System.out.println("6 -  Osiedle -------------------------> " + announcement.getUnit());
@@ -89,7 +89,7 @@ public class AnnouncementEditionService extends AnnouncementService {
         System.out.println("9 -  Email ---------------------------> " + announcement.getEmail());
         System.out.println("10 - Opis ogłoszenia -----------------> " + announcement.getDescription());
         System.out.println("11 - Cena ----------------------------> " + announcement.getPrice());
-        System.out.println("12 - Czy cena do negocjacji ----------> " + announcement.getIsPriceNegotiable());
+        System.out.println("12 - Czy cena do negocjacji ----------> " + convertPriceNegotiableForYesOrNO(announcement));
         System.out.println("13 - Dodatkowy komentarz do ceny -----> " + announcement.getPriceAdditionComment());
         System.out.println("14 - Tytuł ogłoszenia ----------------> " + announcement.getHeader());
     }
@@ -98,5 +98,11 @@ public class AnnouncementEditionService extends AnnouncementService {
         if (value != null) {
             setter.accept(value);
         }
+    }
+    private String convertPriceNegotiableForYesOrNO(Announcement announcement) {
+        if (announcement.getIsPriceNegotiable()) {
+            return "Tak";
+        }
+        return "Nie";
     }
 }

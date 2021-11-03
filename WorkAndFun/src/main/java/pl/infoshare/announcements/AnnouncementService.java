@@ -2,6 +2,7 @@ package pl.infoshare.announcements;
 
 import pl.infoshare.FileActions;
 import pl.infoshare.Main;
+
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -14,7 +15,8 @@ public class AnnouncementService {
     protected static final String BREAK_AND_CLOSE = "0 - Przerwij i zamknij";
     protected static final Scanner scanner = new Scanner(System.in);
     protected final AnnouncementRepository announcementRepository = new AnnouncementRepository();
-//    protected final AnnouncementDisplayService announcementDisplayService = new AnnouncementDisplayService();
+
+    //    protected final AnnouncementDisplayService announcementDisplayService = new AnnouncementDisplayService();
     protected String ifWantToSaveAnnouncement() {
         return getInputFromUser("Czy chcesz dodać ogłoszenie?\n1 - Dodaj ogłoszenie", "[0-1]{1}",
                 "Niedopuszczalna odpowiedź. Wybierz \"1\" lub \"0\"");
@@ -268,7 +270,7 @@ public class AnnouncementService {
         showAnnouncementDetails(announcementToShowDetails);
     }
 
-    private void showAnnouncementDetails(Announcement announcementToShowDetails) {
+    protected void showAnnouncementDetails(Announcement announcementToShowDetails) {
         LocalDateTime now = java.time.LocalDateTime.now();
         String typeOfAnnouncement;
         String isNegotiable = "";
@@ -328,9 +330,9 @@ public class AnnouncementService {
         }
     }
 
-    protected void displayAllAnnouncements() {
+    protected void displayAllAnnouncements() throws ReturnToMenuException {
         //ask user about type of displayed announcement; exit if selected 0
-        Boolean typeOfAnnouncementIsOffer = offerOrDemandAnswer();
+        Boolean typeOfAnnouncementIsOffer = (Boolean) userInputCheck(offerOrDemandAnswer());
         if (typeOfAnnouncementIsOffer == null) {
             return;
         }
@@ -423,4 +425,9 @@ enum Voivodeship {
     public String getVoivodeshipName() {
         return voivodeshipName;
     }
+}
+
+enum OfferType {
+    SERVICE_OFFER,
+    SERVICE_DEMAND
 }
