@@ -198,14 +198,14 @@ public class AnnouncementService {
         return inputFromUser;
     }
 
-    protected Boolean offerOrDemandAnswer() {
+    protected OfferType offerOrDemandAnswer() {
         String answer = getInputFromUser("Jaki rodzaj ogłoszeń chcesz wyświetlić?\n" +
                         "1 - Ogłoszenia z oferowanymi usługami;\n2 - Ogłoszenia z zapotrzebowaniem na usługę",
                 "[1-2]{1}", "Nie znaleziono takiej opcji. Wpisz jedną z podanych wartości");
         if ("1".equals(answer)) {
-            return true;
+            return OfferType.SERVICE_OFFER;
         } else if ("2".equals(answer)) {
-            return false;
+            return OfferType.SERVICE_DEMAND;
         } else {
             return null;
         }
@@ -275,7 +275,7 @@ public class AnnouncementService {
         String typeOfAnnouncement;
         String isNegotiable = "";
 
-        if (announcementToShowDetails.getIsOffer()) {
+        if (announcementToShowDetails.getOfferType().equals(OfferType.SERVICE_OFFER)) {
             typeOfAnnouncement = "OFEROWANIE USŁUGI";
         } else {
             typeOfAnnouncement = "ZAPOTRZEBOWANIE NA USŁUGĘ";
@@ -332,7 +332,7 @@ public class AnnouncementService {
 
     protected void displayAllAnnouncements() throws ReturnToMenuException {
         //ask user about type of displayed announcement; exit if selected 0
-        Boolean typeOfAnnouncementIsOffer = (Boolean) userInputCheck(offerOrDemandAnswer());
+        OfferType typeOfAnnouncementIsOffer = (OfferType) userInputCheck(offerOrDemandAnswer());
         if (typeOfAnnouncementIsOffer == null) {
             return;
         }
@@ -344,7 +344,7 @@ public class AnnouncementService {
         System.out.println("\n\n=======================LISTA OGŁOSZEŃ=======================");
         for (Announcement announcement : baseOfAnnouncements) {
             //typeOfAnnouncementToShow true = offer announcement; false = demand announcement
-            if (announcement.getIsOffer() == typeOfAnnouncementIsOffer) {
+            if (announcement.getOfferType().equals(typeOfAnnouncementIsOffer)) {
                 showAnnouncement(announcement);
             }
         }
@@ -375,8 +375,8 @@ enum ServiceType {
     ZLOTA_RACZKA("20", "Złota rączka"),
     INNE("21", "Inne");
 
-    private String sequentialNumber;
-    private String serviceTypeName;
+    private final String sequentialNumber;
+    private final String serviceTypeName;
 
     ServiceType(String sequentialNumber, String serviceTypeName) {
         this.sequentialNumber = sequentialNumber;
@@ -410,8 +410,8 @@ enum Voivodeship {
     WIELKOPOLSKIE("15", "Wielkopolskie"),
     ZACHODNIOPOMORSKIE("16", "Zachodniopomorskie");
 
-    private String sequentialNumber;
-    private String voivodeshipName;
+    private final String sequentialNumber;
+    private final String voivodeshipName;
 
     Voivodeship(String sequentialNumber, String voivodeshipName) {
         this.sequentialNumber = sequentialNumber;
@@ -425,9 +425,4 @@ enum Voivodeship {
     public String getVoivodeshipName() {
         return voivodeshipName;
     }
-}
-
-enum OfferType {
-    SERVICE_OFFER,
-    SERVICE_DEMAND
 }
