@@ -1,6 +1,7 @@
 package pl.infoshare.announcements;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class AnnouncementSearchService extends AnnouncementService {
@@ -87,22 +88,23 @@ public class AnnouncementSearchService extends AnnouncementService {
     private List<Announcement> searchByDescription(List<Announcement> announcementList, OfferType offerType) {
         String input = scanner.nextLine();
         return announcementList.stream().filter(announcement -> announcement.getOfferType().equals(offerType) &
-                announcement.getDescription().equalsIgnoreCase(input)).collect(Collectors.toList());
+                announcement.getDescription().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT))).collect(Collectors.toList());
     }
 
     private List<Announcement> searchByLocalisation(List<Announcement> announcementList, OfferType offerType) {
         String input = scanner.nextLine();
         return announcementList.stream()
                 .filter(announcement -> announcement.getOfferType().equals(offerType) &
-                        (announcement.getVoivodeship().toString().equalsIgnoreCase(input) || announcement.getCity().equalsIgnoreCase(input)
-                                || announcement.getCityDistrict().equalsIgnoreCase(input) ||
-                                announcement.getUnit().equalsIgnoreCase(input))).collect(Collectors.toList());
+                        (announcement.getVoivodeship().toString().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT))
+                                || announcement.getCity().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT))
+                                || announcement.getCityDistrict().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT)) ||
+                                announcement.getUnit().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT)))).collect(Collectors.toList());
     }
 
     private List<Announcement> searchByCategory(List<Announcement> announcementList, OfferType offerType) {
         String input = scanner.nextLine();
         return announcementList.stream().filter(announcement -> announcement.getOfferType().equals(offerType) &
-                announcement.getServiceType().toString().equals(input)).collect(Collectors.toList());
+                announcement.getServiceType().toString().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT))).collect(Collectors.toList());
     }
 }
 
