@@ -14,11 +14,11 @@ public class AnnouncementSearchService extends AnnouncementService {
         switch (userInput) {
             case "1":
                 System.out.println("Wybrałeś wyszukiwanie wykonywania usług.");
-                searchAnnoucement(OfferType.SERVICE_OFFER);
+                searchAnnouncement(Type.SERVICE_OFFER);
                 break;
             case "2":
                 System.out.println("Wybrałeś wyszukiwanie zapotrzebowania usług.");
-                searchAnnoucement(OfferType.SERVICE_DEMAND);
+                searchAnnouncement(Type.SERVICE_DEMAND);
                 break;
             case "0":
                 break;
@@ -30,7 +30,7 @@ public class AnnouncementSearchService extends AnnouncementService {
         }
     }
 
-    public void searchAnnoucement(OfferType offerType) throws ReturnToMenuException {
+    public void searchAnnouncement(Type type) throws ReturnToMenuException {
         var announcementList = announcementRepository.findAll();
         String userInput = getInputFromUser("Wpisz co chcesz wyszukać " +
                         "1 - Lokalizacja 2 - Kategoria 3 - Opis :"
@@ -42,9 +42,9 @@ public class AnnouncementSearchService extends AnnouncementService {
         switch (Integer.parseInt(userInput)) {
             case 1:
                 System.out.println("Podaj lokalizację ogłoszenia");
-                var announcementsByLocalisation = searchByLocalisation(announcementList, offerType);
-                if (!announcementsByLocalisation.isEmpty()) {
-                    for (Announcement announcement : announcementsByLocalisation) {
+                var announcementsByLocation = searchByLocation(announcementList, type);
+                if (!announcementsByLocation.isEmpty()) {
+                    for (Announcement announcement : announcementsByLocation) {
                         showAnnouncement(announcement);
                     }
                     chooseAndShowAnnouncementDetails();
@@ -52,11 +52,11 @@ public class AnnouncementSearchService extends AnnouncementService {
                 } else {
                     System.out.println("brak ogłoszeń");
                 }
-                searchAnnoucement(offerType);
+                searchAnnouncement(type);
                 break;
             case 2:
                 System.out.println("Wybierz kategorię ogłoszenia");
-                var announcementsByCategory = searchByCategory(announcementList, offerType);
+                var announcementsByCategory = searchByCategory(announcementList, type);
                 if (!announcementsByCategory.isEmpty()) {
                     for (Announcement announcement : announcementsByCategory) {
                         showAnnouncement(announcement);
@@ -66,11 +66,11 @@ public class AnnouncementSearchService extends AnnouncementService {
                 } else {
                     System.out.println("brak ogłoszeń");
                 }
-                searchAnnoucement(offerType);
+                searchAnnouncement(type);
                 break;
             case 3:
                 System.out.println("Wyszukaj po opisie");
-                var announcementsByDescription = searchByDescription(announcementList, offerType);
+                var announcementsByDescription = searchByDescription(announcementList, type);
                 if (!announcementsByDescription.isEmpty()) {
                     for (Announcement announcement : announcementsByDescription) {
                         showAnnouncement(announcement);
@@ -80,31 +80,30 @@ public class AnnouncementSearchService extends AnnouncementService {
                 } else {
                     System.out.println("brak ogłoszeń");
                 }
-                searchAnnoucement(offerType);
+                searchAnnouncement(type);
                 break;
         }
     }
 
-    private List<Announcement> searchByDescription(List<Announcement> announcementList, OfferType offerType) {
+    private List<Announcement> searchByDescription(List<Announcement> announcementList, Type type) {
         String input = scanner.nextLine();
-        return announcementList.stream().filter(announcement -> announcement.getOfferType().equals(offerType) &
+        return announcementList.stream().filter(announcement -> announcement.getType().equals(type) &
                 announcement.getDescription().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT))).collect(Collectors.toList());
     }
 
-    private List<Announcement> searchByLocalisation(List<Announcement> announcementList, OfferType offerType) {
+    private List<Announcement> searchByLocation(List<Announcement> announcementList, Type type) {
         String input = scanner.nextLine();
         return announcementList.stream()
-                .filter(announcement -> announcement.getOfferType().equals(offerType) &
+                .filter(announcement -> announcement.getType().equals(type) &
                         (announcement.getVoivodeship().toString().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT))
                                 || announcement.getCity().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT))
                                 || announcement.getCityDistrict().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT)) ||
                                 announcement.getUnit().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT)))).collect(Collectors.toList());
     }
 
-    private List<Announcement> searchByCategory(List<Announcement> announcementList, OfferType offerType) {
+    private List<Announcement> searchByCategory(List<Announcement> announcementList, Type type) {
         String input = scanner.nextLine();
-        return announcementList.stream().filter(announcement -> announcement.getOfferType().equals(offerType) &
-                announcement.getServiceType().toString().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT))).collect(Collectors.toList());
+        return announcementList.stream().filter(announcement -> announcement.getType().equals(type) &
+                announcement.getServiceType().getServiceTypeName().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT))).collect(Collectors.toList());
     }
 }
-

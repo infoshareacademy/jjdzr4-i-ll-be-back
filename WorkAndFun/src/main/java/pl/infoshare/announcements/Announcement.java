@@ -6,11 +6,11 @@ import java.time.LocalDateTime;
 
 public class Announcement implements Comparable<Announcement> {
 
-    public static final String[] ANNOUNCEMENT_HEADER = {"ID", "offerType", "serviceType", "voivodeship", "city",
+    public static final String[] ANNOUNCEMENT_HEADER = {"ID", "Type", "serviceType", "voivodeship", "city",
             "cityDistrict", "unit", "nameOfAdvertiser", "phoneNumber", "email", "description", "price",
             "isPriceNegotiable", "priceAdditionComment", "date", "clientId", "Header"};
 
-    private OfferType offerType;
+    private Type type;
     private String header;
     private long id;
     private ServiceType serviceType;
@@ -28,11 +28,11 @@ public class Announcement implements Comparable<Announcement> {
     private String phoneNumber;
     private String priceAdditionComment = "";
 
-    public Announcement(OfferType offerType, String header, long id, ServiceType serviceType, String city,
+    public Announcement(Type type, String header, long id, ServiceType serviceType, String city,
                         String cityDistrict, String unit, String price, Voivodeship voivodeship, LocalDateTime date,
                         String nameOfAdvertiser, String email, Boolean isPriceNegotiable, String description,
                         String phoneNumber, String priceAdditionComment, Integer clientId) {
-        this.offerType = offerType;
+        this.type = type;
         this.header = header;
         this.id = id;
         this.serviceType = serviceType;
@@ -57,7 +57,7 @@ public class Announcement implements Comparable<Announcement> {
     public String[] mapToStringArray() {
         String[] announcementInString = new String[17];
         announcementInString[0] = String.valueOf(this.getId());
-        announcementInString[1] = String.valueOf(this.getOfferType());
+        announcementInString[1] = String.valueOf(this.getType());
         announcementInString[2] = String.valueOf(this.getServiceType());
         announcementInString[3] = String.valueOf(this.getVoivodeship());
         announcementInString[4] = String.valueOf(this.getCity());
@@ -80,7 +80,7 @@ public class Announcement implements Comparable<Announcement> {
     public static Announcement mapStringArrayToAnnouncement(String[] attributes) {
         Announcement announcement = new Announcement();
         announcement.setId(Long.parseLong(attributes[0]));
-        announcement.setOfferType(OfferType.valueOf(attributes[1]));
+        announcement.setType(Type.valueOf(attributes[1]));
         announcement.setServiceType(ServiceType.valueOf(attributes[2]));
         announcement.setVoivodeship(Voivodeship.valueOf(attributes[3]));
         announcement.setCity(attributes[4]);
@@ -101,8 +101,8 @@ public class Announcement implements Comparable<Announcement> {
     }
 
 
-    public OfferType getOfferType() {
-        return offerType;
+    public Type getType() {
+        return type;
     }
 
     public long getId() {
@@ -169,8 +169,8 @@ public class Announcement implements Comparable<Announcement> {
         return header;
     }
 
-    public void setOfferType(OfferType offerType) {
-        this.offerType = offerType;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public void setHeader(String header) {

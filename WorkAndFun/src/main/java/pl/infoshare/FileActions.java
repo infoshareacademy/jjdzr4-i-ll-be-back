@@ -55,7 +55,7 @@ public class FileActions {
         for (Announcement announcement : announcementList) {
             arrayFromObjectList.add(announcement.mapToStringArray());
             writeToFile(Main.ANNOUNCEMENTS_FILE_PATH, true, String.valueOf(announcement.getId()),
-                    String.valueOf(announcement.getOfferType()), String.valueOf(announcement.getServiceType()),
+                    String.valueOf(announcement.getType()), String.valueOf(announcement.getServiceType()),
                     String.valueOf(announcement.getVoivodeship()), String.valueOf(announcement.getCity()),
                     announcement.getCityDistrict(), announcement.getUnit(), announcement.getNameOfAdvertiser(),
                     announcement.getPhoneNumber(), announcement.getEmail(), announcement.getDescription(),

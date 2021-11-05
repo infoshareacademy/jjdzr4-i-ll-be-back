@@ -16,7 +16,6 @@ public class AnnouncementService {
     protected static final Scanner scanner = new Scanner(System.in);
     protected final AnnouncementRepository announcementRepository = new AnnouncementRepository();
 
-    //    protected final AnnouncementDisplayService announcementDisplayService = new AnnouncementDisplayService();
     protected String ifWantToSaveAnnouncement() {
         return getInputFromUser("Czy chcesz dodać ogłoszenie?\n1 - Dodaj ogłoszenie", "[0-1]{1}",
                 "Niedopuszczalna odpowiedź. Wybierz \"1\" lub \"0\"");
@@ -198,14 +197,14 @@ public class AnnouncementService {
         return inputFromUser;
     }
 
-    protected OfferType offerOrDemandAnswer() {
+    protected Type offerOrDemandAnswer() {
         String answer = getInputFromUser("Jaki rodzaj ogłoszeń chcesz wyświetlić?\n" +
                         "1 - Ogłoszenia z oferowanymi usługami;\n2 - Ogłoszenia z zapotrzebowaniem na usługę",
                 "[1-2]{1}", "Nie znaleziono takiej opcji. Wpisz jedną z podanych wartości");
         if ("1".equals(answer)) {
-            return OfferType.SERVICE_OFFER;
+            return Type.SERVICE_OFFER;
         } else if ("2".equals(answer)) {
-            return OfferType.SERVICE_DEMAND;
+            return Type.SERVICE_DEMAND;
         } else {
             return null;
         }
@@ -275,7 +274,7 @@ public class AnnouncementService {
         String typeOfAnnouncement;
         String isNegotiable = "";
 
-        if (announcementToShowDetails.getOfferType().equals(OfferType.SERVICE_OFFER)) {
+        if (announcementToShowDetails.getType().equals(Type.SERVICE_OFFER)) {
             typeOfAnnouncement = "OFEROWANIE USŁUGI";
         } else {
             typeOfAnnouncement = "ZAPOTRZEBOWANIE NA USŁUGĘ";
@@ -332,7 +331,7 @@ public class AnnouncementService {
 
     protected void displayAllAnnouncements() throws ReturnToMenuException {
         //ask user about type of displayed announcement; exit if selected 0
-        OfferType typeOfAnnouncementIsOffer = (OfferType) userInputCheck(offerOrDemandAnswer());
+        Type typeOfAnnouncementIsOffer = (Type) userInputCheck(offerOrDemandAnswer());
         if (typeOfAnnouncementIsOffer == null) {
             return;
         }
@@ -344,7 +343,7 @@ public class AnnouncementService {
         System.out.println("\n\n=======================LISTA OGŁOSZEŃ=======================");
         for (Announcement announcement : baseOfAnnouncements) {
             //typeOfAnnouncementToShow true = offer announcement; false = demand announcement
-            if (announcement.getOfferType().equals(typeOfAnnouncementIsOffer)) {
+            if (announcement.getType().equals(typeOfAnnouncementIsOffer)) {
                 showAnnouncement(announcement);
             }
         }

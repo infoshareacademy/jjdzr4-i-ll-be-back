@@ -9,15 +9,15 @@ import java.util.ArrayList;
 
 public class AnnouncementAddService extends AnnouncementService {
 
-    public void addAnnouncement(OfferType offerType) {
+    public void addAnnouncement(Type type) {
         try {
-            addAnnouncementOfferService(offerType);
+            addAnnouncementService(type);
         } catch (ReturnToMenuException returnToMenuException) {
             System.out.println(returnToMenuException.getMessage());
         }
     }
 
-    private void addAnnouncementOfferService(OfferType offerType) throws ReturnToMenuException {
+    private void addAnnouncementService(Type type) throws ReturnToMenuException {
         //assigning voivodeship
         Voivodeship selectedVoivodeship = (Voivodeship) userInputCheck(selectVoivodeship());
         //assigning city
@@ -59,7 +59,7 @@ public class AnnouncementAddService extends AnnouncementService {
 
         System.out.println("--------------To już prawie koniec...-----------------");
 
-        Announcement newAnnouncement = new Announcement(offerType, inputtedHeader, generatedID, selectedServiceType, selectedCity,
+        Announcement newAnnouncement = new Announcement(type, inputtedHeader, generatedID, selectedServiceType, selectedCity,
                 selectedCityDistrict, selectedUnit, inputtedPrice, selectedVoivodeship, dateOfAnnouncementCreating,
                 selectedNameOfAdvertiser, selectedEmail, isPriceNegotiableBoolean, inputtedDescription, selectedPhone,
                 inputtedPriceAdditionalComment, selectedClientId);
@@ -68,7 +68,7 @@ public class AnnouncementAddService extends AnnouncementService {
         userInputCheck(ifWantToSaveAnnouncement());
 
         FileActions.writeToFile(Main.ANNOUNCEMENTS_FILE_PATH, true, String.valueOf(newAnnouncement.getId()),
-                String.valueOf(newAnnouncement.getOfferType()), String.valueOf(newAnnouncement.getServiceType()),
+                String.valueOf(newAnnouncement.getType()), String.valueOf(newAnnouncement.getServiceType()),
                 String.valueOf(newAnnouncement.getVoivodeship()), String.valueOf(newAnnouncement.getCity()),
                 newAnnouncement.getCityDistrict(), newAnnouncement.getUnit(), newAnnouncement.getNameOfAdvertiser(),
                 newAnnouncement.getPhoneNumber(), newAnnouncement.getEmail(), newAnnouncement.getDescription(),

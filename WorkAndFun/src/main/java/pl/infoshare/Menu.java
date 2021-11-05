@@ -47,11 +47,11 @@ public class Menu {
                 break;
             case 3:
                 System.out.println("Wybrałes 3 - Dodaj ogłoszenie z oferowaną uslugą");
-                announcementAddService.addAnnouncement(OfferType.SERVICE_OFFER);
+                announcementAddService.addAnnouncement(Type.SERVICE_OFFER);
                 break;
             case 4:
                 System.out.println("Wybrałes 4 - Dodaj ogłoszenie z poszukiwaną uslugą");
-                announcementAddService.addAnnouncement(OfferType.SERVICE_DEMAND);
+                announcementAddService.addAnnouncement(Type.SERVICE_DEMAND);
                 break;
             case 5:
                 System.out.println("Wybrałes 5 - Edytuj ogłoszenie");
