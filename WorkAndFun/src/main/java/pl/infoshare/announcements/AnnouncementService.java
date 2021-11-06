@@ -2,8 +2,6 @@ package pl.infoshare.announcements;
 
 import pl.infoshare.FileActions;
 import pl.infoshare.Main;
-import pl.infoshare.Menu;
-import pl.infoshare.TechnicalMethods;
 
 import java.nio.file.Path;
 import java.time.LocalDateTime;
@@ -14,12 +12,9 @@ import java.util.regex.Pattern;
 
 public class AnnouncementService {
 
-    protected static final String BREAK_AND_CLOSE = "0 - Przerwij i zamknij bez zapisu";
+    protected static final String BREAK_AND_CLOSE = "0 - Przerwij i zamknij";
     protected static final Scanner scanner = new Scanner(System.in);
     protected final AnnouncementRepository announcementRepository = new AnnouncementRepository();
-    protected final Displaying displaying = new Displaying();
-    protected static final Menu menu = new Menu();
-    private final Searching searching = new Searching();
 
     protected String ifWantToSaveAnnouncement() {
         return getInputFromUser("Czy chcesz dodać ogłoszenie?\n1 - Dodaj ogłoszenie", "[0-1]{1}",
@@ -202,16 +197,29 @@ public class AnnouncementService {
         return inputFromUser;
     }
 
+    protected Type offerOrDemandAnswer() {
+        String answer = getInputFromUser("Jaki rodzaj ogłoszeń chcesz wyświetlić?\n" +
+                        "1 - Ogłoszenia z oferowanymi usługami;\n2 - Ogłoszenia z zapotrzebowaniem na usługę",
+                "[1-2]{1}", "Nie znaleziono takiej opcji. Wpisz jedną z podanych wartości");
+        if ("1".equals(answer)) {
+            return Type.SERVICE_OFFER;
+        } else if ("2".equals(answer)) {
+            return Type.SERVICE_DEMAND;
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Method return chosen by user announcement (used id) or throw ReturnToMenuException if user would like to back to Menu
+     *
      * @param initialMessage message will be printed to user with asking to input announcement id;
      * @return chosen by user announcement or throwing ReturnToMenuException
-     * @throws ReturnToMenuException
      */
-    public Announcement askUserForAnnouncement(String initialMessage) throws ReturnToMenuException {
+    protected Announcement askUserForAnnouncement(String initialMessage) throws ReturnToMenuException {
         System.out.println(initialMessage);
         long id = -1;
-        Announcement chosenAnnouncement = null;
+        Announcement chosenAnnouncement;
         while (id <= -1) {
             try {
                 id = Long.parseLong(scanner.nextLine());
@@ -239,332 +247,108 @@ public class AnnouncementService {
         return match.matches();
     }
 
-    public class Displaying {
-        public void displayAllAnnouncements() throws ReturnToMenuException {
-            //ask user about type of displayed announcement; exit if selected 0
-            Boolean typeOfAnnouncementIsOffer = offerOrDemandAnswer();
-            if (typeOfAnnouncementIsOffer == null) {
-                return;
-            }
+    protected void showAnnouncement(Announcement announcement) {
+        LocalDateTime now = java.time.LocalDateTime.now();
 
-            List<Announcement> baseOfAnnouncements = makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
-            // sort desc
-            baseOfAnnouncements.sort(Collections.reverseOrder());
+        System.out.println("------------------------------------------------------------");
+        System.out.println("|--" + announcement.getHeader());
+        if ("do ustalenia indywidualnie".equals(announcement.getPrice())) {
+            System.out.println("|                                 " + announcement.getPrice());
+        } else {
+            System.out.println("|                                                      " + announcement.getPrice() + " zł");
+        }
+        System.out.println("|");
+        System.out.println("|--" + announcement.getNameOfAdvertiser() + ", " + announcement.getEmail());
+        System.out.println("|--" + announcement.getCity() + ", " + prepareDateToDisplayFormat(now, announcement.getDate()));
+        System.out.println("|--id:" + announcement.getId());
+        System.out.println("------------------------------------------------------------\n");
+    }
 
-            System.out.println("\n\n=======================LISTA OGŁOSZEŃ=======================");
-            for (Announcement announcement : baseOfAnnouncements) {
-                //typeOfAnnouncementToShow true = offer announcement; false = demand announcement
-                if (announcement.getIsOffer() == typeOfAnnouncementIsOffer) {
-                    showAnnouncement(announcement);
-                }
-            }
-            System.out.println("===========================KONIEC===========================");
-            chooseAndShowAnnouncementDetails();
-            System.out.println("Wybierz 0 lub Enter, żeby wrócić do listy ogłoszeń:");
-            scanner.nextLine();
-            displayAllAnnouncements();
+    protected void chooseAndShowAnnouncementDetails() throws ReturnToMenuException {
+        Announcement announcementToShowDetails = askUserForAnnouncement("Podaj Id ogłoszenia, aby wyświetlić szczególy, lub wpisz 0, aby wrócić do Menu");
+        showAnnouncementDetails(announcementToShowDetails);
+    }
+
+    protected void showAnnouncementDetails(Announcement announcementToShowDetails) {
+        LocalDateTime now = java.time.LocalDateTime.now();
+        String typeOfAnnouncement;
+        String isNegotiable = "";
+
+        if (announcementToShowDetails.getType().equals(Type.SERVICE_OFFER)) {
+            typeOfAnnouncement = "OFEROWANIE USŁUGI";
+        } else {
+            typeOfAnnouncement = "ZAPOTRZEBOWANIE NA USŁUGĘ";
         }
 
-        public void displayAndDeleteAnnouncement() throws ReturnToMenuException {
-            //ask user about type of displayed announcement; exit if selected 0
-            Boolean typeOfAnnouncementIsOffer = offerOrDemandAnswer();
-            if (typeOfAnnouncementIsOffer == null) {
-                return;
-            }
-
-            List<Announcement> baseOfAnnouncements = makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
-            // sort desc
-            baseOfAnnouncements.sort(Collections.reverseOrder());
-
-            System.out.println("\n\n=======================LISTA OGŁOSZEŃ=======================");
-            for (Announcement announcement : baseOfAnnouncements) {
-                //typeOfAnnouncementToShow true = offer announcement; false = demand announcement
-                if (announcement.getIsOffer() == typeOfAnnouncementIsOffer) {
-                    showAnnouncement(announcement);
-                }
-            }
-            System.out.println("===========================KONIEC===========================");
-
-            Announcement announcementToDelete = askUserForAnnouncement("Podaj Id ogłoszenia, które chcesz usunąć, lub 0 aby wrócić do Menu");
-            announcementRepository.delete(announcementToDelete);
-            System.out.println("Ogłoszenie usunięto");
-            displayAndDeleteAnnouncement();
+        if (Boolean.TRUE.equals(announcementToShowDetails.getIsPriceNegotiable())) {
+            isNegotiable = " (do negocjacji)";
         }
 
-        private void showAnnouncement(Announcement announcement) {
-            LocalDateTime now = java.time.LocalDateTime.now();
-
-            System.out.println("------------------------------------------------------------");
-            System.out.println("|--" + announcement.getHeader());
-            if ("do ustalenia indywidualnie".equals(announcement.getPrice())) {
-                System.out.println("|                                 " + announcement.getPrice());
-            } else {
-                System.out.println("|                                                      " + announcement.getPrice() + " zł");
-            }
-            System.out.println("|");
-            System.out.println("|--" + announcement.getNameOfAdvertiser() + ", " + announcement.getEmail());
-            System.out.println("|--" + announcement.getCity() + ", " + prepareDateToDisplayFormat(now, announcement.getDate()));
-            System.out.println("|--id:" + announcement.getId());
-            System.out.println("------------------------------------------------------------\n");
+        System.out.println("\n\n");
+        System.out.println("=============================================" + typeOfAnnouncement + "=============================================");
+        System.out.println("|");
+        System.out.println("|----------" + announcementToShowDetails.getHeader().toUpperCase(Locale.ROOT) + "----------");
+        System.out.println("|--KATEGORIA: " + announcementToShowDetails.getServiceType().getServiceTypeName());
+        System.out.println("|--" + announcementToShowDetails.getVoivodeship().getVoivodeshipName() + ", " + announcementToShowDetails.getCity());
+        if (!("".equals(announcementToShowDetails.getCityDistrict()))) {
+            System.out.println("|--" + announcementToShowDetails.getCityDistrict());
         }
-
-        public void chooseAndShowAnnouncementDetails() throws ReturnToMenuException {
-            Announcement announcementToShowDetails = askUserForAnnouncement("Podaj Id ogłoszenia, aby wyświetlić szczególy, lub wpisz 0, aby wrócić do Menu");
-            showAnnouncementDetails(announcementToShowDetails);
+        if (!("".equals(announcementToShowDetails.getUnit()))) {
+            System.out.println("|--" + announcementToShowDetails.getUnit());
         }
-
-        private void showAnnouncementDetails(Announcement announcementToShowDetails) {
-            LocalDateTime now = java.time.LocalDateTime.now();
-            String typeOfAnnouncement;
-            String isNegotiable = "";
-
-            if (announcementToShowDetails.getIsOffer()){
-                typeOfAnnouncement = "OFEROWANIE USŁUGI";
-            } else {
-                typeOfAnnouncement = "ZAPOTRZEBOWANIE NA USŁUGĘ";
-            }
-
-            if (Boolean.TRUE.equals(announcementToShowDetails.getIsPriceNegotiable())){
-                isNegotiable = " (do negocjacji)";
-            }
-
-            System.out.println("\n\n");
-            System.out.println("=============================================" + typeOfAnnouncement + "=============================================");
-            System.out.println("|");
-            System.out.println("|----------" + announcementToShowDetails.getHeader().toUpperCase(Locale.ROOT) + "----------");
-            System.out.println("|--KATEGORIA: " + announcementToShowDetails.getServiceType().getServiceTypeName());
-            System.out.println("|--" + announcementToShowDetails.getVoivodeship().getVoivodeshipName() + ", " + announcementToShowDetails.getCity());
-            if (!("".equals(announcementToShowDetails.getCityDistrict()))){
-                System.out.println("|--" + announcementToShowDetails.getCityDistrict());
-            }
-            if (!("".equals(announcementToShowDetails.getUnit()))){
-                System.out.println("|--" + announcementToShowDetails.getUnit());
-            }
-            System.out.println("|\n|");
-            System.out.println("|--CENA: " + announcementToShowDetails.getPrice() + isNegotiable);
-            if (!("".equals(announcementToShowDetails.getPriceAdditionComment()))){
-                System.out.println("|--" + announcementToShowDetails.getPriceAdditionComment());
-            }
-            System.out.println("|\n|");
-            System.out.println("|--OPIS:");
-            System.out.println("|  " + announcementToShowDetails.getDescription());
-            System.out.println("|\n|");
-            System.out.println("|--" + announcementToShowDetails.getNameOfAdvertiser() + ", " + announcementToShowDetails.getEmail());
-            System.out.println("|--Tel: " + announcementToShowDetails.getPhoneNumber());
-            System.out.println("|");
-            System.out.println("|--Data ogłoszenia: " + prepareDateToDisplayFormat(now, announcementToShowDetails.getDate()));
-            System.out.println("|--id:" + announcementToShowDetails.getId());
-            System.out.println("=========================================================================================================\n");
+        System.out.println("|\n|");
+        System.out.println("|--CENA: " + announcementToShowDetails.getPrice() + isNegotiable);
+        if (!("".equals(announcementToShowDetails.getPriceAdditionComment()))) {
+            System.out.println("|--" + announcementToShowDetails.getPriceAdditionComment());
         }
+        System.out.println("|\n|");
+        System.out.println("|--OPIS:");
+        System.out.println("|  " + announcementToShowDetails.getDescription());
+        System.out.println("|\n|");
+        System.out.println("|--" + announcementToShowDetails.getNameOfAdvertiser() + ", " + announcementToShowDetails.getEmail());
+        System.out.println("|--Tel: " + announcementToShowDetails.getPhoneNumber());
+        System.out.println("|");
+        System.out.println("|--Data ogłoszenia: " + prepareDateToDisplayFormat(now, announcementToShowDetails.getDate()));
+        System.out.println("|--id:" + announcementToShowDetails.getId());
+        System.out.println("=========================================================================================================\n");
+    }
 
-        private String prepareDateToDisplayFormat(LocalDateTime now, LocalDateTime comparable) {
-            if (now.getYear() != comparable.getYear()) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                return comparable.format(formatter);
-            } else if (now.getMonthValue() != comparable.getMonthValue() || now.getDayOfMonth() - comparable.getDayOfMonth() > 1) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM");
-                return comparable.format(formatter);
-            } else if ((now.getDayOfMonth() - comparable.getDayOfMonth()) > 0) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-                return "wczoraj " + comparable.format(formatter);
-            } else {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-                return "dzisiaj " + comparable.format(formatter);
-            }
-        }
-
-        private Boolean offerOrDemandAnswer() {
-            String answer = getInputFromUser("Jaki rodzaj ogłoszeń chcesz wyświetlić?\n" +
-                            "1 - Ogłoszenia z oferowanymi usługami;\n2 - Ogłoszenia z zapotrzebowaniem na usługę",
-                    "[1-2]{1}", "Nie znaleziono takiej opcji. Wpisz jedną z podanych wartości");
-            if ("1".equals(answer)) {
-                return true;
-            } else if ("2".equals(answer)) {
-                return false;
-            } else {
-                return null;
-            }
-        }
-        private void showAnnouncementFromArray(ArrayList<String[]> announcement, int i) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            LocalDateTime now = java.time.LocalDateTime.now();
-
-            System.out.println("------------------------------------------------------------");
-            System.out.println("|--" + announcement.get(i)[16]);
-            if ("do ustalenia indywidualnie".equals(announcement.get(i)[11])) {
-                System.out.println("|                                 " + announcement.get(i)[11]);
-            } else {
-                System.out.println("|                                                      " + announcement.get(i)[11] + " zł");
-            }
-            System.out.println("|");
-            System.out.println("|--" + announcement.get(i)[7] + ", " + announcement.get(i)[9]);
-            System.out.println("|--" + announcement.get(i)[5] + ", " + prepareDateToDisplayFormat(now, LocalDateTime.parse(announcement.get(i)[14])));
-            System.out.println("|--id:" + announcement.get(i)[0]);
-            System.out.println("------------------------------------------------------------\n");
+    private String prepareDateToDisplayFormat(LocalDateTime now, LocalDateTime comparable) {
+        if (now.getYear() != comparable.getYear()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return comparable.format(formatter);
+        } else if (now.getMonthValue() != comparable.getMonthValue() || now.getDayOfMonth() - comparable.getDayOfMonth() > 1) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM");
+            return comparable.format(formatter);
+        } else if ((now.getDayOfMonth() - comparable.getDayOfMonth()) > 0) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            return "wczoraj " + comparable.format(formatter);
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            return "dzisiaj " + comparable.format(formatter);
         }
     }
 
-    public class Adding {
-
-        public void addAnnouncement(boolean isOffer) {
-            try {
-                addAnnouncementOfferService(isOffer);
-            } catch (ReturnToMenuException returnToMenuException) {
-                System.out.println(returnToMenuException.getMessage());
-            }
+    protected void displayAllAnnouncements() throws ReturnToMenuException {
+        //ask user about type of displayed announcement; exit if selected 0
+        Type typeOfAnnouncementIsOffer = (Type) userInputCheck(offerOrDemandAnswer());
+        if (typeOfAnnouncementIsOffer == null) {
+            return;
         }
 
-        private void addAnnouncementOfferService(boolean isOffer) throws ReturnToMenuException {
+        List<Announcement> baseOfAnnouncements = makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        // sort desc
+        baseOfAnnouncements.sort(Collections.reverseOrder());
 
-            //assigning voivodeship
-            Voivodeship selectedVoivodeship = (Voivodeship) userInputCheck(selectVoivodeship());
-            //assigning city
-            String selectedCity = (String) userInputCheck(selectCity());
-            //assigning city district
-            String selectedCityDistrict = (String) userInputCheck(selectCityDistrict());
-            //assigning city unit (osiedle)
-            String selectedUnit = (String) userInputCheck(selectUnitName());
-            //assigning phone number
-            String selectedPhone = (String) userInputCheck(selectPhoneNumber());
-            //assigning email
-            String selectedEmail = (String) userInputCheck(selectEmail());
-            //assigning name/nickname of advertiser
-            String selectedNameOfAdvertiser = (String) userInputCheck(selectNameOfAdvertiser());
-            //assigning service type
-            ServiceType selectedServiceType = (ServiceType) userInputCheck(selectServiceType());
-            //input header
-            String inputtedHeader = (String) userInputCheck(inputHeader());
-            //input description
-            String inputtedDescription = (String) userInputCheck(inputDescription());
-            //input price
-            String inputtedPrice = (String) userInputCheck(selectPrice());
-            // input is price negotiable
-            Boolean isPriceNegotiableBoolean;
-            if (inputtedPrice.equals("do ustalenia indywidualnie") || inputtedPrice.equals("0")) {
-                isPriceNegotiableBoolean = null;
-            } else {
-                isPriceNegotiableBoolean = (Boolean) userInputCheck(selectKindOfPrice());
+        System.out.println("\n\n=======================LISTA OGŁOSZEŃ=======================");
+        for (Announcement announcement : baseOfAnnouncements) {
+            //typeOfAnnouncementToShow true = offer announcement; false = demand announcement
+            if (announcement.getType().equals(typeOfAnnouncementIsOffer)) {
+                showAnnouncement(announcement);
             }
-            // input additional comment to price
-            String inputtedPriceAdditionalComment = (String) userInputCheck(selectPriceAdditionalComment());
-            // get date of creating announcement
-            LocalDateTime dateOfAnnouncementCreating = LocalDateTime.now();
-            //generate ID based on existing announcements
-            ArrayList<String[]> baseOfAnnouncementsStrings = FileActions.makeArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
-            long generatedID = Long.parseLong(baseOfAnnouncementsStrings.get(baseOfAnnouncementsStrings.size() - 1)[0]) + 1;
-            //TODO: add clientId assigning functionality to announcement; change code below
-            Integer selectedClientId = null;
-
-
-            System.out.println("--------------To już prawie koniec...-----------------");
-            ifWantToSaveAnnouncement();
-
-            Announcement newAnnouncement = new Announcement(isOffer, inputtedHeader, generatedID, selectedServiceType, selectedCity,
-                    selectedCityDistrict, selectedUnit, inputtedPrice, selectedVoivodeship, dateOfAnnouncementCreating,
-                    selectedNameOfAdvertiser, selectedEmail, isPriceNegotiableBoolean, inputtedDescription, selectedPhone,
-                    inputtedPriceAdditionalComment, selectedClientId);
-            FileActions.writeToFile(Main.ANNOUNCEMENTS_FILE_PATH, true, String.valueOf(newAnnouncement.getId()),
-                    String.valueOf(newAnnouncement.getIsOffer()), String.valueOf(newAnnouncement.getServiceType()),
-                    String.valueOf(newAnnouncement.getVoivodeship()), String.valueOf(newAnnouncement.getCity()),
-                    newAnnouncement.getCityDistrict(), newAnnouncement.getUnit(), newAnnouncement.getNameOfAdvertiser(),
-                    newAnnouncement.getPhoneNumber(), newAnnouncement.getEmail(), newAnnouncement.getDescription(),
-                    newAnnouncement.getPrice(), String.valueOf(newAnnouncement.getIsPriceNegotiable()),
-                    newAnnouncement.getPriceAdditionComment(), String.valueOf(newAnnouncement.getDate()),
-                    String.valueOf(newAnnouncement.getClientId()), String.valueOf(newAnnouncement.getHeader()));
-            System.out.println("--Ogłoszenie pomyślnie zapisane! Teraz wrócisz do menu głównego--");
-            TechnicalMethods.makeDelay(1500);
         }
+        System.out.println("===========================KONIEC===========================");
     }
-    public class Searching{
-
-        public void searchMenu() throws ReturnToMenuException {
-            AnnouncementRepository announcementRepository = new AnnouncementRepository();
-            System.out.println("1. Wyszukaj oferty na wykonanie usług.");
-            System.out.println("2. Wyszukaj oferty na zapotrzebowanie usług.");
-            String userInput = scanner.nextLine();
-            switch (userInput){
-                case "1":
-                    System.out.println("Wybrałeś wyszukiwanie wykonywania usług.");
-                    searchAnnouncement(true);
-                    break;
-                case "2":
-                    System.out.println("Wybrałeś wyszukiwanie zapotrzebowania usług.");
-
-                    searchAnnouncement(false);
-                    break;
-                default:{
-                    System.out.println("Podałeś zły parametr!");
-                    searchMenu();
-                    break;
-                }
-            }
-
-
-        }
-
-        public void searchAnnouncement(Boolean isOffer) throws ReturnToMenuException {
-            Displaying displaying = new Displaying();
-            ArrayList<String[]> arrayFromFile = FileActions.makeArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
-            boolean isEmpty = true;
-            System.out.println("Wpisz co chcesz wyszukać (Lokalizacja, kategoria lub opis):");
-            String searchInput = scanner.nextLine();
-            int numOfColumns = arrayFromFile.get(0).length;
-            for (int i = 0; i < arrayFromFile.size(); i++) {
-                for (int j = 0; j < numOfColumns; j++) {
-                    if (isOffer.toString().equals(arrayFromFile.get(i)[1])) {
-                        if (searchInput.toLowerCase(Locale.ROOT).equals(arrayFromFile.get(i)[j].toLowerCase(Locale.ROOT))) {
-                            displaying.showAnnouncementFromArray(arrayFromFile, i);
-                            isEmpty = false;
-                            System.out.println();
-                        }
-                    }
-                }
-            }
-            if (isEmpty) {
-                System.out.println("Przykro mi nic nie znaleziono :/");
-                while(true) {
-                    System.out.println("Czy chcesz wrócić do menu? Y/N");
-                    String yesOrNo = scanner.nextLine();
-                    if (yesOrNo.toLowerCase(Locale.ROOT).equals("y")) {
-                        menu.display();
-                        break;
-                    } else if (yesOrNo.toLowerCase(Locale.ROOT).equals("n")) {
-                        System.out.println("Zakonczyłeś działanie programu");
-                        System.exit(0);
-                    } else {
-                        System.out.println("Podałeś zły parametr!");
-
-                    }
-                }
-            }
-            else{
-                displaying.chooseAndShowAnnouncementDetails();
-            }
-            System.out.println("1. Wyszukaj ponownie ogłoszenie");
-            System.out.println("2. Wróć do menu");
-            menuAfterSearching(scanner.nextLine());
-
-
-        }
-        public void menuAfterSearching (String userInput) throws ReturnToMenuException {
-
-            switch (userInput) {
-                case "1":
-                    searching.searchMenu();
-                    break;
-                case "2":
-                    menu.display();
-                    break;
-                default: {
-                    System.out.println("Podałeś zły parametr!");
-                    System.out.println("1. Wyszukaj ponownie ogłoszenie");
-                    System.out.println("2. Wróć do menu");
-                    menuAfterSearching(scanner.nextLine());
-                }
-            }
-        }
-    }
-
 }
 
 enum ServiceType {
@@ -590,8 +374,8 @@ enum ServiceType {
     ZLOTA_RACZKA("20", "Złota rączka"),
     INNE("21", "Inne");
 
-    private String sequentialNumber;
-    private String serviceTypeName;
+    private final String sequentialNumber;
+    private final String serviceTypeName;
 
     ServiceType(String sequentialNumber, String serviceTypeName) {
         this.sequentialNumber = sequentialNumber;
@@ -625,8 +409,8 @@ enum Voivodeship {
     WIELKOPOLSKIE("15", "Wielkopolskie"),
     ZACHODNIOPOMORSKIE("16", "Zachodniopomorskie");
 
-    private String sequentialNumber;
-    private String voivodeshipName;
+    private final String sequentialNumber;
+    private final String voivodeshipName;
 
     Voivodeship(String sequentialNumber, String voivodeshipName) {
         this.sequentialNumber = sequentialNumber;
