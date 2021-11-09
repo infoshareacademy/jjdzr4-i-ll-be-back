@@ -351,46 +351,6 @@ public class AnnouncementService {
     }
 }
 
-enum ServiceType {
-    BUDOWA_DOMU("1", "Budowa domu"),
-    ELEKTRYK("2", "Elektryk"),
-    HYDRAULIK("3", "Hydraulik"),
-    MALARZ("4", "Malarz"),
-    MEBLE_I_ZABUDOWA("5", "Meble i zabudowa"),
-    MOTORYZACJA("6", "Motoryzacja"),
-    OGROD("7", "Ogród"),
-    ORGANIZACJA_IMPREZ("8", "Organizacja imprez"),
-    PROJEKTOWANIE("9", "Projektowanie"),
-    REMONT("10", "Remont"),
-    SPRZATANIE("11", "Sprzątanie"),
-    SZKOLENIA_I_JEZYKIOBCE("12", "Szkolenia i języki obce"),
-    TRANSPORT("13", "Transport"),
-    USLUGI_DLA_BIZNESU("14", "Usługi dla biznesu"),
-    MONTAZ_I_NAPRAWA("15", "Montaż i naprawa"),
-    USLUGI_FINANSOWE("16", "Usługi finansowe"),
-    USLUGI_PRAWNE_I_ADMINISTRACYJNE("17", "Usługi prawne i administracyjne"),
-    USLUGI_ZDALNE("18", "Usługi zdalne"),
-    ZDROWIE_I_URODA("19", "Zdrowie i uroda"),
-    ZLOTA_RACZKA("20", "Złota rączka"),
-    INNE("21", "Inne");
-
-    private final String sequentialNumber;
-    private final String serviceTypeName;
-
-    ServiceType(String sequentialNumber, String serviceTypeName) {
-        this.sequentialNumber = sequentialNumber;
-        this.serviceTypeName = serviceTypeName;
-    }
-
-    public String getSequentialNumber() {
-        return sequentialNumber;
-    }
-
-    public String getServiceTypeName() {
-        return serviceTypeName;
-    }
-}
-
 enum Voivodeship {
     DOLNOSLASKIE("1", "Dolnośląskie"),
     KUJAWSKO_POMORSKIE("2", "Kujawsko-pomorskie"),
