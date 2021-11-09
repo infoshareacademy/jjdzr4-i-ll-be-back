@@ -33,7 +33,11 @@ public class AnnouncementAddService extends AnnouncementService {
         //assigning name/nickname of advertiser
         String selectedNameOfAdvertiser = (String) userInputCheck(selectNameOfAdvertiser());
         //assigning service type
-        ServiceType selectedServiceType = (ServiceType) userInputCheck(selectServiceType());
+
+        Hierarchy hierarchy = new Hierarchy().actualCategory();
+        CategoryHierarchyDisplay display = new CategoryHierarchyDisplay();
+        ServiceType selectedServiceType = (ServiceType) userInputCheck(display.hierarchyDisplay(hierarchy));
+
         //input header
         String inputtedHeader = (String) userInputCheck(inputHeader());
         //input description
