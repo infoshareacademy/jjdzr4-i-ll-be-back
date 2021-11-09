@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class AnnouncementService {
 
     protected static final String BREAK_AND_CLOSE = "0 - Przerwij i zamknij";
-    protected static final Scanner scanner = new Scanner(System.in);
+    public static final Scanner scanner = new Scanner(System.in);
     protected final AnnouncementRepository announcementRepository = new AnnouncementRepository();
 
     protected String ifWantToSaveAnnouncement() {
