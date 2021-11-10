@@ -1,6 +1,8 @@
 package pl.infoshare.announcements;
 
+import pl.infoshare.announcements.Categories.HierarchyOfCategoryDisplay;
 import java.util.function.Consumer;
+import static pl.infoshare.announcements.AnnouncementAddService.hierarchyOfCategory;
 
 public class AnnouncementEditionService extends AnnouncementService {
 
@@ -23,7 +25,7 @@ public class AnnouncementEditionService extends AnnouncementService {
             case 1:
                 return announcementToEdit;
             case 2:
-                setValueIfNotNull(selectServiceType(), announcementToEdit::setServiceType);
+                setValueIfNotNull(HierarchyOfCategoryDisplay.hierarchyDisplay(hierarchyOfCategory), announcementToEdit::setServiceType);
                 editAnnouncement(announcementToEdit);
                 break;
             case 3:

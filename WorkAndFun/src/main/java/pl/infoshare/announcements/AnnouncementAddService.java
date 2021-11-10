@@ -3,11 +3,16 @@ package pl.infoshare.announcements;
 import pl.infoshare.FileActions;
 import pl.infoshare.Main;
 import pl.infoshare.TechnicalMethods;
+import pl.infoshare.announcements.Categories.HierarchyOfCategory;
+import pl.infoshare.announcements.Categories.HierarchyOfCategoryDisplay;
+import pl.infoshare.announcements.Categories.ServiceType;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class AnnouncementAddService extends AnnouncementService {
+
+    public static final HierarchyOfCategory hierarchyOfCategory = new HierarchyOfCategory().makeActualCategory();
 
     public void addAnnouncement(Type type) {
         try {
@@ -33,11 +38,7 @@ public class AnnouncementAddService extends AnnouncementService {
         //assigning name/nickname of advertiser
         String selectedNameOfAdvertiser = (String) userInputCheck(selectNameOfAdvertiser());
         //assigning service type
-
-        Hierarchy hierarchy = new Hierarchy().actualCategory();
-        CategoryHierarchyDisplay display = new CategoryHierarchyDisplay();
-        ServiceType selectedServiceType = (ServiceType) userInputCheck(display.hierarchyDisplay(hierarchy));
-
+        ServiceType selectedServiceType = (ServiceType) userInputCheck(HierarchyOfCategoryDisplay.hierarchyDisplay(hierarchyOfCategory));
         //input header
         String inputtedHeader = (String) userInputCheck(inputHeader());
         //input description
