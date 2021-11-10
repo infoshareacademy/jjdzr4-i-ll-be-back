@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class AnnouncementService {
 
-    protected static final String BREAK_AND_CLOSE = "0 - Przerwij i zamknij";
+    public static final String BREAK_AND_CLOSE = "0 - Przerwij i zamknij";
     public static final Scanner scanner = new Scanner(System.in);
     protected final AnnouncementRepository announcementRepository = new AnnouncementRepository();
 
@@ -77,25 +77,6 @@ public class AnnouncementService {
                 "\\w{2,50}", "Zbyt długie/krótkie imie lub wpisana spacja. Spróbuj jeszcze raz.");
     }
 
-    protected ServiceType selectServiceType() {
-        System.out.println("Wybierz typ usługi z listy wpisując odpowiedni numer. Jeśli nie masz odpowiedniej " +
-                "kategorii na liście, wybierz \"Inne\":");
-        System.out.println("______________________________");
-        for (int i = 0; i < ServiceType.values().length; i++) {
-            System.out.println(ServiceType.values()[i].getSequentialNumber() + " - " +
-                    ServiceType.values()[i].getServiceTypeName());
-        }
-        System.out.println(BREAK_AND_CLOSE);
-        System.out.println("______________________________");
-
-        String userInput = scanner.nextLine();
-        if (userInput.equals("0")) {
-            System.out.println("Wybrałeś(-aś) 0 - przerwanie dodawania ogłoszenia...");
-            return null;
-        }
-        return validateAndAssignServiceType(userInput);
-    }
-
     protected String inputHeader() {
         return getInputFromUser("Wpisz tytuł ogłoszenia, który będzie widoczny przy wyszukiwaniu:", ".+", "Treści nie " +
                 "znaleziono. Ogłoszenie musi zawierać tytuł.");
@@ -152,21 +133,6 @@ public class AnnouncementService {
             voivodeshipToAssign = selectVoivodeship();
         }
         return voivodeshipToAssign;
-    }
-
-    protected ServiceType validateAndAssignServiceType(String userInput) {
-        ServiceType serviceTypeToAssign = null;
-        for (ServiceType i : ServiceType.values()) {
-            if (i.getSequentialNumber().equals(userInput)) {
-                serviceTypeToAssign = i;
-                break;
-            }
-        }
-        if (serviceTypeToAssign == null) {
-            System.out.println("Wprowadzono niepoprawne dane. Spróbuj jeszcze raz.");
-            serviceTypeToAssign = selectServiceType();
-        }
-        return serviceTypeToAssign;
     }
 
     public static ArrayList<Announcement> makeAnnouncementArrayFromFile(Path file) {
