@@ -10,7 +10,7 @@ public class HierarchyOfCategoryDisplay {
      * @param hierarchyOfCategory
      * @return print subcategories and return the "lowest"
      */
-    public static ServiceType hierarchyDisplay(HierarchyOfCategory hierarchyOfCategory) {
+    public static ServiceType chooseAndAssignHierarchy(HierarchyOfCategory hierarchyOfCategory) {
         ServiceType serviceTypeToAssign = null;
         if (hierarchyOfCategory.getLevelDown().size() > 0) {
             //print the header of category
@@ -31,7 +31,7 @@ public class HierarchyOfCategoryDisplay {
                     if (userInput.equals("0")){
                         return null;
                     }
-                    serviceTypeToAssign = hierarchyDisplay(hierarchyOfCategory.getLevelDown().get(Integer.parseInt(userInput) - 1));
+                    serviceTypeToAssign = chooseAndAssignHierarchy(hierarchyOfCategory.getLevelDown().get(Integer.parseInt(userInput) - 1));
                     infinityLoop = false;
                 } catch (ArrayIndexOutOfBoundsException | NumberFormatException e) {
                     System.out.println("Źle wprowadzony numer!");

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class AnnouncementAddService extends AnnouncementService {
 
-    public static final HierarchyOfCategory hierarchyOfCategory = new HierarchyOfCategory().makeActualCategory();
+    public static final HierarchyOfCategory hierarchyOfCategory = new HierarchyOfCategory().initializeCategories();
 
     public void addAnnouncement(Type type) {
         try {
@@ -38,7 +38,7 @@ public class AnnouncementAddService extends AnnouncementService {
         //assigning name/nickname of advertiser
         String selectedNameOfAdvertiser = (String) userInputCheck(selectNameOfAdvertiser());
         //assigning service type
-        ServiceType selectedServiceType = (ServiceType) userInputCheck(HierarchyOfCategoryDisplay.hierarchyDisplay(hierarchyOfCategory));
+        ServiceType selectedServiceType = (ServiceType) userInputCheck(HierarchyOfCategoryDisplay.chooseAndAssignHierarchy(hierarchyOfCategory));
         //input header
         String inputtedHeader = (String) userInputCheck(inputHeader());
         //input description

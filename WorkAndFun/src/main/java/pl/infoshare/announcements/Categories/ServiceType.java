@@ -104,16 +104,7 @@ public enum ServiceType {
         this.level = level;
     }
 
-    public String getSequentialNumber() {
-        return sequentialNumber;
-    }
-
     public String getServiceTypeName() {
         return serviceTypeName;
     }
-
-    public int getLevel() {
-        return level;
-    }
-
 }

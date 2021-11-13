@@ -33,10 +33,6 @@ public class HierarchyOfCategory {
         return serviceType;
     }
 
-    public HierarchyOfCategory getLevelUp() {
-        return levelUp;
-    }
-
     public List<HierarchyOfCategory> getLevelDown() {
         return levelDown;
     }
@@ -52,7 +48,7 @@ public class HierarchyOfCategory {
         this.levelDown = children;
     }
 
-    public HierarchyOfCategory makeActualCategory() {
+    public HierarchyOfCategory initializeCategories() {
         return new HierarchyOfCategory(0, ServiceType.GLOWNA_KATEGORIA, List.of(
                 new HierarchyOfCategory(1, ServiceType.BUDOWA_DOMU, List.of(
                         new HierarchyOfCategory(1, ServiceType.BUDOWA_DOMU_BUDOWA_OD_PODSTAW),

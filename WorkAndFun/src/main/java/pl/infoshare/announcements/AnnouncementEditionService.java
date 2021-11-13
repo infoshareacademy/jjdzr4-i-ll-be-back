@@ -25,7 +25,7 @@ public class AnnouncementEditionService extends AnnouncementService {
             case 1:
                 return announcementToEdit;
             case 2:
-                setValueIfNotNull(HierarchyOfCategoryDisplay.hierarchyDisplay(hierarchyOfCategory), announcementToEdit::setServiceType);
+                setValueIfNotNull(HierarchyOfCategoryDisplay.chooseAndAssignHierarchy(hierarchyOfCategory), announcementToEdit::setServiceType);
                 editAnnouncement(announcementToEdit);
                 break;
             case 3:
