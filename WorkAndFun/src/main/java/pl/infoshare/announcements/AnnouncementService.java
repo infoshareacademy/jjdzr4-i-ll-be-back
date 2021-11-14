@@ -12,8 +12,8 @@ import java.util.regex.Pattern;
 
 public class AnnouncementService {
 
-    protected static final String BREAK_AND_CLOSE = "0 - Przerwij i zamknij";
-    protected static final Scanner scanner = new Scanner(System.in);
+    public static final String BREAK_AND_CLOSE = "0 - Przerwij i zamknij";
+    public static final Scanner scanner = new Scanner(System.in);
     protected final AnnouncementRepository announcementRepository = new AnnouncementRepository();
 
     protected String ifWantToSaveAnnouncement() {
@@ -77,25 +77,6 @@ public class AnnouncementService {
                 "\\w{2,50}", "Zbyt długie/krótkie imie lub wpisana spacja. Spróbuj jeszcze raz.");
     }
 
-    protected ServiceType selectServiceType() {
-        System.out.println("Wybierz typ usługi z listy wpisując odpowiedni numer. Jeśli nie masz odpowiedniej " +
-                "kategorii na liście, wybierz \"Inne\":");
-        System.out.println("______________________________");
-        for (int i = 0; i < ServiceType.values().length; i++) {
-            System.out.println(ServiceType.values()[i].getSequentialNumber() + " - " +
-                    ServiceType.values()[i].getServiceTypeName());
-        }
-        System.out.println(BREAK_AND_CLOSE);
-        System.out.println("______________________________");
-
-        String userInput = scanner.nextLine();
-        if (userInput.equals("0")) {
-            System.out.println("Wybrałeś(-aś) 0 - przerwanie dodawania ogłoszenia...");
-            return null;
-        }
-        return validateAndAssignServiceType(userInput);
-    }
-
     protected String inputHeader() {
         return getInputFromUser("Wpisz tytuł ogłoszenia, który będzie widoczny przy wyszukiwaniu:", ".+", "Treści nie " +
                 "znaleziono. Ogłoszenie musi zawierać tytuł.");
@@ -152,21 +133,6 @@ public class AnnouncementService {
             voivodeshipToAssign = selectVoivodeship();
         }
         return voivodeshipToAssign;
-    }
-
-    protected ServiceType validateAndAssignServiceType(String userInput) {
-        ServiceType serviceTypeToAssign = null;
-        for (ServiceType i : ServiceType.values()) {
-            if (i.getSequentialNumber().equals(userInput)) {
-                serviceTypeToAssign = i;
-                break;
-            }
-        }
-        if (serviceTypeToAssign == null) {
-            System.out.println("Wprowadzono niepoprawne dane. Spróbuj jeszcze raz.");
-            serviceTypeToAssign = selectServiceType();
-        }
-        return serviceTypeToAssign;
     }
 
     public static ArrayList<Announcement> makeAnnouncementArrayFromFile(Path file) {
@@ -348,46 +314,6 @@ public class AnnouncementService {
             }
         }
         System.out.println("===========================KONIEC===========================");
-    }
-}
-
-enum ServiceType {
-    BUDOWA_DOMU("1", "Budowa domu"),
-    ELEKTRYK("2", "Elektryk"),
-    HYDRAULIK("3", "Hydraulik"),
-    MALARZ("4", "Malarz"),
-    MEBLE_I_ZABUDOWA("5", "Meble i zabudowa"),
-    MOTORYZACJA("6", "Motoryzacja"),
-    OGROD("7", "Ogród"),
-    ORGANIZACJA_IMPREZ("8", "Organizacja imprez"),
-    PROJEKTOWANIE("9", "Projektowanie"),
-    REMONT("10", "Remont"),
-    SPRZATANIE("11", "Sprzątanie"),
-    SZKOLENIA_I_JEZYKIOBCE("12", "Szkolenia i języki obce"),
-    TRANSPORT("13", "Transport"),
-    USLUGI_DLA_BIZNESU("14", "Usługi dla biznesu"),
-    MONTAZ_I_NAPRAWA("15", "Montaż i naprawa"),
-    USLUGI_FINANSOWE("16", "Usługi finansowe"),
-    USLUGI_PRAWNE_I_ADMINISTRACYJNE("17", "Usługi prawne i administracyjne"),
-    USLUGI_ZDALNE("18", "Usługi zdalne"),
-    ZDROWIE_I_URODA("19", "Zdrowie i uroda"),
-    ZLOTA_RACZKA("20", "Złota rączka"),
-    INNE("21", "Inne");
-
-    private final String sequentialNumber;
-    private final String serviceTypeName;
-
-    ServiceType(String sequentialNumber, String serviceTypeName) {
-        this.sequentialNumber = sequentialNumber;
-        this.serviceTypeName = serviceTypeName;
-    }
-
-    public String getSequentialNumber() {
-        return sequentialNumber;
-    }
-
-    public String getServiceTypeName() {
-        return serviceTypeName;
     }
 }
 

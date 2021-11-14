@@ -1,6 +1,7 @@
 package pl.infoshare.announcements;
 
 
+import pl.infoshare.announcements.Categories.ServiceType;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
