@@ -3,11 +3,12 @@ package pl.infoshare.announcements;
 import pl.infoshare.FileActions;
 import pl.infoshare.Main;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public class AnnouncementRepository {
-    private List<Announcement> announcementList = AnnouncementService.makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+    private List<Announcement> announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH_V2);
 
     public List<Announcement> findAll() {
         refreshAnnouncementList();
@@ -25,7 +26,7 @@ public class AnnouncementRepository {
     }
 
     public boolean update(Announcement announcement) {
-        announcementList = AnnouncementService.makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH_V2);
         if (announcement != null) {
             removeFromList(announcement.getId());
             announcementList.add(announcement);
@@ -37,12 +38,11 @@ public class AnnouncementRepository {
     }
 
     private void refreshAnnouncementList() {
-        announcementList = AnnouncementService.makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH_V2);
     }
 
     private void updateFile() {
-        FileActions.clearCsvFile(Main.ANNOUNCEMENTS_FILE_PATH);
-        FileActions.writeToFileObjectList(announcementList);
+        FileActions.writeAnnouncementsToFile((ArrayList<Announcement>) announcementList, Main.ANNOUNCEMENTS_FILE_PATH_V2);
     }
 
     private boolean removeFromList(long id) {
@@ -56,7 +56,7 @@ public class AnnouncementRepository {
     }
 
     public boolean delete(Announcement announcement) {
-        announcementList = AnnouncementService.makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH_V2);
         if (announcement != null) {
             removeFromList(announcement.getId());
             updateFile();

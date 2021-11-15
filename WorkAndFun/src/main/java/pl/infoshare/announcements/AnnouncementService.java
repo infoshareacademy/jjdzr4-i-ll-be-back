@@ -135,18 +135,6 @@ public class AnnouncementService {
         return voivodeshipToAssign;
     }
 
-    public static ArrayList<Announcement> makeAnnouncementArrayFromFile(Path file) {
-        ArrayList<String[]> baseOfAnnouncementsStrings = FileActions.makeArrayFromFile(file);
-        ArrayList<Announcement> baseOfAnnouncements = new ArrayList<>();
-        //delete headers
-        baseOfAnnouncementsStrings.remove(0);
-
-        for (String[] announcementAsArray : baseOfAnnouncementsStrings) {
-            baseOfAnnouncements.add(Announcement.mapStringArrayToAnnouncement(announcementAsArray));
-        }
-        return baseOfAnnouncements;
-    }
-
     protected String getInputFromUser(String messageForUser, String regex, String errorMessage) {
         String inputFromUser;
 
@@ -302,7 +290,7 @@ public class AnnouncementService {
             return;
         }
 
-        List<Announcement> baseOfAnnouncements = makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        List<Announcement> baseOfAnnouncements = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH_V2);
         // sort desc
         baseOfAnnouncements.sort(Collections.reverseOrder());
 

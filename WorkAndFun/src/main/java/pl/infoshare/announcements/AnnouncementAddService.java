@@ -57,8 +57,8 @@ public class AnnouncementAddService extends AnnouncementService {
         // get date of creating announcement
         LocalDateTime dateOfAnnouncementCreating = LocalDateTime.now();
         //generate ID based on existing announcements
-        ArrayList<String[]> baseOfAnnouncementsStrings = FileActions.makeArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
-        long generatedID = Long.parseLong(baseOfAnnouncementsStrings.get(baseOfAnnouncementsStrings.size() - 1)[0]) + 1;
+        ArrayList<Announcement> baseOfAnnouncements = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH_V2);
+        long generatedID = baseOfAnnouncements.get(baseOfAnnouncements.size() - 1).getId() + 1;
         //TODO: add clientId assigning functionality to announcement; change code below
         Integer selectedClientId = null;
 
@@ -72,14 +72,7 @@ public class AnnouncementAddService extends AnnouncementService {
         showAnnouncementDetails(newAnnouncement);
         userInputCheck(ifWantToSaveAnnouncement());
 
-        FileActions.writeToFile(Main.ANNOUNCEMENTS_FILE_PATH, true, String.valueOf(newAnnouncement.getId()),
-                String.valueOf(newAnnouncement.getType()), String.valueOf(newAnnouncement.getServiceType()),
-                String.valueOf(newAnnouncement.getVoivodeship()), String.valueOf(newAnnouncement.getCity()),
-                newAnnouncement.getCityDistrict(), newAnnouncement.getUnit(), newAnnouncement.getNameOfAdvertiser(),
-                newAnnouncement.getPhoneNumber(), newAnnouncement.getEmail(), newAnnouncement.getDescription(),
-                newAnnouncement.getPrice(), String.valueOf(newAnnouncement.getIsPriceNegotiable()),
-                newAnnouncement.getPriceAdditionComment(), String.valueOf(newAnnouncement.getDate()),
-                String.valueOf(newAnnouncement.getClientId()), String.valueOf(newAnnouncement.getHeader()));
+        FileActions.addAnnouncementsToFile(newAnnouncement, Main.ANNOUNCEMENTS_FILE_PATH_V2);
         System.out.println("--Ogłoszenie pomyślnie zapisane! Teraz wrócisz do menu głównego--");
         TechnicalMethods.makeDelay(1500);
     }
