@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class AnnouncementRepository {
-    private List<Announcement> announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH_V2);
+    private List<Announcement> announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
 
     public List<Announcement> findAll() {
         refreshAnnouncementList();
@@ -26,7 +26,7 @@ public class AnnouncementRepository {
     }
 
     public boolean update(Announcement announcement) {
-        announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH_V2);
+        announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
         if (announcement != null) {
             removeFromList(announcement.getId());
             announcementList.add(announcement);
@@ -38,11 +38,11 @@ public class AnnouncementRepository {
     }
 
     private void refreshAnnouncementList() {
-        announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH_V2);
+        announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
     }
 
     private void updateFile() {
-        FileActions.writeAnnouncementsToFile((ArrayList<Announcement>) announcementList, Main.ANNOUNCEMENTS_FILE_PATH_V2);
+        FileActions.writeAnnouncementsToFile((ArrayList<Announcement>) announcementList, Main.ANNOUNCEMENTS_FILE_PATH);
     }
 
     private boolean removeFromList(long id) {
@@ -56,7 +56,7 @@ public class AnnouncementRepository {
     }
 
     public boolean delete(Announcement announcement) {
-        announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH_V2);
+        announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
         if (announcement != null) {
             removeFromList(announcement.getId());
             updateFile();

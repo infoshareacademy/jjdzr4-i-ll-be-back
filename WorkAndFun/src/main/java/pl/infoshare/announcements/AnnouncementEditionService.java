@@ -101,10 +101,14 @@ public class AnnouncementEditionService extends AnnouncementService {
             setter.accept(value);
         }
     }
+
     private String convertPriceNegotiableForYesOrNO(Announcement announcement) {
-        if (announcement.getIsPriceNegotiable()) {
+        if (announcement.getIsPriceNegotiable() == null){
+            return "Nie zdefiniowano";
+        } else if (announcement.getIsPriceNegotiable()){
             return "Tak";
+        } else {
+            return "Nie";
         }
-        return "Nie";
     }
 }

@@ -3,7 +3,6 @@ package pl.infoshare.announcements;
 import pl.infoshare.FileActions;
 import pl.infoshare.Main;
 
-import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -290,7 +289,7 @@ public class AnnouncementService {
             return;
         }
 
-        List<Announcement> baseOfAnnouncements = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH_V2);
+        List<Announcement> baseOfAnnouncements = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
         // sort desc
         baseOfAnnouncements.sort(Collections.reverseOrder());
 

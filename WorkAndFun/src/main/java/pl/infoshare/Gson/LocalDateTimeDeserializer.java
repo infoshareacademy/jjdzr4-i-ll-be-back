@@ -1,4 +1,4 @@
-package pl.infoshare.announcements.Gson;
+package pl.infoshare.Gson;
 
 import com.google.gson.*;
 
@@ -12,6 +12,7 @@ public class LocalDateTimeDeserializer implements JsonDeserializer < LocalDateTi
     public LocalDateTime deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
         return LocalDateTime.parse(json.getAsString(),
-                DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss").withLocale(Locale.ENGLISH));
+                //DateTimeFormatter.ofPattern("d::MMM::uuuu HH::mm::ss").withLocale(Locale.ENGLISH));
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS").withLocale(Locale.ENGLISH));
     }
 }

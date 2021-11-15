@@ -4,15 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import pl.infoshare.announcements.Announcement;
-import pl.infoshare.announcements.Gson.LocalDateTimeDeserializer;
-import pl.infoshare.announcements.Gson.LocalDateTimeSerializer;
+import pl.infoshare.Gson.LocalDateTimeDeserializer;
+import pl.infoshare.Gson.LocalDateTimeSerializer;
 
-import java.io.*;
-import java.nio.file.Files;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FileActions {
     public static final Gson GSON = new GsonBuilder()
@@ -48,12 +48,11 @@ public class FileActions {
 
     public static ArrayList<Announcement> loadAnnouncementsFromFile(Path path) {
         try {
-            return GSON.fromJson(new FileReader(path.toString()), new TypeToken<ArrayList<Announcement>>(){}.getType());
+            return GSON.fromJson(new FileReader(path.toString()), new TypeToken<ArrayList<Announcement>>() {
+            }.getType());
         } catch (IOException e) {
             e.printStackTrace();
         }
         return new ArrayList<Announcement>();
     }
-
-
 }

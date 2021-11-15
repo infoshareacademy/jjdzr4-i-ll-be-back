@@ -103,7 +103,8 @@ public class AnnouncementSearchService extends AnnouncementService {
 
     private List<Announcement> searchByCategory(List<Announcement> announcementList, Type type) {
         String input = scanner.nextLine();
-        return announcementList.stream().filter(announcement -> announcement.getType().equals(type) &
+        return announcementList.stream()
+                .filter(announcement -> announcement.getType().equals(type) &
                 announcement.getServiceType().getServiceTypeName().toLowerCase(Locale.ROOT).contains(input.toLowerCase(Locale.ROOT))).collect(Collectors.toList());
     }
 }

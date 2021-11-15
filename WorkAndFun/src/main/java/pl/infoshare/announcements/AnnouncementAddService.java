@@ -9,6 +9,7 @@ import pl.infoshare.announcements.Categories.ServiceType;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class AnnouncementAddService extends AnnouncementService {
 
@@ -48,7 +49,7 @@ public class AnnouncementAddService extends AnnouncementService {
         // input is price negotiable
         Boolean isPriceNegotiableBoolean;
         if (inputtedPrice.equals("do ustalenia indywidualnie") || inputtedPrice.equals("0")) {
-            isPriceNegotiableBoolean = null;
+            isPriceNegotiableBoolean = false;
         } else {
             isPriceNegotiableBoolean = (Boolean) userInputCheck(selectKindOfPrice());
         }
@@ -57,7 +58,8 @@ public class AnnouncementAddService extends AnnouncementService {
         // get date of creating announcement
         LocalDateTime dateOfAnnouncementCreating = LocalDateTime.now();
         //generate ID based on existing announcements
-        ArrayList<Announcement> baseOfAnnouncements = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH_V2);
+        ArrayList<Announcement> baseOfAnnouncements = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        Collections.sort(baseOfAnnouncements);
         long generatedID = baseOfAnnouncements.get(baseOfAnnouncements.size() - 1).getId() + 1;
         //TODO: add clientId assigning functionality to announcement; change code below
         Integer selectedClientId = null;
@@ -72,7 +74,7 @@ public class AnnouncementAddService extends AnnouncementService {
         showAnnouncementDetails(newAnnouncement);
         userInputCheck(ifWantToSaveAnnouncement());
 
-        FileActions.addAnnouncementsToFile(newAnnouncement, Main.ANNOUNCEMENTS_FILE_PATH_V2);
+        FileActions.addAnnouncementsToFile(newAnnouncement, Main.ANNOUNCEMENTS_FILE_PATH);
         System.out.println("--Ogłoszenie pomyślnie zapisane! Teraz wrócisz do menu głównego--");
         TechnicalMethods.makeDelay(1500);
     }
