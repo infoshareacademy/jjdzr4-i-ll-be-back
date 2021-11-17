@@ -34,7 +34,7 @@ public class FileActions {
     }
 
     public static void addAnnouncementsToFile(Announcement announcement, Path path) {
-        ArrayList<Announcement> announcements = loadAnnouncementsFromFile(path);
+        ArrayList<Announcement> announcements = readAnnouncementsFromFile(path);
         announcements.add(announcement);
         try {
             FileWriter fw = new FileWriter(path.toString());
@@ -46,7 +46,7 @@ public class FileActions {
         }
     }
 
-    public static ArrayList<Announcement> loadAnnouncementsFromFile(Path path) {
+    public static ArrayList<Announcement> readAnnouncementsFromFile(Path path) {
         try {
             return GSON.fromJson(new FileReader(path.toString()), new TypeToken<ArrayList<Announcement>>() {
             }.getType());

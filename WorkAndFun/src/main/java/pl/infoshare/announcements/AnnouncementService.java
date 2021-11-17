@@ -289,7 +289,7 @@ public class AnnouncementService {
             return;
         }
 
-        List<Announcement> baseOfAnnouncements = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        List<Announcement> baseOfAnnouncements = FileActions.readAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
         // sort desc
         baseOfAnnouncements.sort(Collections.reverseOrder());
 

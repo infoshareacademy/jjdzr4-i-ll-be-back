@@ -58,7 +58,7 @@ public class AnnouncementAddService extends AnnouncementService {
         // get date of creating announcement
         LocalDateTime dateOfAnnouncementCreating = LocalDateTime.now();
         //generate ID based on existing announcements
-        ArrayList<Announcement> baseOfAnnouncements = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        ArrayList<Announcement> baseOfAnnouncements = FileActions.readAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
         Collections.sort(baseOfAnnouncements);
         long generatedID = baseOfAnnouncements.get(baseOfAnnouncements.size() - 1).getId() + 1;
         //TODO: add clientId assigning functionality to announcement; change code below

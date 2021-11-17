@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 public class AnnouncementRepository {
-    private List<Announcement> announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+    private List<Announcement> announcementList = FileActions.readAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
 
     public List<Announcement> findAll() {
         refreshAnnouncementList();
@@ -26,7 +26,7 @@ public class AnnouncementRepository {
     }
 
     public boolean update(Announcement announcement) {
-        announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        announcementList = FileActions.readAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
         if (announcement != null) {
             removeFromList(announcement.getId());
             announcementList.add(announcement);
@@ -38,7 +38,7 @@ public class AnnouncementRepository {
     }
 
     private void refreshAnnouncementList() {
-        announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        announcementList = FileActions.readAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
     }
 
     private void updateFile() {
@@ -56,7 +56,7 @@ public class AnnouncementRepository {
     }
 
     public boolean delete(Announcement announcement) {
-        announcementList = FileActions.loadAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        announcementList = FileActions.readAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
         if (announcement != null) {
             removeFromList(announcement.getId());
             updateFile();
