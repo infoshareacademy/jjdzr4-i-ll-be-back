@@ -3,7 +3,6 @@ package pl.infoshare.announcements;
 import pl.infoshare.FileActions;
 import pl.infoshare.Main;
 
-import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -133,18 +132,6 @@ public class AnnouncementService {
             voivodeshipToAssign = selectVoivodeship();
         }
         return voivodeshipToAssign;
-    }
-
-    public static ArrayList<Announcement> makeAnnouncementArrayFromFile(Path file) {
-        ArrayList<String[]> baseOfAnnouncementsStrings = FileActions.makeArrayFromFile(file);
-        ArrayList<Announcement> baseOfAnnouncements = new ArrayList<>();
-        //delete headers
-        baseOfAnnouncementsStrings.remove(0);
-
-        for (String[] announcementAsArray : baseOfAnnouncementsStrings) {
-            baseOfAnnouncements.add(Announcement.mapStringArrayToAnnouncement(announcementAsArray));
-        }
-        return baseOfAnnouncements;
     }
 
     protected String getInputFromUser(String messageForUser, String regex, String errorMessage) {
@@ -302,7 +289,7 @@ public class AnnouncementService {
             return;
         }
 
-        List<Announcement> baseOfAnnouncements = makeAnnouncementArrayFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        List<Announcement> baseOfAnnouncements = FileActions.readAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
         // sort desc
         baseOfAnnouncements.sort(Collections.reverseOrder());
 

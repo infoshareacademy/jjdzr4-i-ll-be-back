@@ -1,72 +1,58 @@
 package pl.infoshare;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import pl.infoshare.announcements.Announcement;
+import pl.infoshare.Gson.LocalDateTimeDeserializer;
+import pl.infoshare.Gson.LocalDateTimeSerializer;
 
-import java.io.*;
-import java.nio.file.Files;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 public class FileActions {
+    public static final Gson GSON = new GsonBuilder()
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer())
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
+            .setPrettyPrinting()
+            .serializeNulls()
+            .create();
 
-    public static ArrayList<String[]> makeArrayFromFile(Path path) {
-        //initialize targeted array to fill and list of strings contains particular lines
-        ArrayList<String[]> arrayFromFile = new ArrayList<>();
-        String[] particularLines = new String[0];
-
-        //get particular lines from file by separating them by sign of new line (\n)
+    public static void writeAnnouncementsToFile(ArrayList<Announcement> announcements, Path path) {
         try {
-            particularLines = Files.readString(path).split("\n");
+            FileWriter fw = new FileWriter(path.toString());
+            GSON.toJson(announcements, fw);
+            fw.flush();
+            fw.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //fill array line by line, and separate each line into another list, by "," sign
-        for (String particularLine : particularLines) {
-            String[] newString = particularLine.split("~");
-            arrayFromFile.add(particularLine.split("~"));
-        }
-        return arrayFromFile;
     }
 
-    public static void writeToFile(Path path, boolean append, String... parts) {
+    public static void addAnnouncementsToFile(Announcement announcement, Path path) {
+        ArrayList<Announcement> announcements = readAnnouncementsFromFile(path);
+        announcements.add(announcement);
         try {
-            FileWriter fstream = new FileWriter(String.valueOf(path), append);
-            BufferedWriter out = new BufferedWriter(fstream);
-            if (append) {
-                out.newLine();
-            }
-            String lineToFill = String.join("~", parts);
-
-            out.write(lineToFill);
-            //close buffer writer
-            out.close();
+            FileWriter fw = new FileWriter(path.toString());
+            GSON.toJson(announcements, fw);
+            fw.flush();
+            fw.close();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Nie znaleziono pliku do zapisu pod wskazaną ścieżką!");
         }
     }
 
-    public static void writeToFileObjectList(List<Announcement> announcementList) {
-        ArrayList<String[]> arrayFromObjectList = new ArrayList<>();
-        writeToFile(Main.ANNOUNCEMENTS_FILE_PATH, false, Announcement.ANNOUNCEMENT_HEADER);
-
-        for (Announcement announcement : announcementList) {
-            arrayFromObjectList.add(announcement.mapToStringArray());
-            writeToFile(Main.ANNOUNCEMENTS_FILE_PATH, true, String.valueOf(announcement.getId()),
-                    String.valueOf(announcement.getType()), String.valueOf(announcement.getServiceType()),
-                    String.valueOf(announcement.getVoivodeship()), String.valueOf(announcement.getCity()),
-                    announcement.getCityDistrict(), announcement.getUnit(), announcement.getNameOfAdvertiser(),
-                    announcement.getPhoneNumber(), announcement.getEmail(), announcement.getDescription(),
-                    announcement.getPrice(), String.valueOf(announcement.getIsPriceNegotiable()),
-                    announcement.getPriceAdditionComment(), String.valueOf(announcement.getDate()),
-                    String.valueOf(announcement.getClientId()), String.valueOf(announcement.getHeader()));
+    public static ArrayList<Announcement> readAnnouncementsFromFile(Path path) {
+        try {
+            return GSON.fromJson(new FileReader(path.toString()), new TypeToken<ArrayList<Announcement>>() {
+            }.getType());
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-    }
-
-    public static void clearCsvFile(Path filepath) {
-        File csvFile = new File(String.valueOf(filepath));
-        csvFile.delete();
+        return new ArrayList<Announcement>();
     }
 }

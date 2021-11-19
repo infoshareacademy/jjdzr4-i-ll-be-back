@@ -52,56 +52,6 @@ public class Announcement implements Comparable<Announcement> {
         this.clientId = clientId;
     }
 
-    public Announcement() {
-    }
-
-    public String[] mapToStringArray() {
-        String[] announcementInString = new String[17];
-        announcementInString[0] = String.valueOf(this.getId());
-        announcementInString[1] = String.valueOf(this.getType());
-        announcementInString[2] = String.valueOf(this.getServiceType());
-        announcementInString[3] = String.valueOf(this.getVoivodeship());
-        announcementInString[4] = String.valueOf(this.getCity());
-        announcementInString[5] = String.valueOf(this.getCityDistrict());
-        announcementInString[6] = String.valueOf(this.getUnit());
-        announcementInString[7] = String.valueOf(this.getNameOfAdvertiser());
-        announcementInString[8] = String.valueOf(this.getPhoneNumber());
-        announcementInString[9] = String.valueOf(this.getEmail());
-        announcementInString[10] = String.valueOf(this.getDescription());
-        announcementInString[11] = String.valueOf(this.getPrice());
-        announcementInString[12] = String.valueOf(this.getIsPriceNegotiable());
-        announcementInString[13] = String.valueOf(this.getPriceAdditionComment());
-        announcementInString[14] = String.valueOf(this.getDate());
-        announcementInString[15] = String.valueOf(this.getClientId());
-        announcementInString[16] = String.valueOf(this.getHeader());
-
-        return announcementInString;
-    }
-
-    public static Announcement mapStringArrayToAnnouncement(String[] attributes) {
-        Announcement announcement = new Announcement();
-        announcement.setId(Long.parseLong(attributes[0]));
-        announcement.setType(Type.valueOf(attributes[1]));
-        announcement.setServiceType(ServiceType.valueOf(attributes[2]));
-        announcement.setVoivodeship(Voivodeship.valueOf(attributes[3]));
-        announcement.setCity(attributes[4]);
-        announcement.setCityDistrict(attributes[5]);
-        announcement.setUnit(attributes[6]);
-        announcement.setNameOfAdvertiser(attributes[7]);
-        announcement.setPhoneNumber(attributes[8]);
-        announcement.setEmail(attributes[9]);
-        announcement.setDescription(attributes[10]);
-        announcement.setPrice(attributes[11]);
-        announcement.setPriceNegotiable(Boolean.parseBoolean(attributes[12]));
-        announcement.setPriceAdditionComment(attributes[13]);
-        announcement.setDate(LocalDateTime.parse(attributes[14]));
-        //TODO: change code below after adding clientId assigning functionality
-        announcement.setClientId(attributes[15].equals("null") ? null : Integer.parseInt(attributes[15]));
-        announcement.setHeader(attributes[16]);
-        return announcement;
-    }
-
-
     public Type getType() {
         return type;
     }
