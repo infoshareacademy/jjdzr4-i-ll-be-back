@@ -1,4 +1,4 @@
-package pl.infoshare.workandfun.announcements;
+package pl.infoshare.workandfun.announcement_repository.entity.additionals;
 
 public enum Voivodeship {
     DOLNOSLASKIE("1", "Dolnośląskie"),

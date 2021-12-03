@@ -1,4 +1,4 @@
-package pl.infoshare.workandfun.announcements.Categories;
+package pl.infoshare.workandfun.announcement_repository.entity.additionals;
 
 public enum ServiceType {
     GLOWNA_KATEGORIA("Głowna kategoria",0),

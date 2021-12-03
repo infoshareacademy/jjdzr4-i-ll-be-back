@@ -1,6 +1,7 @@
 package pl.infoshare.workandfun.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
@@ -17,10 +19,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
-public class Mapper {
+public class ModifiedMapper {
 
+    @Bean
     @Primary
-    public ObjectMapper getMapper(){
+    public ObjectMapper objectMapper() {
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         javaTimeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
         javaTimeModule.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")));
@@ -30,6 +33,7 @@ public class Mapper {
         javaTimeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern("HH:mm:ss.SSS")));
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(javaTimeModule);
-        return  objectMapper;
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        return objectMapper;
     }
 }

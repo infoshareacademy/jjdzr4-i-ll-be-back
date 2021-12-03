@@ -1,17 +1,21 @@
-package pl.infoshare.workandfun.domain;
+package pl.infoshare.workandfun.announcement_repository.entity;
 
-import pl.infoshare.workandfun.announcements.Categories.ServiceType;
-import pl.infoshare.workandfun.announcements.Type;
-import pl.infoshare.workandfun.announcements.Voivodeship;
+import pl.infoshare.workandfun.announcement_repository.entity.additionals.ServiceType;
+import pl.infoshare.workandfun.announcement_repository.entity.additionals.Type;
+import pl.infoshare.workandfun.announcement_repository.entity.additionals.Voivodeship;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+@Entity
 public class Announcement implements Comparable<Announcement> {
 
+    @Id
+    private long id;
     private Type type;
     private String header;
-    private long id;
     private ServiceType serviceType;
     private String city;
     private String cityDistrict;
@@ -26,6 +30,10 @@ public class Announcement implements Comparable<Announcement> {
     private String description;
     private String phoneNumber;
     private String priceAdditionComment = "";
+
+    public Announcement() {
+
+    }
 
     public Announcement(Type type, String header, long id, ServiceType serviceType, String city,
                         String cityDistrict, String unit, String price, Voivodeship voivodeship, LocalDateTime date,
@@ -49,6 +57,7 @@ public class Announcement implements Comparable<Announcement> {
         this.priceAdditionComment = priceAdditionComment;
         this.clientId = clientId;
     }
+
 
     public Type getType() {
         return type;

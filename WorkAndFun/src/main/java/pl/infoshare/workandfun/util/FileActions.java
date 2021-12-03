@@ -2,10 +2,9 @@ package pl.infoshare.workandfun.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pl.infoshare.workandfun.config.Paths;
-import pl.infoshare.workandfun.domain.Announcement;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -16,30 +15,28 @@ import java.util.List;
 @Component
 public class FileActions<E> {
 
-    E e;
+    private E e;
 
-    private final ObjectMapper mapper;
+    private ObjectMapper mapper;
 
     @Autowired
     public FileActions(ObjectMapper mapper) {
         this.mapper = mapper;
     }
 
-    public List<E> readObjectListFromBase(String path) {
-        List<E> objectList = new ArrayList<>();
+    public List<E> readObjectListFromBase(String path, Class<E> elementClass) {
+        CollectionType listType = mapper.getTypeFactory().constructCollectionType(ArrayList.class, elementClass);
         try {
-            objectList = mapper.readValue(new FileReader(path), new TypeReference<List<E>>() {
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
+            return mapper.readValue(new FileReader(path), listType);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return new ArrayList<>();
         }
-        return objectList;
     }
 
-    public E readObjectFromBase(String path) {
+    public E readObjectFromBase(String path, Class<E> elementClass) {
         try {
-            return (E) mapper.readValue(new FileReader(path), new TypeReference<E>() {
-            });
+            return mapper.readValue(new FileReader(path), elementClass);
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -68,6 +65,14 @@ public class FileActions<E> {
     public void writeObjectToBase(E object, String path) {
         try {
             mapper.writeValue(new FileWriter(path), object);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void writeObjectListToBase(List<E> objectsList, String path) {
+        try {
+            mapper.writeValue(new FileWriter(path), objectsList);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
