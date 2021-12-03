@@ -9,8 +9,8 @@ public class Paths {
     private final String announcementPath;
     private final String usersPath;
 
-    public Paths( @Value("${pl.infoshare.workandfun.announcements-path}") String announcementPath,
-                  @Value("${pl.infoshare.workandfun.users-path}") String usersPath) {
+    public Paths(@Value("${pl.infoshare.workandfun.announcements-path}") String announcementPath,
+                 @Value("${pl.infoshare.workandfun.users-path}") String usersPath) {
         this.announcementPath = announcementPath;
         this.usersPath = usersPath;
     }

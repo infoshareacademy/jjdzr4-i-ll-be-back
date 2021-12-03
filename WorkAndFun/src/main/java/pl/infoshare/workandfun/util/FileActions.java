@@ -19,18 +19,16 @@ public class FileActions<E> {
     E e;
 
     private final ObjectMapper mapper;
-    private final Paths paths;
 
     @Autowired
-    public FileActions(ObjectMapper mapper, Paths paths) {
+    public FileActions(ObjectMapper mapper) {
         this.mapper = mapper;
-        this.paths = paths;
     }
 
-    public List<E> readObjectListFromBase() {
+    public List<E> readObjectListFromBase(String path) {
         List<E> objectList = new ArrayList<>();
         try {
-            objectList = mapper.readValue(new FileReader(paths.getAnnouncementPath()), new TypeReference<List<E>>() {
+            objectList = mapper.readValue(new FileReader(path), new TypeReference<List<E>>() {
             });
         } catch (IOException e) {
             e.printStackTrace();
@@ -38,9 +36,9 @@ public class FileActions<E> {
         return objectList;
     }
 
-    public E readObjectFromBase() {
+    public E readObjectFromBase(String path) {
         try {
-            return (E) mapper.readValue(new FileReader(paths.getAnnouncementPath()), new TypeReference<E>() {
+            return (E) mapper.readValue(new FileReader(path), new TypeReference<E>() {
             });
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -59,17 +57,17 @@ public class FileActions<E> {
 //        return announcementList;
 //    }
 
-    public void writeAnnouncementsToFile(ArrayList<Announcement> announcements) {
-        try {
-            mapper.writeValue(new FileWriter(paths.getAnnouncementPath()), announcements);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+//    public void writeAnnouncementsToFile(ArrayList<Announcement> announcements) {
+//        try {
+//            mapper.writeValue(new FileWriter(paths.getAnnouncementPath()), announcements);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    public void writeObjectToBase(E object) {
+    public void writeObjectToBase(E object, String path) {
         try {
-            mapper.writeValue(new FileWriter(paths), object);
+            mapper.writeValue(new FileWriter(path), object);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

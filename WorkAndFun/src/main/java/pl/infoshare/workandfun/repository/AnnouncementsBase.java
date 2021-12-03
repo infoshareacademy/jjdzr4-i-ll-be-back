@@ -2,6 +2,7 @@ package pl.infoshare.workandfun.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import pl.infoshare.workandfun.config.Paths;
 import pl.infoshare.workandfun.domain.Announcement;
 import pl.infoshare.workandfun.util.FileActions;
 
@@ -12,23 +13,24 @@ import java.util.List;
 @Repository
 public class AnnouncementsBase {
 
-    private final FileActions fileActions;
+    private final FileActions<ArrayList<Announcement>> fileActions;
     private List<Announcement> announcementList;
+    private final Paths paths;
 
     @Autowired
-    public AnnouncementsBase(FileActions fileActions) {
+    public AnnouncementsBase(FileActions<ArrayList<Announcement>> fileActions, Paths paths) {
         this.fileActions = fileActions;
-        this.announcementList = this.fileActions.readAnnouncementsFromFile();
+        this.paths = paths;
+        this.announcementList = this.fileActions.readObjectFromBase(paths.getAnnouncementPath());
     }
 
-
     public List<Announcement> findAll() {
-        refreshAnnouncementList();
+        refreshAnnouncementBase();
         return announcementList;
     }
 
     public Announcement findById(long id) {
-        refreshAnnouncementList();
+        refreshAnnouncementBase();
         for (Announcement announcement : announcementList) {
             if (announcement.getId() == id) {
                 return announcement;
@@ -37,8 +39,8 @@ public class AnnouncementsBase {
         return null;
     }
 
-    public boolean update(Announcement announcement) {
-        announcementList = FileActions.readAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+    public boolean updateAnnouncement(Announcement announcement) {
+        announcementList = findAll();
         if (announcement != null) {
             removeFromList(announcement.getId());
             announcementList.add(announcement);
@@ -49,12 +51,12 @@ public class AnnouncementsBase {
         return false;
     }
 
-    private void refreshAnnouncementList() {
-        announcementList = FileActions.readAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+    private void refreshAnnouncementBase() {
+        announcementList = fileActions.readObjectFromBase(paths.getAnnouncementPath());
     }
 
     private void updateFile() {
-        FileActions.writeAnnouncementsToFile((ArrayList<Announcement>) announcementList, Main.ANNOUNCEMENTS_FILE_PATH);
+        fileActions.writeObjectToBase((ArrayList<Announcement>) announcementList, paths.getAnnouncementPath());
     }
 
     private boolean removeFromList(long id) {
@@ -68,7 +70,7 @@ public class AnnouncementsBase {
     }
 
     public boolean delete(Announcement announcement) {
-        announcementList = FileActions.readAnnouncementsFromFile(Main.ANNOUNCEMENTS_FILE_PATH);
+        announcementList = findAll();
         if (announcement != null) {
             removeFromList(announcement.getId());
             updateFile();
