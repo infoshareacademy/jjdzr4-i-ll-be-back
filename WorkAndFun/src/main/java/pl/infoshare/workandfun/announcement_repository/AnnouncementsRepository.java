@@ -6,6 +6,6 @@ import pl.infoshare.workandfun.announcement_repository.entity.Announcement;
 
 @Repository
 public interface AnnouncementsRepository extends CrudRepository<Announcement, Long> {
-    public Iterable<Announcement> findAllByOrderByDateDesc();
-    public Iterable<Announcement> findAllByOrderByDateAsc();
+    Iterable<Announcement> findAllByOrderByDateDesc();
+    Iterable<Announcement> findAllByOrderByDateAsc();
 }

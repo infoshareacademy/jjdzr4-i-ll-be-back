@@ -12,14 +12,15 @@ import pl.infoshare.workandfun.util.FileActions;
 @Service
 public class AnnouncementsRepositoryManager {
 
-    private AnnouncementsRepository announcementsRepository;
-    private FileActions<Announcement> fileActions;
     private Paths paths;
+    private FileActions<Announcement> fileActions;
+    private AnnouncementsRepository announcementsRepository;
 
     @Autowired
-    public AnnouncementsRepositoryManager(AnnouncementsRepository announcementsRepository, Paths paths) {
-        this.announcementsRepository = announcementsRepository;
+    public AnnouncementsRepositoryManager(Paths paths, FileActions<Announcement> fileActions, AnnouncementsRepository announcementsRepository) {
         this.paths = paths;
+        this.fileActions = fileActions;
+        this.announcementsRepository = announcementsRepository;
     }
 
     public Iterable<Announcement> findAll() {
@@ -34,10 +35,10 @@ public class AnnouncementsRepositoryManager {
         return announcementsRepository.findAllByOrderByDateDesc();
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void initializeDB(){
-        announcementsRepository.saveAll(fileActions.readObjectListFromBase(paths.getAnnouncementPath(), Announcement.class));
-    }
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void initializeDB(){
+//        announcementsRepository.saveAll(fileActions.readObjectListFromBase(paths.getAnnouncementPath(), Announcement.class));
+//    }
 
 }
 

@@ -120,7 +120,7 @@
   "date" : "2021-11-15 15:28:32.000",
   "nameOfAdvertiser" : "Igor220",
   "email" : "pom@xml.com",
-  "isPriceNegotiable" : null,
+  "isPriceNegotiable" : false,
   "description" : "Profesjonalnie sprawdzam kable",
   "phoneNumber" : "+48798654123",
   "priceAdditionComment" : ""
