@@ -1,10 +1,12 @@
-package pl.infoshare.workandfun.announcement_repository.entity;
+package pl.infoshare.workandfun.announcements.announcement_repo.entity;
 
-import pl.infoshare.workandfun.announcement_repository.entity.additionals.ServiceType;
-import pl.infoshare.workandfun.announcement_repository.entity.additionals.Type;
-import pl.infoshare.workandfun.announcement_repository.entity.additionals.Voivodeship;
+import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.ServiceType;
+import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Type;
+import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -14,14 +16,17 @@ public class Announcement implements Comparable<Announcement> {
 
     @Id
     private long id;
+    @Enumerated(EnumType.STRING)
     private Type type;
     private String header;
+    @Enumerated(EnumType.STRING)
     private ServiceType serviceType;
     private String city;
     private String cityDistrict;
     private String unit; //osiedle
     private String price;
     private Integer clientId;
+    @Enumerated(EnumType.STRING)
     private Voivodeship voivodeship;
     private LocalDateTime date;
     private String nameOfAdvertiser;
