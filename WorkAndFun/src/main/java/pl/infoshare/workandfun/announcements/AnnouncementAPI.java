@@ -10,7 +10,7 @@ import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announceme
 @RequestMapping("")
 public class AnnouncementAPI {
 
-    private AnnouncementsService announcementsService;
+    private final AnnouncementsService announcementsService;
 
     @Autowired
     public AnnouncementAPI(AnnouncementsService announcementsService) {

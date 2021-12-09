@@ -13,14 +13,6 @@ public class AnnouncementsService {
         this.announcementsRepository = announcementsRepository;
     }
 
-    public Iterable<Announcement> findAll() {
-        return announcementsRepository.findAll();
-    }
-
-    public Iterable<Announcement> findAllSortedByCreateDateAsc() {
-        return announcementsRepository.findAllByOrderByDateAsc();
-    }
-
     public Iterable<Announcement> findAllSortedByCreateDateDesc() {
         return announcementsRepository.findAllByOrderByDateDesc();
     }

@@ -4,10 +4,7 @@ import pl.infoshare.workandfun.announcements.announcement_repo.entity.additional
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Type;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -15,6 +12,7 @@ import java.time.LocalDateTime;
 public class Announcement implements Comparable<Announcement> {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Enumerated(EnumType.STRING)
     private Type type;
