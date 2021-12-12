@@ -1,4 +1,4 @@
-package pl.infoshare.workandfun.announcements.announcement_repo.entity;
+package pl.infoshare.workandfun.announcements;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,49 +7,42 @@ import lombok.Setter;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.ServiceType;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Type;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship;
-
-import javax.persistence.*;
-import java.time.Duration;
-import java.time.LocalDateTime;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@Entity
-public class Announcement implements Comparable<Announcement> {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+public class AnnouncementEditRequest {
     @Enumerated(EnumType.STRING)
     private Type type;
+    @NotBlank
     private String header;
     @Enumerated(EnumType.STRING)
     private ServiceType serviceType;
+    @Pattern(regexp = "\\D+")
     private String city;
+    @Pattern(regexp = "\\D*")
     private String cityDistrict;
+    @Pattern(regexp = "\\D*")
     private String unit; //osiedle
+    @Pattern(regexp = "\\d+")
     private String price;
-    private Integer clientId;
     @Enumerated(EnumType.STRING)
     private Voivodeship voivodeship;
-    private LocalDateTime date;
-    private String nameOfAdvertiser;
+    @Email
     private String email;
+    @NotNull
     private Boolean isPriceNegotiable = false;
+    @NotBlank
     private String description;
+    @Pattern(regexp = "(\\+48)?\\d{9}")
     private String phoneNumber;
+    @Pattern(regexp = ".*")
     private String priceAdditionComment = "";
-
-
-    @Override
-    public int compareTo(Announcement o) {
-        if (!this.date.isEqual(o.date)) {
-            Duration duration = Duration.between(o.date, this.date);
-            return Integer.parseInt(String.valueOf(duration.getSeconds()));
-        } else {
-            return Integer.parseInt(String.valueOf(o.id - this.id));
-        }
-    }
 }
