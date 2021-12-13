@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 import pl.infoshare.workandfun.announcements.announcement_repo.AnnouncementSpec;
 import pl.infoshare.workandfun.announcements.announcement_repo.AnnouncementsRepository;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
+import pl.infoshare.workandfun.exception.AnnouncementNotFoundException;
+
 import java.util.List;
 
 @Service
@@ -24,11 +26,12 @@ public class AnnouncementsService {
     }
 
     public Announcement findById(Long id) {
-        return announcementsRepository.findById(id).orElseThrow(() -> new RuntimeException("Brak ogłoszenia z podanym ID"));
+        return announcementsRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException(id));
     }
 
     public void deleteById(Long id) {
-        announcementsRepository.deleteById(id);
+        announcementsRepository.findById(id)
+                .ifPresentOrElse(announcementsRepository::delete, () -> { throw new AnnouncementNotFoundException(id); });
     }
 
     public Announcement save(Announcement announcement) {
@@ -36,21 +39,22 @@ public class AnnouncementsService {
     }
 
     public Announcement update(Long id, AnnouncementEditRequest editRequest) {
-        var announcementToUpdate = announcementsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Brak ogłoszenia z podanym ID"));
-        announcementToUpdate.setType(editRequest.getType());
-        announcementToUpdate.setHeader(editRequest.getHeader());
-        announcementToUpdate.setServiceType(editRequest.getServiceType());
-        announcementToUpdate.setCity(editRequest.getCity());
-        announcementToUpdate.setCityDistrict(editRequest.getCityDistrict());
-        announcementToUpdate.setUnit(editRequest.getUnit());
-        announcementToUpdate.setPrice(editRequest.getPrice());
-        announcementToUpdate.setVoivodeship(editRequest.getVoivodeship());
-        announcementToUpdate.setEmail(editRequest.getEmail());
-        announcementToUpdate.setIsPriceNegotiable(editRequest.getIsPriceNegotiable());
-        announcementToUpdate.setDescription(editRequest.getDescription());
-        announcementToUpdate.setPhoneNumber(editRequest.getPhoneNumber());
-        announcementToUpdate.setPriceAdditionComment(editRequest.getPriceAdditionComment());
-        return announcementsRepository.save(announcementToUpdate);
+
+        return announcementsRepository.findById(id).map(element -> {
+            element.setType(editRequest.getType());
+            element.setHeader(editRequest.getHeader());
+            element.setServiceType(editRequest.getServiceType());
+            element.setCity(editRequest.getCity());
+            element.setCityDistrict(editRequest.getCityDistrict());
+            element.setUnit(editRequest.getUnit());
+            element.setPrice(editRequest.getPrice());
+            element.setVoivodeship(editRequest.getVoivodeship());
+            element.setEmail(editRequest.getEmail());
+            element.setIsPriceNegotiable(editRequest.getIsPriceNegotiable());
+            element.setDescription(editRequest.getDescription());
+            element.setPhoneNumber(editRequest.getPhoneNumber());
+            element.setPriceAdditionComment(editRequest.getPriceAdditionComment());
+            return announcementsRepository.save(element);
+        }).orElseThrow(() -> new AnnouncementNotFoundException(id));
     }
 }

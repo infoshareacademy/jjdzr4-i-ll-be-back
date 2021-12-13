@@ -17,7 +17,7 @@ import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announceme
 //        @Spec(path = "price", spec = Like.class), TODO
         @Spec(path = "voivodeship", spec = Equal.class),
         @Spec(path = "description", spec = LikeIgnoreCase.class)
-
 })
+
 public interface AnnouncementSpec extends Specification<Announcement> {
 }

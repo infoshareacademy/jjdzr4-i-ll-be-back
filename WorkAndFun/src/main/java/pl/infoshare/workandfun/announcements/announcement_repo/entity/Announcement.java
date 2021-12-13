@@ -7,7 +7,6 @@ import lombok.Setter;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.ServiceType;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Type;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship;
-
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -41,7 +40,6 @@ public class Announcement implements Comparable<Announcement> {
     private String description;
     private String phoneNumber;
     private String priceAdditionComment = "";
-
 
     @Override
     public int compareTo(Announcement o) {

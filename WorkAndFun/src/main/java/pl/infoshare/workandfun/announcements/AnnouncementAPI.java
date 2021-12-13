@@ -20,13 +20,13 @@ public class AnnouncementAPI {
     }
 
     @GetMapping
-    public Iterable<Announcement> getAllAnnouncementsDateDesc() {
-        return announcementsService.findAllSortedByCreateDateDesc();
+    public ResponseEntity<Iterable<Announcement>> getAllAnnouncementsDateDesc() {
+        return ResponseEntity.ok(announcementsService.findAllSortedByCreateDateDesc());
     }
 
     @GetMapping("search")
-    public List<Announcement> findAllByQuerySpec(AnnouncementSpec announcementSpec) {
-        return announcementsService.findAllByQuerySpec(announcementSpec);
+    public ResponseEntity<List<Announcement>> findAllByQuerySpec(AnnouncementSpec announcementSpec) {
+        return ResponseEntity.ok(announcementsService.findAllByQuerySpec(announcementSpec));
     }
 
     @GetMapping("search/{id}")
