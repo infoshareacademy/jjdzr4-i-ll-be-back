@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.ServiceType;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Type;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship;
@@ -33,6 +34,7 @@ public class Announcement implements Comparable<Announcement> {
     private Integer clientId;
     @Enumerated(EnumType.STRING)
     private Voivodeship voivodeship;
+    @CreationTimestamp
     private LocalDateTime date;
     private String nameOfAdvertiser;
     private String email;

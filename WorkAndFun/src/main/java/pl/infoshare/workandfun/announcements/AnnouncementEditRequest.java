@@ -31,7 +31,7 @@ public class AnnouncementEditRequest {
     private String cityDistrict;
     @Pattern(regexp = "\\D*")
     private String unit; //osiedle
-    @Pattern(regexp = "\\d+")
+    @Pattern(regexp = "(\\d+|do\\sustalenia\\sindywidualnie)")
     private String price;
     @Enumerated(EnumType.STRING)
     private Voivodeship voivodeship;
