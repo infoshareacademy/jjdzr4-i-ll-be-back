@@ -11,6 +11,7 @@ import pl.infoshare.workandfun.announcements.announcement_repo.entity.additional
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -50,6 +51,35 @@ public class Announcement implements Comparable<Announcement> {
             return Integer.parseInt(String.valueOf(duration.getSeconds()));
         } else {
             return Integer.parseInt(String.valueOf(o.id - this.id));
+        }
+    }
+
+    public String getFullLocalization(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(getCity());
+        if (!(getCityDistrict().isEmpty() || getCityDistrict().isBlank())){
+            sb.append(", " + getCityDistrict());
+        }
+        if (!(getUnit().isEmpty() || getUnit().isBlank())){
+            sb.append(", " + getUnit());
+        }
+        return sb.toString();
+    }
+
+    public String announcementCreationDateFormatted(){
+        LocalDateTime now = LocalDateTime.now();
+        if (now.getYear() != getDate().getYear()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            return getDate().format(formatter);
+        } else if (now.getMonthValue() != getDate().getMonthValue() || now.getDayOfMonth() - getDate().getDayOfMonth() > 1) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM");
+            return getDate().format(formatter);
+        } else if ((now.getDayOfMonth() - getDate().getDayOfMonth()) > 0) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            return "wczoraj " + getDate().format(formatter);
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            return "dzisiaj " + getDate().format(formatter);
         }
     }
 }
