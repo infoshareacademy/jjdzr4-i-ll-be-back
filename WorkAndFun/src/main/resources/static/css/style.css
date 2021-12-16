@@ -1,6 +1,24 @@
-.announcement-header {
-    color: blue;
+
+.form-group {
+    margin-bottom: 7px;
+    margin-top: 7px;
 }
-.container {
-    background-color: #5cffe9;
+
+.announcement-date-and-location {
+    position: relative;
+    top: 65%;
+    margin-bottom: 5px;
+    font-size: small;
+}
+
+.row {
+    height: 220px
+}
+
+.price {
+    margin-bottom: 0;
+}
+
+.announcement-right-side {
+    font-size: large;
 }
