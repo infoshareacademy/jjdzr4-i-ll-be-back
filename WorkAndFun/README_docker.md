@@ -21,10 +21,11 @@ $ docker run -d --volume=/**<ścieżka do volume lokalnego na komputerze>**:/**<
 
    przykład:
    
-$ docker run -d -p 8080:8080 --volume=/home/username/WorkAndFun_db/my_db:/my_db docker-work-and-fun-app
+$ docker run -d -p 8080:8080 --volume=/home/maks/WorkAndFun_db/my_db:/my_db docker-work-and-fun-app
 
 
-* mozna usunąć przekierowanie portów "-p 8000:8080" (jest dobrowolne)
+* mozna usunąć przekierowanie portów "-p 8080:8080" (jest dobrowolne)
+* UWAGA! ścieżka do volume NIE może zawierać znaków specjalnych, takich jak np. "&", ponieważ takie znaki nie są obsługiwane przez konsole. Jeżeli jednak chcemy taki znak użyć, podczas wpisania do konsoli, zamiast np. "/home/maks/Work&Fun_db/my_db" należy wpisać "/home/maks/Work \\& Fun_db/my_db"
 
 Poleceniem --volume spinamy volume z kontenera z volumem lokalnym, na dysku.
 Umożliwi to np. podpięcie DB, która znajduje się lokalnie na dysku w postaci pliku, pod ścieżką wpisaną podczas "docker run" poniżej, z DB która jest wewnątrz kontenera.
@@ -47,5 +48,7 @@ Znajdując się w katalogu aplikacji, gdzie jest umiejscowiony plik Dockerfile, 
    
    
 2)      docker run -d -p 8080:8080 --volume=/home/username/WorkAndFun_db/my_db:/my_db docker-work-and-fun-app
+
+* UWAGA! ścieżka do volume NIE może zawierać znaków specjalnych, takich jak np. "&", ponieważ takie znaki nie są obsługiwane przez konsole. Jeżeli jednak chcemy taki znak użyć, podczas wpisania do konsoli, zamiast np. "/home/maks/Work&Fun_db/my_db" należy wpisać "/home/maks/Work \& Fun_db/my_db"
 
 Kontener uruchomiony. DB aplikacji podpięta do lokalnej ścieżki "home/username/WorkAndFun_db/my_db"
