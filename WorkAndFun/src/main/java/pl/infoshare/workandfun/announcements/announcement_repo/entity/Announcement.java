@@ -89,6 +89,4 @@ public class Announcement implements Comparable<Announcement> {
     public boolean isIndividualPrice(){
         return this.price.toLowerCase(Locale.ROOT).equals(INDIVIDUAL_PRICE_KEY.toLowerCase(Locale.ROOT));
     }
-
-
 }

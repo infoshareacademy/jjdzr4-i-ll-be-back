@@ -20,11 +20,17 @@
     <div class="row">
         <div class="announcement-frame d-block bg-white form-group col-12" th:each="announcement, stat : ${announcements}">
             <div class="row">
-                <div class="announcement-left-side p-3 col-8 col-md-10">
-                    <h4 class="announcement-header" th:text="${announcement.getHeader()}"></h4>
-                    <p class="announcement-date-and-location"
-                       th:text="${announcement.getFullLocalization() + ' - ' + announcement.announcementCreationDateFormatted()}"></p>
+
+                <div class="big-left-side col-8 col-md-10">
+                    <div class="announcement-left-side-header p-3 col-8 col-md-10">
+                        <h4 class="announcement-header" th:text="${announcement.getHeader()}"></h4>
+                    </div>
+                    <div class="col-12">
+                        <p class="announcement-left-side-date-and-location"
+                           th:text="${announcement.getFullLocalization() + ' - ' + announcement.announcementCreationDateFormatted()}"></p>
+                    </div>
                 </div>
+
                 <div class="announcement-right-side p-3 text-center my-auto col-4 col-md-2">
                     <div th:if="${announcement.isIndividualPrice()}">
                         <p class="price">
@@ -37,6 +43,7 @@
                         </p>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

@@ -4,15 +4,13 @@
     margin-top: 7px;
 }
 
-.announcement-date-and-location {
-    position: relative;
-    top: 65%;
+.announcement-left-side-date-and-location {
     margin-bottom: 5px;
     font-size: small;
 }
 
-.row {
-    height: 220px
+.announcement-left-side-header {
+    height: 190px
 }
 
 .price {
