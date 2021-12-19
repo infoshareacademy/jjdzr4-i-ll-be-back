@@ -1,6 +1,15 @@
 package pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals;
 
 public enum Type {
-    SERVICE_OFFER,
-    SERVICE_DEMAND
+    SERVICE_OFFER("Oferuje usługe"),
+    SERVICE_DEMAND("Szukam usługi");
+
+    private final String value;
+
+    Type(String value) {
+        this.value = value;
+    }
+    public String getValue(){
+        return value;
+    }
 }

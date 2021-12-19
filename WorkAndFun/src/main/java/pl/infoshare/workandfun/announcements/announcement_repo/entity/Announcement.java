@@ -9,6 +9,7 @@ import pl.infoshare.workandfun.announcements.announcement_repo.entity.additional
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Type;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship;
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
@@ -24,11 +25,17 @@ public class Announcement implements Comparable<Announcement> {
     private Long id;
     @Enumerated(EnumType.STRING)
     private Type type;
+    @NotEmpty
+    @Size(min = 10,max = 60)
     private String header;
     @Enumerated(EnumType.STRING)
     private ServiceType serviceType;
+    @NotEmpty
+    @Size(min = 2, max = 35)
     private String city;
+    @Size(max = 50)
     private String cityDistrict;
+    @Size(max = 50)
     private String unit; //osiedle
     private String price;
     private Integer clientId;
@@ -37,9 +44,12 @@ public class Announcement implements Comparable<Announcement> {
     @CreationTimestamp
     private LocalDateTime date;
     private String nameOfAdvertiser;
+    @Email
     private String email;
     private Boolean isPriceNegotiable = false;
+    @Size (min = 30, max=500)
     private String description;
+    @Pattern(regexp = "(\\+48|0)[0-9]{9}", message = "Musisz podać numer w formacie +48123456789")
     private String phoneNumber;
     private String priceAdditionComment = "";
 

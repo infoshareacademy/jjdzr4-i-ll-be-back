@@ -2,6 +2,8 @@ package pl.infoshare.workandfun.announcements;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.infoshare.workandfun.announcements.announcement_repo.AnnouncementSpec;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
@@ -38,11 +40,6 @@ public class AnnouncementAPI {
     public ResponseEntity<Announcement> update(@PathVariable Long id,
                                                @Valid @RequestBody  AnnouncementEditRequest announcementEditRequest) {
         return ResponseEntity.ok(announcementsService.update(id, announcementEditRequest));
-    }
-
-    @PostMapping("add-announcement")
-    public ResponseEntity<Announcement> save(@RequestBody Announcement announcement) {
-        return ResponseEntity.ok(announcementsService.save(announcement));
     }
 
     @DeleteMapping("delete-announcement/{id}")
