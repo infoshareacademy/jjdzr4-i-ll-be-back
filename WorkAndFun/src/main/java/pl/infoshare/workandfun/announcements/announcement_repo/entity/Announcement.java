@@ -29,20 +29,27 @@ public class Announcement implements Comparable<Announcement> {
     @Size(min = 10,max = 60)
     private String header;
     @Enumerated(EnumType.STRING)
-    private ServiceType serviceType;
+    private ServiceType serviceType; //TODO
     @NotEmpty
     @Size(min = 2, max = 35)
+    @Pattern(regexp="^[A-Za-z]*$",message = "Musisz podać Miasto!")
     private String city;
     @Size(max = 50)
+    @Pattern(regexp="^[A-Za-z]*$",message = "Musisz podać dzielnicę!")
     private String cityDistrict;
+    @Pattern(regexp="^[A-Za-z]*$",message = "Musisz podać osiedle!")
     @Size(max = 50)
     private String unit; //osiedle
-    private String price;
+    @NotEmpty
+    private String price;   //TODO
     private Integer clientId;
     @Enumerated(EnumType.STRING)
     private Voivodeship voivodeship;
     @CreationTimestamp
     private LocalDateTime date;
+    @NotEmpty
+    @Size(min = 2, max = 35)
+    @Pattern(regexp="^[A-Za-z]*$",message = "Musisz podać Imie!")
     private String nameOfAdvertiser;
     @Email
     private String email;

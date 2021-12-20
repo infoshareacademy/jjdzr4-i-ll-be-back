@@ -52,33 +52,35 @@
         </div>
         <label th:for="cityDistrict_input_id" th:text="#{announcement.cityDistrict}"></label>
         <br>
+        <input type="text" id="cityDistrict_input_id" th:field="*{cityDistrict}">
+        <br>
+        <br>
         <div th:if="${#fields.hasErrors('cityDistrict')}" th:class="'alert alert-danger'">
             <ul>
                 <li th:each="err : ${#fields.errors('cityDistrict')}" th:text="${err}"></li>
             </ul>
         </div>
-        <input type="text" id="cityDistrict_input_id" th:field="*{cityDistrict}">
-        <br>
-        <br>
         <label th:for="unit_input_id" th:text="#{announcement.unit}"></label>
+        <br>
+        <input type="text" id="unit_input_id" th:field="*{unit}">
+        <br>
         <br>
         <div th:if="${#fields.hasErrors('unit')}" th:class="'alert alert-danger'">
             <ul>
                 <li th:each="err : ${#fields.errors('unit')}" th:text="${err}"></li>
             </ul>
         </div>
-        <input type="text" id="unit_input_id" th:field="*{unit}">
-        <br>
         <br>
         <label th:for="price_input_id" th:text="#{announcement.price}"></label>
+        <br>
+        <input  type="text" id="price_input_id" value="do ustalenia indywidualnie" th:field="*{price}" >
+        <br>
         <br>
         <div th:if="${#fields.hasErrors('price')}" th:class="'alert alert-danger'">
             <ul>
                 <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>
             </ul>
         </div>
-        <input  type="text" id="price_input_id" value="do ustalenia indywidualnie" th:field="*{price}" >
-        <br>
         <br>
         <label th:for="isPriceNegotiable_input_id" th:text="#{announcement.isPriceNegotiable}"></label>
         <input type="checkbox" id="isPriceNegotiable_input_id" th:field="*{isPriceNegotiable}">
@@ -94,23 +96,25 @@
         <br>
         <label th:for="nameOfAdvertiser_input_id" th:text="#{announcement.nameOfAdvertiser}"></label>
         <br>
+        <input type="text" id="nameOfAdvertiser_input_id" th:field="*{nameOfAdvertiser}">
+        <br>
+        <br>
         <div th:if="${#fields.hasErrors('nameOfAdvertiser')}" th:class="'alert alert-danger'">
             <ul>
                 <li th:each="err : ${#fields.errors('nameOfAdvertiser')}" th:text="${err}"></li>
             </ul>
         </div>
-        <input type="text" id="nameOfAdvertiser_input_id" th:field="*{nameOfAdvertiser}">
-        <br>
         <br>
         <label th:for="email_input_id" th:text="#{announcement.email}"></label>
+        <br>
+        <input type="text" id="email_input_id" th:field="*{email}">
+        <br>
         <br>
         <div th:if="${#fields.hasErrors('email')}" th:class="'alert alert-danger'">
             <ul>
                 <li th:each="err : ${#fields.errors('email')}" th:text="${err}"></li>
             </ul>
         </div>
-        <input type="text" id="email_input_id" th:field="*{email}">
-        <br>
         <br>
         <label th:for="phoneNumber_input_id" th:text="#{announcement.phoneNumber}"></label>
         <br>
@@ -122,7 +126,6 @@
                 <li th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}"></li>
             </ul>
         </div>
-
         <label th:for="description_input_id" th:text="#{announcement.description}"></label>
         <br>
         <textarea type="text" id="description_input_id" th:field="*{description}"></textarea>
@@ -133,7 +136,6 @@
                 <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
             </ul>
         </div>
-
         <label th:for="priceAdditionComment_input_id" th:text="#{announcement.priceAdditionComment}"></label>
         <br>
         <div th:if="${#fields.hasErrors('priceAdditionComment')}" th:class="'alert alert-danger'">

@@ -17,5 +17,4 @@ public class Language {
         sessionLocaleResolver.setDefaultLocale(locale);
         return sessionLocaleResolver;
     }
-
 }
