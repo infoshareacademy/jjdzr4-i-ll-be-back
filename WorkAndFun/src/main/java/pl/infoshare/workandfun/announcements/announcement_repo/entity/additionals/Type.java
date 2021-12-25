@@ -1,7 +1,7 @@
 package pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals;
 
 public enum Type {
-    SERVICE_OFFER("Oferuje usługę"),
+    SERVICE_OFFER("Oferuję usługę"),
     SERVICE_DEMAND("Szukam usługi");
 
     private final String value;

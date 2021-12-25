@@ -32,12 +32,12 @@ public class Announcement implements Comparable<Announcement> {
     private ServiceType serviceType; //TODO
     @NotEmpty
     @Size(min = 2, max = 35)
-    @Pattern(regexp="^[A-Za-z]*$",message = "Musisz podać Miasto!")
+    @Pattern(regexp="^[A-Za-z]*$",message = "Proszę podać Miasto!")
     private String city;
     @Size(max = 50)
-    @Pattern(regexp="^[A-Za-z]*$",message = "Musisz podać dzielnicę!")
+    @Pattern(regexp="^[A-Za-z]*$",message = "Proszę podać dzielnicę!")
     private String cityDistrict;
-    @Pattern(regexp="^[A-Za-z]*$",message = "Musisz podać osiedle!")
+    @Pattern(regexp="^[A-Za-z]*$",message = "Proszę podać osiedle!")
     @Size(max = 50)
     private String unit; //osiedle
     @NotEmpty
