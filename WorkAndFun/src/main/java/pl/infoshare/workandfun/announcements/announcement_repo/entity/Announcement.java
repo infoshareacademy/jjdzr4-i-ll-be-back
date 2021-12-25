@@ -41,6 +41,7 @@ public class Announcement implements Comparable<Announcement> {
     @Size(max = 50)
     private String unit; //osiedle
     @NotEmpty
+    @Pattern(regexp = "(?=^\\s*do ustalenia indywidualnie).{26}|[0-9]{1,10}",message = "Musisz wpisać 'do ustalenia indywidualnie' lub liczbę mniejszą od miliarda")
     private String price;   //TODO
     private Integer clientId;
     @Enumerated(EnumType.STRING)
