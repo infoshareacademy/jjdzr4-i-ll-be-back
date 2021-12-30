@@ -12,6 +12,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +21,8 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 public class Announcement implements Comparable<Announcement> {
+
+    public static final String INDIVIDUAL_PRICE_KEY = "do ustalenia indywidualnie";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,5 +73,38 @@ public class Announcement implements Comparable<Announcement> {
         } else {
             return Integer.parseInt(String.valueOf(o.id - this.id));
         }
+    }
+
+    public String getFullLocalization(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(getCity());
+        if (!(getCityDistrict().isEmpty() || getCityDistrict().isBlank())){
+            sb.append(", " + getCityDistrict());
+        }
+        if (!(getUnit().isEmpty() || getUnit().isBlank())){
+            sb.append(", " + getUnit());
+        }
+        return sb.toString();
+    }
+
+    public String announcementCreationDateFormatted(){
+        LocalDateTime now = LocalDateTime.now();
+        if (now.getYear() != getDate().getYear()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.forLanguageTag("PL"));
+            return getDate().format(formatter);
+        } else if (now.getMonthValue() != getDate().getMonthValue() || now.getDayOfMonth() - getDate().getDayOfMonth() > 1) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMM", Locale.forLanguageTag("PL"));
+            return getDate().format(formatter);
+        } else if ((now.getDayOfMonth() - getDate().getDayOfMonth()) > 0) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.forLanguageTag("PL"));
+            return "wczoraj " + getDate().format(formatter);
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.forLanguageTag("PL"));
+            return "dzisiaj " + getDate().format(formatter);
+        }
+    }
+
+    public boolean isIndividualPrice(){
+        return this.price.toLowerCase(Locale.ROOT).equals(INDIVIDUAL_PRICE_KEY.toLowerCase(Locale.ROOT));
     }
 }
