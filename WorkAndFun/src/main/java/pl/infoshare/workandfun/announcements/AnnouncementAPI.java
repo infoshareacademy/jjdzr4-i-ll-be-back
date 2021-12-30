@@ -43,11 +43,6 @@ public class AnnouncementAPI {
         return ResponseEntity.ok(announcementsService.update(id, announcementEditRequest));
     }
 
-    @PostMapping("add-announcement")
-    public ResponseEntity<Announcement> save(@RequestBody Announcement announcement) {
-        return ResponseEntity.ok(announcementsService.save(announcement));
-    }
-
     @DeleteMapping("delete-announcement/{id}")
     public void deleteById(@PathVariable Long id) {
         announcementsService.deleteById(id);
