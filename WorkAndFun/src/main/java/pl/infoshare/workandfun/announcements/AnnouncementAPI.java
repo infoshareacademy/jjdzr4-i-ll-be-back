@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.infoshare.workandfun.announcements.announcement_repo.AnnouncementSpec;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
+import pl.infoshare.workandfun.announcements.dto.AddAndEditDto;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -39,8 +41,8 @@ public class AnnouncementAPI {
 
     @PutMapping("update/{id}")
     public ResponseEntity<Announcement> update(@PathVariable Long id,
-                                               @Valid @RequestBody  AnnouncementEditRequest announcementEditRequest) {
-        return ResponseEntity.ok(announcementsService.update(id, announcementEditRequest));
+                                               @Valid @RequestBody AddAndEditDto addAndEditDto) {
+        return ResponseEntity.ok(announcementsService.update(id, addAndEditDto));
     }
 
     @DeleteMapping("delete-announcement/{id}")
