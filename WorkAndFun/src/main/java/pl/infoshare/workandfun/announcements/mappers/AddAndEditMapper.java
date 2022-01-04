@@ -2,11 +2,11 @@ package pl.infoshare.workandfun.announcements.mappers;
 
 import org.springframework.stereotype.Component;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
-import pl.infoshare.workandfun.announcements.dto.AddAndEditDto;
+import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
 
 @Component
 public class AddAndEditMapper {
-    public Announcement toEntity(AddAndEditDto dto) {
+    public Announcement toEntity(AddAndEditAnnouncementDto dto) {
         Announcement entity = new Announcement();
         entity.setType(dto.getType());
         entity.setHeader(dto.getHeader());
@@ -26,8 +26,8 @@ public class AddAndEditMapper {
         return entity;
     }
 
-    public AddAndEditDto toDto(Announcement entity) {
-        AddAndEditDto dto = new AddAndEditDto();
+    public AddAndEditAnnouncementDto toDto(Announcement entity) {
+        AddAndEditAnnouncementDto dto = new AddAndEditAnnouncementDto();
         dto.setCity(entity.getCity());
         dto.setDescription(entity.getDescription());
         dto.setEmail(entity.getEmail());

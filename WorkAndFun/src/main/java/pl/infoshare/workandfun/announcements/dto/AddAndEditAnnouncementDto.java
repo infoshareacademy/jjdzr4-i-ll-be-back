@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AddAndEditDto {
+public class AddAndEditAnnouncementDto {
     private Long id;
     @Enumerated(EnumType.STRING)
     private Type type;
@@ -34,7 +34,7 @@ public class AddAndEditDto {
     @Pattern(regexp = "\\D*", message = "Proszę podać Osiedle!")
     private String unit; //osiedle
     @NotBlank
-    @Pattern(regexp = "(?=^\\s*do ustalenia indywidualnie).{26}|[0-9]{1,10}",message = "Musisz wpisać 'do ustalenia indywidualnie' lub liczbę mniejszą od miliarda")
+    @Pattern(regexp = "(do ustalenia indywidualnie)|[0-9]{1,9}",message = "Musisz wpisać 'do ustalenia indywidualnie' lub liczbę mniejszą od miliarda")
     private String price;
     @Enumerated(EnumType.STRING)
     private Voivodeship voivodeship;
