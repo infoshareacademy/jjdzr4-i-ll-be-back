@@ -41,7 +41,7 @@ public class AnnouncementsService {
     }
 
     public AddAndEditDto findByIdConvertToDto(Long id) {
-        return addAndEditMapper.toDto(announcementsRepository.findById(id).orElseThrow(() ->new AnnouncementNotFoundException(id)));
+        return addAndEditMapper.toDto(announcementsRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException(id)));
     }
 
     public void deleteById(Long id) {

@@ -25,7 +25,7 @@ public class AnnouncementController {
     }
 
     @PostMapping("add-announcement")
-    public String save(@Valid @ModelAttribute("announcement") @RequestBody AddAndEditDto addAndEditDto,
+    public String save(@Valid @ModelAttribute("announcement") AddAndEditDto addAndEditDto,
                        BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             return "announcement-form";
@@ -40,8 +40,8 @@ public class AnnouncementController {
         return "announcement-form-update";
     }
 
-    @PostMapping("edit/{id}")
-    public String saveAfterEdit(@PathVariable("id") Long id, @Valid @ModelAttribute("announcement") @RequestBody AddAndEditDto dto,
+    @PutMapping("edit/{id}")
+    public String saveAfterEdit(@PathVariable("id") Long id, @Valid @ModelAttribute("announcement") AddAndEditDto dto,
                                 BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             return "announcement-form-update";

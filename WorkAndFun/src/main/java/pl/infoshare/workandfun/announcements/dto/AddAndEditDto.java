@@ -26,7 +26,7 @@ public class AddAndEditDto {
     @Enumerated(EnumType.STRING)
     private ServiceType serviceType;
     @Size(min = 2, max = 35)
-    @NotBlank
+    @NotBlank(message = "białe znaki nie zadziałają")
     @Pattern(regexp = "\\D+", message = "Proszę podać Miasto!")
     private String city;
     @Pattern(regexp = "\\D*", message = "Proszę podać Dzielnicę!")
