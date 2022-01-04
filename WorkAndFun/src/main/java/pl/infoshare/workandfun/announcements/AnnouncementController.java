@@ -5,48 +5,59 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.infoshare.workandfun.announcements.dto.AddAndEditDto;
+import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
+import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
+
 import javax.validation.Valid;
 
 @Controller
 public class AnnouncementController {
 
-    private final AnnouncementsService announcementsService;
+    private final AnnouncementService announcementService;
+    private final QuickViewAnnouncementService quickViewAnnouncementService;
 
     @Autowired
-    public AnnouncementController(AnnouncementsService announcementsService) {
-        this.announcementsService = announcementsService;
+    public AnnouncementController(AnnouncementService announcementService, QuickViewAnnouncementService quickViewAnnouncementService) {
+        this.announcementService = announcementService;
+        this.quickViewAnnouncementService = quickViewAnnouncementService;
+    }
+
+    @GetMapping
+    public String getAllAnnouncementsDateDesc(Model model) {
+        model.addAttribute("announcements", announcementService.findAllSortedByCreateDateDescConvertToDto());
+        model.addAttribute("service", quickViewAnnouncementService);
+        return "announcementsList";
     }
 
     @GetMapping("add-announcement")
     public String announcementForm(Model model){
-        model.addAttribute("announcement", new AddAndEditDto());
+        model.addAttribute("announcement", new AddAndEditAnnouncementDto());
         return "announcement-form";
     }
 
     @PostMapping("add-announcement")
-    public String save(@Valid @ModelAttribute("announcement") AddAndEditDto addAndEditDto,
+    public String save(@Valid @ModelAttribute("announcement") AddAndEditAnnouncementDto addAndEditAnnouncementDto,
                        BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             return "announcement-form";
         }
-        announcementsService.save(addAndEditDto);
+        announcementService.save(addAndEditAnnouncementDto);
         return "announcement-form-success";
     }
 
     @GetMapping("edit/{id}")
     public String announcementEditForm(Model model, @PathVariable Long id){
-        model.addAttribute("announcement", announcementsService.findByIdConvertToDto(id));
+        model.addAttribute("announcement", announcementService.findByIdConvertToDto(id));
         return "announcement-form-update";
     }
 
     @PutMapping("edit/{id}")
-    public String saveAfterEdit(@PathVariable("id") Long id, @Valid @ModelAttribute("announcement") AddAndEditDto dto,
+    public String saveAfterEdit(@PathVariable("id") Long id, @Valid @ModelAttribute("announcement") AddAndEditAnnouncementDto dto,
                                 BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
             return "announcement-form-update";
         }
-        announcementsService.update(id, dto);
+        announcementService.update(id, dto);
         return "announcement-form-update-success";
     }
 }

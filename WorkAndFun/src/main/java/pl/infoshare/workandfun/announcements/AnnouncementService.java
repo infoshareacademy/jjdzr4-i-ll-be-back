@@ -20,14 +20,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class AnnouncementsService {
+public class AnnouncementService {
 
     private final AnnouncementsRepository announcementsRepository;
     private final AddAndEditMapper addAndEditMapper;
     private final QuickViewAnnouncementMapper quickViewAnnouncementMapper;
 
     @Autowired
-    public AnnouncementsService(AnnouncementsRepository announcementsRepository, AddAndEditMapper addAndEditMapper, QuickViewAnnouncementMapper quickViewAnnouncementMapper) {
+    public AnnouncementService(AnnouncementsRepository announcementsRepository, AddAndEditMapper addAndEditMapper, QuickViewAnnouncementMapper quickViewAnnouncementMapper) {
         this.announcementsRepository = announcementsRepository;
         this.addAndEditMapper = addAndEditMapper;
         this.quickViewAnnouncementMapper = quickViewAnnouncementMapper;
