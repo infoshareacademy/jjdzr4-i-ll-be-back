@@ -10,7 +10,7 @@
 </nav>
 <h1 th:text="#{announcement.headline}"></h1>
 <div>
-    <form th:object="${announcement}" th:action="@{/add-announcement}" method="post">
+    <form th:object="${announcement}" th:action="@{/edit/{id}(id=${announcement.id})}" th:method="put">
 
         <label th:for="type_input_id" th:text="#{announcement.type}"></label>
         <br>
@@ -142,7 +142,7 @@
         <input type="text" id="priceAdditionComment_input_id" th:field="*{priceAdditionComment}">
         <br>
         <br>
-        <button type="submit" th:text="#{announcement.create}"></button>
+        <button type="submit" th:text="#{announcement.update}"></button>
     </form>
 </div>
 </body>

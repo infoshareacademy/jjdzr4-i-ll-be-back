@@ -1,4 +1,4 @@
-package pl.infoshare.workandfun.announcements;
+package pl.infoshare.workandfun.announcements.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,40 +9,49 @@ import pl.infoshare.workandfun.announcements.announcement_repo.entity.additional
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class AnnouncementEditRequest {
+public class AddAndEditDto {
+    private Long id;
     @Enumerated(EnumType.STRING)
     private Type type;
     @NotBlank
+    @Size(min = 10,max = 60)
     private String header;
     @Enumerated(EnumType.STRING)
     private ServiceType serviceType;
-    @Pattern(regexp = "\\D+")
+    @Size(min = 2, max = 35)
+    @NotBlank(message = "białe znaki nie zadziałają")
+    @Pattern(regexp = "\\D+", message = "Proszę podać Miasto!")
     private String city;
-    @Pattern(regexp = "\\D*")
+    @Pattern(regexp = "\\D*", message = "Proszę podać Dzielnicę!")
     private String cityDistrict;
-    @Pattern(regexp = "\\D*")
+    @Pattern(regexp = "\\D*", message = "Proszę podać Osiedle!")
     private String unit; //osiedle
-    @Pattern(regexp = "(\\d+|do\\sustalenia\\sindywidualnie)")
+    @NotBlank
+    @Pattern(regexp = "(?=^\\s*do ustalenia indywidualnie).{26}|[0-9]{1,10}",message = "Musisz wpisać 'do ustalenia indywidualnie' lub liczbę mniejszą od miliarda")
     private String price;
     @Enumerated(EnumType.STRING)
     private Voivodeship voivodeship;
+    @NotBlank
+    @Size(min = 2, max = 35)
+    @Pattern(regexp="^[A-Za-z]*$",message = "Musisz podać Imie!")
+    private String nameOfAdvertiser;
     @Email
     private String email;
     @NotNull
     private Boolean isPriceNegotiable = false;
+    @Size (min = 30, max=500)
     @NotBlank
     private String description;
-    @Pattern(regexp = "(\\+48)?\\d{9}")
+    @Pattern(regexp = "(\\+48)?\\d{9}", message = "Musisz podać numer w formacie +48123456789")
     private String phoneNumber;
     @Pattern(regexp = ".*")
     private String priceAdditionComment = "";
+    private LocalDateTime date;
 }
