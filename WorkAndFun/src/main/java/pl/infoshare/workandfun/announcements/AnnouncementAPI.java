@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.infoshare.workandfun.announcements.announcement_repo.AnnouncementSpec;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
-
 import java.util.List;
 
 @RestController

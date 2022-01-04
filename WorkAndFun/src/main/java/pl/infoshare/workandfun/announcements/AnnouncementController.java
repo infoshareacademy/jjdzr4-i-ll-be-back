@@ -7,7 +7,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
-
 import javax.validation.Valid;
 
 @Controller
