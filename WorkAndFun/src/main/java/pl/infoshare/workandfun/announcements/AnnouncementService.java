@@ -11,25 +11,34 @@ import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announceme
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.ServiceType;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Type;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship;
-import pl.infoshare.workandfun.announcements.dto.AddAndEditDto;
+import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
+import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.mappers.AddAndEditMapper;
+import pl.infoshare.workandfun.announcements.mappers.QuickViewAnnouncementMapper;
 import pl.infoshare.workandfun.exception.AnnouncementNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class AnnouncementsService {
+public class AnnouncementService {
 
     private final AnnouncementsRepository announcementsRepository;
     private final AddAndEditMapper addAndEditMapper;
+    private final QuickViewAnnouncementMapper quickViewAnnouncementMapper;
 
     @Autowired
-    public AnnouncementsService(AnnouncementsRepository announcementsRepository, AddAndEditMapper addAndEditMapper) {
+    public AnnouncementService(AnnouncementsRepository announcementsRepository, AddAndEditMapper addAndEditMapper, QuickViewAnnouncementMapper quickViewAnnouncementMapper) {
         this.announcementsRepository = announcementsRepository;
         this.addAndEditMapper = addAndEditMapper;
+        this.quickViewAnnouncementMapper = quickViewAnnouncementMapper;
     }
 
-    public Iterable<Announcement> findAllSortedByCreateDateDesc() {
-        return announcementsRepository.findAllByOrderByDateDesc();
+    public Iterable<QuickViewAnnouncementDto> findAllSortedByCreateDateDescConvertToDto() {
+        List<Announcement> announcements = (List<Announcement>) announcementsRepository.findAllByOrderByDateDesc();
+        return announcements
+                .stream()
+                .map(quickViewAnnouncementMapper::toDto)
+                .collect(Collectors.<QuickViewAnnouncementDto>toList());
     }
 
     public List<Announcement> findAllByQuerySpec(AnnouncementSpec announcementSpec){
@@ -40,7 +49,7 @@ public class AnnouncementsService {
         return announcementsRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException(id));
     }
 
-    public AddAndEditDto findByIdConvertToDto(Long id) {
+    public AddAndEditAnnouncementDto findByIdConvertToDto(Long id) {
         return addAndEditMapper.toDto(announcementsRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException(id)));
     }
 
@@ -49,12 +58,12 @@ public class AnnouncementsService {
                 .ifPresentOrElse(announcementsRepository::delete, () -> { throw new AnnouncementNotFoundException(id); });
     }
 
-    public void save(AddAndEditDto dto) {
+    public void save(AddAndEditAnnouncementDto dto) {
         Announcement announcement = addAndEditMapper.toEntity(dto);
         announcementsRepository.save(announcement);
     }
 
-    public Announcement update(Long id, AddAndEditDto dto) {
+    public Announcement update(Long id, AddAndEditAnnouncementDto dto) {
         Announcement entity = findById(id);
         BeanUtils.copyProperties(dto, entity, "date");
         return announcementsRepository.save(entity);

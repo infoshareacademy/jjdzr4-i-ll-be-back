@@ -77,7 +77,8 @@
         </div>
         <label th:for="price_input_id" th:text="#{announcement.price}"></label>
         <br>
-        <input  type="text" id="price_input_id" value="do ustalenia indywidualnie" th:field="*{price}" >
+        <input  type="text" id="price_input_id" value="do ustalenia indywidualnie" th:field="*{price}">
+        <p th:text="#{announcement.price.ind}"></p>
         <br>
         <br>
         <label th:for="isPriceNegotiable_input_id" th:text="#{announcement.isPriceNegotiable}"></label>
