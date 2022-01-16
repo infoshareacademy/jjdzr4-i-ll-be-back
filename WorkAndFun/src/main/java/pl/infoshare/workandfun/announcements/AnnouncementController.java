@@ -21,7 +21,14 @@ public class AnnouncementController {
         this.quickViewAnnouncementService = quickViewAnnouncementService;
     }
 
-    @GetMapping
+    //DO PRZENIESIENIA GDZIE INDZIEJ
+    @GetMapping("/")
+    public String getIndex(){
+        return "index";
+    }
+
+
+    @GetMapping("list-announcements")
     public String getAllAnnouncementsDateDesc(Model model) {
         model.addAttribute("announcements", announcementService.findAllSortedByCreateDateDescConvertToDto());
         model.addAttribute("service", quickViewAnnouncementService);
