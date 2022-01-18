@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--/* Bootstrap CSS */-->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <title th:text="#{index.title}"></title>
 </head>
@@ -17,12 +19,12 @@
         </div>
         <!-- JUMBOTRON -->
         <div class="col-md-12">
-            <div class="jumbotron text-center">
-                <h2>
+            <div class="jumbotron text-center" th:style="'background: url(img/drillguy.jpg) no-repeat; background-size: 1150px; height: 350px'">
+                <h2 class="mt-5 white-text-shadow">
                     Zamawianie usług online
                 </h2>
-                <p>
-                    Ponad 100 000 sprawdzonych profesjonalistów do wykonywania zadań domowych lub biznesowych
+                <p class="white-text-shadow">
+                    Ponad 100 000 sprawdzonych profesjonalistów do wykonywania zadań
                 </p>
                 <form class="form-inline justify-content-center">
                     <input class="form-control mr-sm-2" type="text">
@@ -171,21 +173,12 @@
     <!-- FOOTER -->
     <div class="row">
         <div class="col-md-12">
-            <footer class="bg-dark text-light">
-                <ul>
 
-                    <li>Kategorie główne jako ikony (ala olx)</li>
-                    <li>Dopracować jumbotron (obrazek w tle + rozdziałka)</li>
-                    <li>Dodać ogłoszenia i wyświetlanie przykładowych</li>
-                    <li>Zrobić prawilny footer i wyodrębnić</li>
-                    <li>Zdynamizować wszystko pod thymeleaf (tytuł strony itp.)</li>
-                    <li>Dopracować layout</li>
-                    <li>Zrobić linki</li>
-                    <li>Poprawki</li>
-                </ul>
-            </footer>
         </div>
 
+    </div>
+    <div class="row">
+    <div class="col-lg-12" th:insert="~{fragments/footer :: footer}">
     </div>
 </div>
 
@@ -194,3 +187,15 @@
 <script th:src="@{/js/bootstrap.min.js}"></script>
 </body>
 </html>
+
+
+<!--
+    <li>Dopracować jumbotron (obrazek w tle + rozdziałka)</li>
+    <li>Zrobić prawilny footer i wyodrębnić</li>
+
+    <li>Dodać ogłoszenia i wyświetlanie przykładowych</li>
+    <li>Zdynamizować wszystko pod thymeleaf (tytuł strony itp.)</li>
+    <li>Dopracować layout</li>
+    <li>Zrobić linki</li>
+    <li>Poprawki: kategorie działające jak grid</li>
+-->

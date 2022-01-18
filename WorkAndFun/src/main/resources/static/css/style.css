@@ -20,3 +20,13 @@
 .announcement-right-side {
     font-size: large;
 }
+
+.footer-bg {
+    background-color: #d9e800;
+    color: #d9e800;
+    border: #0b2e13 10px;
+}
+
+.white-text-shadow{
+    text-shadow: white 0.1em 0.1em 0.1em;
+}
