@@ -18,6 +18,7 @@ public class QuickViewAnnouncementMapper {
         dto.setDate(entity.getDate());
         dto.setIndividualPrice(checkIsPriceIndividual(entity));
         dto.setFullLocalization(setFullLocalization(entity));
+        dto.setDescription(entity.getDescription());
         return dto;
     }
 
