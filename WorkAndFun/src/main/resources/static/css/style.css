@@ -73,6 +73,9 @@
     border: 1px solid transparent;
     padding: 15px;
     background-color: white;
+    -ms-flex: 0 0 31.7%;
+    flex: 0 0 31.7%;
+    max-width: 31.7%;
 }
 
 .index-announcement:hover {
@@ -88,13 +91,13 @@
 }
 
 .index-announcement-description {
-    height: 150px;
+    height: 100px;
 }
 
 .index-announcement-description-text {
     overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 6;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
 }
 
