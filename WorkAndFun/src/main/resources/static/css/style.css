@@ -31,7 +31,7 @@
     text-shadow: white 0.1em 0.1em 0.1em;
 }
 
-.navbar-custom{
+.navbar-custom {
     position: relative;
     display: -ms-flexbox;
     display: flex;
@@ -44,7 +44,27 @@
     padding: 0.5rem 0rem;
 }
 
-.category-icon{
+.category-icon {
     width: 55px;
     height:55px;
+}
+
+.btn-mint {
+    border: 2px solid #d9e800;
+}
+
+.btn-mint:hover {
+    color: #fff;
+    background-color: #eceed0;
+    border-color: #d9e800;
+}
+
+.btn-teal {
+    border: 2px solid #00cae8;
+}
+
+.btn-teal:hover {
+    color: #fff;
+    background-color: #c7e8ed;
+    border-color: #00cae8;
 }
