@@ -68,3 +68,42 @@
     background-color: #c7e8ed;
     border-color: #00cae8;
 }
+
+.index-announcement{
+    border: 1px solid transparent;
+    padding: 15px;
+    background-color: white;
+}
+
+.index-announcement:hover {
+    border: 1px solid #d9e800;
+    border-radius: .25rem;
+    background-color: #ebebeb;
+}
+
+.index-announcement-h{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.index-announcement-description {
+    height: 150px;
+}
+
+.index-announcement-description-text {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+}
+
+.index-announcement-link {
+    text-decoration: none;
+    color: black;
+}
+
+.index-announcement-link:hover {
+    text-decoration: none;
+    color: black;
+}
