@@ -1,3 +1,14 @@
+.bg-default {
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    background-color: white;
+}
+
+.bg-default:hover {
+    border: 1px solid #d9e800;
+    border-radius: .25rem;
+    background-color: #ebebeb;
+}
 
 .form-group {
     margin-bottom: 7px;
@@ -70,18 +81,10 @@
 }
 
 .index-announcement{
-    border: 1px solid transparent;
     padding: 15px;
-    background-color: white;
     -ms-flex: 0 0 31.7%;
     flex: 0 0 31.7%;
     max-width: 31.7%;
-}
-
-.index-announcement:hover {
-    border: 1px solid #d9e800;
-    border-radius: .25rem;
-    background-color: #ebebeb;
 }
 
 .index-announcement-h{
