@@ -18,4 +18,5 @@ public class QuickViewAnnouncementDto {
     private LocalDateTime date;
     private boolean isIndividualPrice;
     private String fullLocalization;
+    private String description;
 }

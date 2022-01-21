@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--/* Bootstrap CSS */-->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title th:text="#{index.title}"></title>
+</head>
+
+<body class="bg-light p-3">
+<div class="container-lg">
+    <div class="row mb-1">
+        <div class="col-md-12" th:insert="~{fragments/navbar :: nav}">
+        </div>
+</div>
+        <!-- JUMBOTRON -->
+      <div class="row">
+        <div class="col-md-12">
+            <div class="jumbotron text-center"
+                 th:style="'background: url(img/drillguy.jpg) no-repeat; background-size: 1150px; height: 350px'">
+                <h2 class="mt-5 white-text-shadow">
+                    Zamawianie usług online
+                </h2>
+                <p class="white-text-shadow">
+                    Ponad 100 000 sprawdzonych profesjonalistów do wykonywania zadań
+                </p>
+                <form class="form-inline justify-content-center">
+                    <input class="form-control mr-sm-2" type="text">
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit">
+                        Szukaj
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- KATEGORIE-->
+    <div class="row">
+        <div class="col-md-12 mt-2">
+            <ul class="list-group list-group-horizontal-md list-group-flush">
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Budowa domu"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.houseBuilding}"
+                       class="font-weight-bold text-decoration-none badge badge-light bg-default"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Elektryk"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.electrician}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Hydraulik"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.plumber}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Malarz"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.decorator}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Meble"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.furniture}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Motoryzacja"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.automotive}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Ogród"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.garden}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Imprezy"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.eventOrganisation}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Projektowanie"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.designing}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Remont"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.renovation}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-12 mt-2 mb-4">
+            <ul class="list-group list-group-horizontal-md list-group-flush">
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Sprzątanie"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.cleaning}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Języki obce"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.foreignLanguages}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Transport"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.transportation}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Biznes"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.businessServices}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Montaż/naprawa"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.assemblyRepair}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Finanse"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.finances}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Prawo"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.lawAdministration}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Zdalne"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.remote}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Zdrowie/uroda"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.healthBeauty}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+                <li class="flex-fill list-inline-item text-center list-group-item-action bg-default">
+                    <p><a href="@{/}"><img th:src="@{/img/icons/hammer.png}" width="50px" height="50px" alt="Złota rączka"/></a>
+                    </p>
+                    <a href="@{/}" th:text="#{categories.handyman}"
+                       class="font-weight-bold text-decoration-none badge badge-light"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- OGŁOSZENIA -->
+    <div class="row" >
+        <div class="m-2 index-announcement bg-default" th:each="announcement, stat : ${announcements}" th:unless="${stat.index > 2}">
+            <a th:href="@{/}" class="index-announcement-link">
+            <h5 class="announcement-header index-announcement-h" th:text="${announcement.header}"></h5>
+            <p th:text="${announcement.fullLocalization}"></p>
+            <div class="index-announcement-description">
+            <p class="index-announcement-description-text" th:text="${announcement.description}"></p>
+            </div>
+                <p th:text="${announcement.price + ' zł'}">
+            </p>
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12" th:insert="~{fragments/footer :: footer}">
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

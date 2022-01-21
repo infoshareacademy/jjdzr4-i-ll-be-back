@@ -1,3 +1,14 @@
+.bg-default {
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    background-color: white;
+}
+
+.bg-default:hover {
+    border: 1px solid #d9e800;
+    border-radius: .25rem;
+    background-color: #ebebeb;
+}
 
 .form-group {
     margin-bottom: 7px;
@@ -19,4 +30,86 @@
 
 .announcement-right-side {
     font-size: large;
+}
+
+.footer-bg {
+    background-color: #d9e800;
+    color: #d9e800;
+    border: #0b2e13 10px;
+}
+
+.white-text-shadow{
+    text-shadow: white 0.1em 0.1em 0.1em;
+}
+
+.navbar-custom {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 0.5rem 0rem;
+}
+
+.category-icon {
+    width: 55px;
+    height:55px;
+}
+
+.btn-mint {
+    border: 2px solid #d9e800;
+}
+
+.btn-mint:hover {
+    color: #fff;
+    background-color: #eceed0;
+    border-color: #d9e800;
+}
+
+.btn-teal {
+    border: 2px solid #00cae8;
+}
+
+.btn-teal:hover {
+    color: #fff;
+    background-color: #c7e8ed;
+    border-color: #00cae8;
+}
+
+.index-announcement{
+    padding: 15px;
+    -ms-flex: 0 0 31.7%;
+    flex: 0 0 31.7%;
+    max-width: 31.7%;
+}
+
+.index-announcement-h{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.index-announcement-description {
+    height: 100px;
+}
+
+.index-announcement-description-text {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.index-announcement-link {
+    text-decoration: none;
+    color: black;
+}
+
+.index-announcement-link:hover {
+    text-decoration: none;
+    color: black;
 }

@@ -75,5 +75,13 @@ public class AnnouncementService {
                 ServiceType.INNE, "Warszawa","","", "200", null, Voivodeship.MAZOWIECKIE, null,"Andrzej",
                 "andrzej@aa.pl", false, "Andrzej, czyli ja to miłośnik zwierząt chętnie spędzający z nimi czas, nie masz" +
                 " co zrobić ze swoim zwierzakiem, zadzwoń do Andrzeja", "+48666666666", "z FV będzie drożej"));
+        announcementsRepository.save(new Announcement(2L, Type.SERVICE_OFFER, "Zbuduję Ci chatę",
+                ServiceType.BUDOWA_DOMU_BUDOWA_OD_PODSTAW, "Wrocław","","", "50000", null, Voivodeship.DOLNOSLASKIE, null,"Piotrek",
+                "piotrek@b.pl", true, "Nie masz chaty? Zbuduję! Mach chatę? Zbuduję Ci nową! Nie krępuj się i dzwoń śmiało!"
+                , "+48777777777", ""));
+        announcementsRepository.save(new Announcement(3L, Type.SERVICE_OFFER, "Profesjonalne obieranie cebuli",
+                ServiceType.INNE, "Gdańsk","","", "10", null, Voivodeship.POMORSKIE, null,"Polcebulex",
+                "polcebulex@wp.pl", false, "1kg obranej cebuli za 10gr. Czas realizacji na zamówienia do pół tony to 5 dni roboczych." +
+                "Zapraszamy do składania zamówień w wiodącej firmie obierającej cebulę w regionie pomorskim.", "+48888888888", ""));
     }
 }
