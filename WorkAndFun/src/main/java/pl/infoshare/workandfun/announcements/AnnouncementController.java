@@ -72,5 +72,4 @@ public class AnnouncementController {
         model.addAttribute("isSuccess", !announcementDtoList.isEmpty());
         return "searched-announcements";
     }
-
 }
