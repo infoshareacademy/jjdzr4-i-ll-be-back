@@ -20,13 +20,13 @@ public class AddAndEditAnnouncementDto {
     private Long id;
     @Enumerated(EnumType.STRING)
     private Type type;
-    @NotBlank
-    @Size(min = 10,max = 60)
+    @NotBlank(message = "Nie może być odstępem")
+    @Size(min = 10,max = 60,message = "Nagłówek musi mieścić się w zakresie od 10 do 60 znaków")
     private String header;
     @Enumerated(EnumType.STRING)
     private ServiceType serviceType;
-    @Size(min = 2, max = 35)
-    @NotBlank(message = "białe znaki nie zadziałają")
+    @Size(min = 2, max = 35,message = "Długość nazwy miasta musi mieścić się w zakresie od 2 do 35 liter")
+    @NotBlank(message = "Nie może być odstępem")
     @Pattern(regexp = "\\D+", message = "Proszę podać Miasto!")
     private String city;
     @Pattern(regexp = "\\D*", message = "Proszę podać Dzielnicę!")
@@ -38,16 +38,17 @@ public class AddAndEditAnnouncementDto {
     private String price;
     @Enumerated(EnumType.STRING)
     private Voivodeship voivodeship;
-    @NotBlank
-    @Size(min = 2, max = 35)
+    @Size(min = 2, max = 35, message = "Długość imienia musi mieścić się w zakresie od 2 do 35 liter")
     @Pattern(regexp="^[A-Za-z]*$",message = "Musisz podać Imie!")
     private String nameOfAdvertiser;
     @Email
+    @NotBlank(message = "Nie może być odstępem")
+    @NotEmpty
     private String email;
     @NotNull
     private Boolean isPriceNegotiable = false;
-    @Size (min = 30, max=500)
-    @NotBlank
+    @Size (min = 30, max=500,message = "Długość opisu musi mieścić się w zakresie od 30 do 500 znaków")
+    @NotBlank(message = "Nie może być odstępem")
     private String description;
     @Pattern(regexp = "(\\+48)?\\d{9}", message = "Musisz podać numer w formacie +48123456789")
     private String phoneNumber;
