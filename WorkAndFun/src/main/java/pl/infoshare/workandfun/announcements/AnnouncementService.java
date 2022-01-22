@@ -16,7 +16,12 @@ import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.mappers.AddAndEditMapper;
 import pl.infoshare.workandfun.announcements.mappers.QuickViewAnnouncementMapper;
 import pl.infoshare.workandfun.exception.AnnouncementNotFoundException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,5 +88,19 @@ public class AnnouncementService {
                 ServiceType.INNE, "Gdańsk","","", "10", null, Voivodeship.POMORSKIE, null,"Polcebulex",
                 "polcebulex@wp.pl", false, "1kg obranej cebuli za 10gr. Czas realizacji na zamówienia do pół tony to 5 dni roboczych." +
                 "Zapraszamy do składania zamówień w wiodącej firmie obierającej cebulę w regionie pomorskim.", "+48888888888", ""));
+    }
+
+    public Iterable<QuickViewAnnouncementDto> searchAllByParameter(String parameter) {
+        List<QuickViewAnnouncementDto> announcementDtoList = (List<QuickViewAnnouncementDto>) findAllSortedByCreateDateDescConvertToDto();
+        if (parameter.isBlank()) {
+            return announcementDtoList;
+        } else {
+            return announcementDtoList.stream()
+                    .filter(searchFilter(parameter)).collect(Collectors.<QuickViewAnnouncementDto>toList());
+        }
+    }
+
+    private Predicate<QuickViewAnnouncementDto> searchFilter(String param) {
+        return quickViewAnnouncementDto -> quickViewAnnouncementDto.toString().toLowerCase().contains(param.toLowerCase());
     }
 }
