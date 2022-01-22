@@ -18,7 +18,7 @@ public class AnnouncementAPI {
         this.announcementService = announcementService;
     }
 
-    @GetMapping("search")
+    @GetMapping("search-announcement")
     public ResponseEntity<List<Announcement>> findAllByQuerySpec(AnnouncementSpec announcementSpec) {
         return ResponseEntity.ok(announcementService.findAllByQuerySpec(announcementSpec));
     }

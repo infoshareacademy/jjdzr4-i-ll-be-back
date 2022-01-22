@@ -6,10 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
+import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
+@RequestMapping("announcement")
 public class AnnouncementController {
 
     private final AnnouncementService announcementService;
@@ -21,28 +24,20 @@ public class AnnouncementController {
         this.quickViewAnnouncementService = quickViewAnnouncementService;
     }
 
-    //DO PRZENIESIENIA GDZIE INDZIEJ
-    @GetMapping("/")
-    public String getIndex(Model model){
-        model.addAttribute("announcements", announcementService.findAllSortedByCreateDateDescConvertToDto());
-        model.addAttribute("service", quickViewAnnouncementService);
-        return "index";
-    }
-
-    @GetMapping("list-announcements")
+    @GetMapping("all")
     public String getAllAnnouncementsDateDesc(Model model) {
         model.addAttribute("announcements", announcementService.findAllSortedByCreateDateDescConvertToDto());
         model.addAttribute("service", quickViewAnnouncementService);
-        return "announcementsList";
+        return "all-announcements";
     }
 
-    @GetMapping("add-announcement")
+    @GetMapping("add-new")
     public String announcementForm(Model model){
         model.addAttribute("announcement", new AddAndEditAnnouncementDto());
         return "announcement-form";
     }
 
-    @PostMapping("add-announcement")
+    @PostMapping("add-new")
     public String save(@Valid @ModelAttribute("announcement") AddAndEditAnnouncementDto addAndEditAnnouncementDto,
                        BindingResult bindingResult) {
         if(bindingResult.hasErrors()){
@@ -67,4 +62,15 @@ public class AnnouncementController {
         announcementService.update(id, dto);
         return "announcement-form-update-success";
     }
+
+    @GetMapping("search")
+    public String searchAnnouncementsByParam(@RequestParam(value = "param", required = false, defaultValue = "") String param,
+                                             Model model) {
+        List<QuickViewAnnouncementDto> announcementDtoList = (List<QuickViewAnnouncementDto>) announcementService.searchAllByParameter(param);
+        model.addAttribute("searchedAnnouncements", announcementDtoList);
+        model.addAttribute("service", quickViewAnnouncementService);
+        model.addAttribute("isSuccess", !announcementDtoList.isEmpty());
+        return "searched-announcements";
+    }
+
 }
