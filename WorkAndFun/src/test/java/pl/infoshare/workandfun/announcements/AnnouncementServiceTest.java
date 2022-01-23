@@ -2,7 +2,6 @@ package pl.infoshare.workandfun.announcements;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -75,7 +74,7 @@ class AnnouncementServiceTest {
     @Test
     void shouldFindAllByQuerySpec() {
         announcementService.findAllByQuerySpec(mock(AnnouncementSpec.class));
-        verify(announcementsRepository, times(1)).findAll(any(AnnouncementSpec.class));
+        verify(announcementsRepository).findAll(any(AnnouncementSpec.class));
     }
 
     @Test
@@ -83,7 +82,8 @@ class AnnouncementServiceTest {
         //given
         Long id3 = 3L;
         when(announcementsRepository.findById(id3)).thenReturn(Optional.empty());
-        //when then
+        //when
+        //then
         Assertions.assertThrows(AnnouncementNotFoundException.class, () -> announcementService.findById(id3));
     }
 
@@ -129,7 +129,6 @@ class AnnouncementServiceTest {
     }
 
     @Test
-    @DisplayName("ten test nie robi NIC !")
     void shouldDeleteAnnouncementByIdIfExist() {
         //given
         when(announcementsRepository.findById(id)).thenReturn(Optional.of(announcement));
@@ -138,43 +137,5 @@ class AnnouncementServiceTest {
         //then
         verify(announcementsRepository).findById(id);
         verify(announcementsRepository).delete(announcement);
-
     }
-
-//    @Test
-//    void shouldSaveAnnouncement() {
-//        //given
-//        final var newAnnouncement = new Announcement(2L, Type.SERVICE_OFFER, "Wyprowadzam psy, koty, myszy, konie, słonie",
-//                ServiceType.INNE, "Warszawa", "dzielnica", "osiedle", "200", null, Voivodeship.MAZOWIECKIE, LocalDateTime.of(LocalDate.of(2020, 10, 10), LocalTime.of(10, 10)), "Andrzej",
-//                "andrzej@aa.pl", false, "Andrzej, czyli ja to miłośnik zwierząt chętnie spędzający z nimi czas, nie masz" +
-//                " co zrobić ze swoim zwierzakiem, zadzwoń do Andrzeja", "+48666666666", "z FV będzie drożej");
-//
-//
-//        when(announcementsRepository.save(newAnnouncement)).thenReturn((Announcement) List.of(announcement, newAnnouncement));
-//        final var result = announcementService.save(newAnnouncement);
-//    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
