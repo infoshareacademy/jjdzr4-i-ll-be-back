@@ -10,7 +10,7 @@
 </nav>
 <h1 th:text="#{announcement.headline}"></h1>
 <div>
-    <form th:object="${announcement}" th:action="@{/add-announcement}" method="post">
+    <form th:object="${announcement}" th:action="@{/announcement/add-new}" method="post">
 
         <label th:for="type_input_id" th:text="#{announcement.type}"></label>
         <br>

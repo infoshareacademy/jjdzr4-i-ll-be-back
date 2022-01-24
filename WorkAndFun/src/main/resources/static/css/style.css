@@ -113,3 +113,7 @@
     text-decoration: none;
     color: black;
 }
+
+.border-mint {
+    border: 2px solid #d9e800 !important ;
+}

@@ -27,9 +27,9 @@
                 <p class="white-text-shadow">
                     Ponad 100 000 sprawdzonych profesjonalistów do wykonywania zadań
                 </p>
-                <form class="form-inline justify-content-center">
-                    <input class="form-control mr-sm-2" type="text">
-                    <button class="btn btn-primary my-2 my-sm-0" type="submit">
+                <form class="form-inline justify-content-center" th:action="@{/announcement/search}" th:method="get">
+                    <input th:name="param" class="form-control mr-sm-2" type="search">
+                    <button class="btn btn-primary my-2 my-sm-0" type="submit" th:text="#{announcement.search}">
                         Szukaj
                     </button>
                 </form>
