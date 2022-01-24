@@ -7,6 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
+import pl.infoshare.workandfun.announcements.dto.ViewAnnouncementDetailsDtoController;
+
 import javax.validation.Valid;
 
 @Controller
@@ -14,11 +16,13 @@ public class AnnouncementController {
 
     private final AnnouncementService announcementService;
     private final QuickViewAnnouncementService quickViewAnnouncementService;
+    private final ViewAnnouncementDetailsDtoController viewAnnouncementDetailsDtoController;
 
     @Autowired
-    public AnnouncementController(AnnouncementService announcementService, QuickViewAnnouncementService quickViewAnnouncementService) {
+    public AnnouncementController(AnnouncementService announcementService, QuickViewAnnouncementService quickViewAnnouncementService, ViewAnnouncementDetailsDtoController viewAnnouncementDetailsDtoController) {
         this.announcementService = announcementService;
         this.quickViewAnnouncementService = quickViewAnnouncementService;
+        this.viewAnnouncementDetailsDtoController = viewAnnouncementDetailsDtoController;
     }
 
     //DO PRZENIESIENIA GDZIE INDZIEJ
@@ -32,7 +36,8 @@ public class AnnouncementController {
     // KONTROLER DO WYŚWIETLANIA KONKRETNEGO OGLOSZENIA
     @GetMapping("details-announcement/{id}")
     public String getAnnouncementDetails(Model model, @PathVariable Long id){
-        model.addAttribute("details", announcementService.findByIdConvertToDto(id));
+//        model.addAttribute("details", announcementService.findByIdConvertToDto(id));
+        model.addAttribute("allDetails",viewAnnouncementDetailsDtoController.viewAllDetails(id));
         model.addAttribute("service",quickViewAnnouncementService);
         return "announcementDetails";
     }
