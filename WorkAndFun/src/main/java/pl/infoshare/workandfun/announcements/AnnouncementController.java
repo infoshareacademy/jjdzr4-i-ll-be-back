@@ -29,6 +29,15 @@ public class AnnouncementController {
         return "index";
     }
 
+    // KONTROLER DO WYŚWIETLANIA KONKRETNEGO OGLOSZENIA
+    @GetMapping("details-announcement/{id}")
+    public String getAnnouncementDetails(Model model, @PathVariable Long id){
+        model.addAttribute("details", announcementService.findByIdConvertToDto(id));
+        model.addAttribute("service",quickViewAnnouncementService);
+        return "announcementDetails";
+    }
+
+
     @GetMapping("list-announcements")
     public String getAllAnnouncementsDateDesc(Model model) {
         model.addAttribute("announcements", announcementService.findAllSortedByCreateDateDescConvertToDto());
