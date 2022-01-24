@@ -73,6 +73,20 @@ public class AnnouncementService {
         return announcementsRepository.save(entity);
     }
 
+    public Iterable<QuickViewAnnouncementDto> searchAllByParameter(String parameter) {
+        List<QuickViewAnnouncementDto> announcementDtoList = (List<QuickViewAnnouncementDto>) findAllSortedByCreateDateDescConvertToDto();
+        if (parameter.isBlank()) {
+            return announcementDtoList;
+        } else {
+            return announcementDtoList.stream()
+                    .filter(searchFilter(parameter)).collect(Collectors.<QuickViewAnnouncementDto>toList());
+        }
+    }
+
+    private Predicate<QuickViewAnnouncementDto> searchFilter(String param) {
+        return quickViewAnnouncementDto -> quickViewAnnouncementDto.toString().toLowerCase().contains(param.toLowerCase());
+    }
+
     @EventListener(ApplicationReadyEvent.class)
     public void fillDB() {
         announcementsRepository.save(new Announcement(1L, Type.SERVICE_OFFER, "Wyprowadzam psy, koty, myszy, konie, słonie",
@@ -125,19 +139,5 @@ public class AnnouncementService {
                 "Diagnostyka i serwis aut elektrycznych. Pomagam przy zakupie auta elektrycznego",
                 "+48741741741",
                 ""));
-    }
-
-    public Iterable<QuickViewAnnouncementDto> searchAllByParameter(String parameter) {
-        List<QuickViewAnnouncementDto> announcementDtoList = (List<QuickViewAnnouncementDto>) findAllSortedByCreateDateDescConvertToDto();
-        if (parameter.isBlank()) {
-            return announcementDtoList;
-        } else {
-            return announcementDtoList.stream()
-                    .filter(searchFilter(parameter)).collect(Collectors.<QuickViewAnnouncementDto>toList());
-        }
-    }
-
-    private Predicate<QuickViewAnnouncementDto> searchFilter(String param) {
-        return quickViewAnnouncementDto -> quickViewAnnouncementDto.toString().toLowerCase().contains(param.toLowerCase());
     }
 }
