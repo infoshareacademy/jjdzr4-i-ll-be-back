@@ -15,10 +15,53 @@
 
 <body class="bg-light p-3">
 
-tu zaraz bede coś grzebał !!!
+numer ogłoszenia:
+<p th:text="${allDetails.getId()}"></p>
 
-<p th:text="${details}"></p>
-<p th:text="${allDetails}"></p>
+miasto:
+<p th:text="${allDetails.getCity()}"></p>
+
+dzielnica:
+<p th:text="${allDetails.getCityDistrict()}"></p>
+
+data:
+<p th:text="${allDetails.getDate()}"></p>
+
+opis:
+<p th:text="${allDetails.getDescription()}"></p>
+
+e-mail:
+<p th:text="${allDetails.getEmail()}"></p>
+
+nagłówek:
+<p th:text="${allDetails.getHeader()}"></p>
+
+czy cena do negocjacji:
+<p th:text="${allDetails.getIsPriceNegotiable()}"></p>
+
+imię:
+<p th:text="${allDetails.getNameOfAdvertiser()}"></p>
+
+nr telefonu:
+<p th:text="${allDetails.getPhoneNumber()}"></p>
+
+cena:
+<p th:text="${allDetails.getPrice()}"></p>
+
+dodatkowy komentarz do ceny:
+<p th:text="${allDetails.getPriceAdditionComment()}"></p>
+
+typ usługi:
+<p th:text="${allDetails.getServiceType()}"></p>
+
+typ:
+<p th:text="${allDetails.getType()}"></p>
+
+jednostki:
+<p th:text="${allDetails.getUnit()}"></p>
+
+województwo :
+<p th:text="${allDetails.getVoivodeship()}"></p>
 
 
 <script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
