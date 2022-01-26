@@ -14,56 +14,76 @@
 </head>
 
 <body class="bg-light p-3">
+<div class="flex">
+    <div class="container-lg">
+        <div class="row">
+            <div class="m-2 flex-lg-column bg-default">
 
-numer ogłoszenia:
-<p th:text="${allDetails.getId()}"></p>
+                nagłówek:
+                <p class="m-2" th:text="${allDetails.getHeader()}"></p>
 
-miasto:
-<p th:text="${allDetails.getCity()}"></p>
+                numer ogłoszenia:
+                <p class="m-2" th:text="${allDetails.getId()}"></p>
 
-dzielnica:
-<p th:text="${allDetails.getCityDistrict()}"></p>
+                data:
+                <p class="m-2" th:text="${allDetails.getDate()}"></p>
 
-data:
-<p th:text="${allDetails.getDate()}"></p>
-
-opis:
-<p th:text="${allDetails.getDescription()}"></p>
-
-e-mail:
-<p th:text="${allDetails.getEmail()}"></p>
-
-nagłówek:
-<p th:text="${allDetails.getHeader()}"></p>
-
-czy cena do negocjacji:
-<p th:text="${allDetails.getIsPriceNegotiable()}"></p>
-
-imię:
-<p th:text="${allDetails.getNameOfAdvertiser()}"></p>
-
-nr telefonu:
-<p th:text="${allDetails.getPhoneNumber()}"></p>
-
-cena:
-<p th:text="${allDetails.getPrice()}"></p>
-
-dodatkowy komentarz do ceny:
-<p th:text="${allDetails.getPriceAdditionComment()}"></p>
-
-typ usługi:
-<p th:text="${allDetails.getServiceType()}"></p>
-
-typ:
-<p th:text="${allDetails.getType()}"></p>
-
-jednostki:
-<p th:text="${allDetails.getUnit()}"></p>
-
-województwo :
-<p th:text="${allDetails.getVoivodeship()}"></p>
+                opis:
+                <p  class="m-2" th:text="${allDetails.getDescription()}"></p>
 
 
+                cena:
+                <p class="m-2" th:text="${allDetails.getPrice()}"></p>
+
+                dodatkowy komentarz do ceny:
+                <p class="m-2" th:text="${allDetails.getPriceAdditionComment()}"></p>
+
+                typ usługi:
+                <p class="m-2" th:text="${allDetails.getServiceType()}"></p>
+
+                typ:
+                <p class="m-2" th:text="${allDetails.getType()}"></p>
+
+                jednostki:
+                <p class="m-2" th:text="${allDetails.getUnit()}"></p>
+
+
+                czy cena do negocjacji:
+                <p class="m-2" th:text="${allDetails.getIsPriceNegotiable()}"></p>
+
+            </div>
+            <div class="m-2 flex-lg-column bg-default">
+
+                <h1 class="m-2"> DANE KONTAKTOWE </h1>
+
+                <h2 class="m-2" th:text="${allDetails.getCity()}"></h2>
+                <h4 class="m-2" th:text="${allDetails.getVoivodeship()}"></h4>
+
+                dzielnica:
+                <p class="m-2" th:text="${allDetails.getCityDistrict()}"></p>
+
+                imię:
+                <p class="m-2" th:text="${allDetails.getNameOfAdvertiser()}"></p>
+
+                nr telefonu:
+                <p class="m-2" th:text="${allDetails.getPhoneNumber()}"></p>
+
+                e-mail:
+                <p class="m-2" th:text="${allDetails.getEmail()}"></p>
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" th:insert="~{fragments/footer :: footer}">
+        </div>
+    </div>
+</div>
 <script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
 <script th:src="@{/js/popper.min.js}"></script>
 <script th:src="@{/js/bootstrap.min.js}"></script>
