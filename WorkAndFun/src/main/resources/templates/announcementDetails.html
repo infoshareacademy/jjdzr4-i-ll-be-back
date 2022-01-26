@@ -16,11 +16,15 @@
 <body class="bg-light p-3">
 <div class="flex">
     <div class="container-lg">
+        <div class="row mb-1">
+            <div class="col-md-12" th:insert="~{fragments/navbar :: nav}">
+            </div>
+        </div>
         <div class="row">
             <div class="m-2 flex-lg-column bg-default">
 
-                nagłówek:
-                <p class="m-2" th:text="${allDetails.getHeader()}"></p>
+                <h1 class="m-3"><I>Szczegóły ogłoszenia dotyczące:</I></h1>
+                <h3 class="m-2" th:text="${allDetails.getHeader()}"></h3>
 
                 numer ogłoszenia:
                 <p class="m-2" th:text="${allDetails.getId()}"></p>
@@ -54,20 +58,16 @@
             </div>
             <div class="m-2 flex-lg-column bg-default">
 
-                <h1 class="m-2"> DANE KONTAKTOWE </h1>
+                <h1 class="m-3"><I>Dane kontaktowe:</I> </h1>
 
                 <h2 class="m-2" th:text="${allDetails.getCity()}"></h2>
                 <h4 class="m-2" th:text="${allDetails.getVoivodeship()}"></h4>
-
-                dzielnica:
                 <p class="m-2" th:text="${allDetails.getCityDistrict()}"></p>
 
                 imię:
-                <p class="m-2" th:text="${allDetails.getNameOfAdvertiser()}"></p>
-
+                <h4 class="m-2" th:text="${allDetails.getNameOfAdvertiser()}"></h4>
                 nr telefonu:
                 <p class="m-2" th:text="${allDetails.getPhoneNumber()}"></p>
-
                 e-mail:
                 <p class="m-2" th:text="${allDetails.getEmail()}"></p>
 
