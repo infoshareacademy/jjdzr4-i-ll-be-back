@@ -13,6 +13,7 @@
     <title>Szczegóły ogłoszenia</title>
 </head>
 
+
 <body class="bg-light p-3">
 <div class="flex">
     <div class="container-lg">
@@ -23,21 +24,14 @@
         <div class="row">
             <div class="m-2 col-lg-6 bg-default">
 
-                <h1 class="m-3"><I>Szczegóły ogłoszenia:</I></h1>
-                <h3 class="m-2" th:text="${allDetails.getHeader()}"></h3>
+                <h1 class="m-3 text-center"><I>Szczegóły ogłoszenia:</I></h1>
+                <p class="m-2 font-weight-bold text-center" th:text="${allDetails.getType().getValue() + ': ' + allDetails.getServiceType().getServiceTypeName()}"></p>
+<!--                <p class="m-2" th:text="${allDetails.getServiceType().getServiceTypeName()}"></p>-->
 
-                opis:
-                <p  class="m-2" th:text="${allDetails.getDescription()}"></p>
+                <h4 class="m-2 border-info rounded bg-light text-center" th:text="${allDetails.getHeader()}"></h4>
 
-
-                typ usługi:
-                <p class="m-2" th:text="${allDetails.getServiceType()}"></p>
-
-                typ:
-                <p class="m-2" th:text="${allDetails.getType()}"></p>
-
-                jednostki:
-                <p class="m-2" th:text="${allDetails.getUnit()}"></p>
+                <p class="m-2 font-weight-bold text-center"> Opis: </p>
+                <p class="m-2 border-info rounded bg-light" th:text="${allDetails.getDescription()}"></p>
 
 
                 <footer class="text-dark text-decoration-none mt-lg-4">
@@ -47,16 +41,17 @@
                             <ul class="list-unstyled">
                                 <li>
                                     <p class="m-1" style="font-size: x-small">id ogłoszenia:</p>
-                                    </li>
+                                </li>
                                 <li>
                                     <p class="m-1" style="font-size: x-small">data: </p>
-                                    </li>
+                                </li>
                             </ul>
                         </div>
                         <div class="col-md-3">
                             <ul class="list-unstyled">
-                            <li><p class="m-1" style="font-size: x-small" th:text="${allDetails.getId()}"></p></li>
-                                <li><p class="m-1" style="font-size: x-small" th:text="${allDetails.getDate()}"></p></li>
+                                <li><p class="m-1" style="font-size: x-small" th:text="${allDetails.getId()}"></p></li>
+                                <li><p class="m-1" style="font-size: x-small" th:text="${allDetails.getDate()}"></p>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -64,14 +59,15 @@
 
 
             </div>
-            <div class="m-2 flex-md-column bg-secondary">
+            <div class="m-2 flex-md-column bg-secondary rounded">
                 <div class="m-1 flex-row bg-default">
                     <h2 class="m-3"><I> Cena: </I></h2>
 
-                    <h1 style="text-align: right" class="m-2 text-primary font-weight-bold" th:text="${allDetails.getPrice()}"></h1>
-
-<!--                    czy cena do negocjacji:-->
-                    <h5 style="text-align: right" class="m-2 text-primary" th:text="${allDetails.getIsPriceNegotiable()}"></h5>
+                    <h1 style="text-align: right" class="m-2 text-primary font-weight-bold"
+                        th:text="${allDetails.getPrice() + ' zł'}"></h1>
+                    <!--                    czy cena do negocjacji:-->
+                    <h5 style="text-align: right" class="m-2 text-primary"
+                        th:text="${'Do negocjacji: ' + allDetails.getIsPriceNegotiable()}"></h5>
 
                     <h6 class="m-1"><I>Dodatkowy komentarz do ceny:</I></h6>
                     <p class="m-2 font-italic small" th:text="${allDetails.getPriceAdditionComment()}"></p>
@@ -80,22 +76,21 @@
                 </div>
                 <div class="m-1 flex-row bg-default">
 
-                <h2 class="m-3"><I>Dane kontaktowe:</I> </h2>
+                    <h3 class="m-3 text-center"><I>Dane kontaktowe:</I></h3>
 
-                <h3 class="m-2" th:text="${allDetails.getCity()}"></h3>
-                <h5 class="m-2" th:text="${allDetails.getVoivodeship()}"></h5>
-                <p class="m-2" th:text="${allDetails.getCityDistrict()}"></p>
+                    <h4 class="m-2" th:text="${allDetails.getCity()}"></h4>
+                    <h6 class="m-2" th:text="${allDetails.getVoivodeship().getVoivodeshipName()}"></h6>
+                    <p class="m-2" th:text="${allDetails.getCityDistrict()}"></p>
+                    <p class="m-2 small" th:text="${allDetails.getUnit()}">osiedle</p>
 
-                <p class="m-1">Imię:</p>
-                <h5 class="m-2" th:text="${allDetails.getNameOfAdvertiser()}"></h5>
-                <p class="m-1">Nr telefonu:</p>
-                <p class="m-2" th:text="${allDetails.getPhoneNumber()}"></p>
-                <p class="m-1">e-mail:</p>
-                <p class="m-2" th:text="${allDetails.getEmail()}"></p>
+                    <p class="m-1">Imię:</p>
+                    <h6 class="m-2" th:text="${allDetails.getNameOfAdvertiser()}"></h6>
+                    <p class="m-1">Nr telefonu:</p>
+                    <p class="m-2" th:text="${allDetails.getPhoneNumber()}"></p>
+                    <p class="m-1">e-mail:</p>
+                    <p class="m-2" th:text="${allDetails.getEmail()}"></p>
 
                 </div>
-
-
 
 
             </div>
