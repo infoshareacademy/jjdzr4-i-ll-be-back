@@ -1,6 +1,5 @@
 package pl.infoshare.workandfun.announcements;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,14 +17,13 @@ import pl.infoshare.workandfun.announcements.mappers.AddAndEditMapper;
 import pl.infoshare.workandfun.announcements.mappers.QuickViewAnnouncementMapper;
 import pl.infoshare.workandfun.exception.AnnouncementNotFoundException;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,13 +39,13 @@ class AnnouncementServiceTest {
     @InjectMocks
     private AnnouncementService announcementService;
 
-    private Announcement announcement = new Announcement();
+    private Announcement announcement;
     private Long id;
 
     @BeforeEach
     void init() {
         announcement = new Announcement(1L, Type.SERVICE_OFFER, "Wyprowadzam psy, koty, myszy, konie, słonie",
-                ServiceType.INNE, "Warszawa", "dzielnica", "osiedle", "200", null, Voivodeship.MAZOWIECKIE, LocalDateTime.of(LocalDate.of(2020, 10, 10), LocalTime.of(10, 10)), "Andrzej",
+                ServiceType.INNE, "Warszawa", "dzielnica", "osiedle", "200", null, Voivodeship.MAZOWIECKIE, LocalDateTime.of(2020, 10, 10, 10, 10), "Andrzej",
                 "andrzej@aa.pl", false, "Andrzej, czyli ja to miłośnik zwierząt chętnie spędzający z nimi czas, nie masz" +
                 " co zrobić ze swoim zwierzakiem, zadzwoń do Andrzeja", "+48666666666", "z FV będzie drożej");
         id = 1L;
@@ -56,19 +54,21 @@ class AnnouncementServiceTest {
     @Test
     void shouldFindAllSortedByCreateDateDescConvertToDto() {
         //given
-        when(announcementsRepository.findAllByOrderByDateDesc()).thenReturn(List.of(announcement));
+        List<Announcement> announcements = List.of(this.announcement);
+        when(announcementsRepository.findAllByOrderByDateDesc()).thenReturn(announcements);
         //when
         final var result = announcementService.findAllSortedByCreateDateDescConvertToDto();
         final var firstElement = result.iterator().next();
         //then
         assertThat(((Collection<?>) result)).hasSize(1);
-        assertThat(firstElement.getDate()).isEqualTo(LocalDateTime.of(LocalDate.of(2020, 10, 10), LocalTime.of(10, 10)));
+        assertThat(firstElement.getDate()).isEqualTo(LocalDateTime.of(2020, 10, 10, 10, 10));
         assertThat(firstElement.getHeader()).isEqualTo("Wyprowadzam psy, koty, myszy, konie, słonie");
         assertThat(firstElement.getId()).isEqualTo(1L);
         assertThat(firstElement.getPrice()).isEqualTo("200");
         assertThat(firstElement.getIsPriceNegotiable()).isFalse();
         assertThat(firstElement.getFullLocalization()).isEqualTo("Warszawa, dzielnica, osiedle");
         assertThat(firstElement.isIndividualPrice()).isFalse();
+        verify(quickViewAnnouncementMapper, times(announcements.size())).toDto(this.announcement);
     }
 
     @Test
@@ -80,11 +80,14 @@ class AnnouncementServiceTest {
     @Test
     void shouldThrowExceptionWhenFindByIdNotFoundAnnouncement() {
         //given
-        Long id3 = 3L;
-        when(announcementsRepository.findById(id3)).thenReturn(Optional.empty());
+        when(announcementsRepository.findById(id)).thenReturn(Optional.empty());
         //when
+        Throwable thrown = catchThrowable(() -> announcementService.findById(id));
         //then
-        Assertions.assertThrows(AnnouncementNotFoundException.class, () -> announcementService.findById(id3));
+        assertThat(thrown)
+                .isExactlyInstanceOf(AnnouncementNotFoundException.class)
+                .hasMessage("Brak ogłoszenia o numerze ID = " + id);
+        verify(announcementsRepository).findById(id);
     }
 
     @Test
@@ -94,10 +97,11 @@ class AnnouncementServiceTest {
         //when
         //then
         assertThat(announcement).isEqualTo(announcementService.findById(id));
+        verify(announcementsRepository).findById(id);
     }
 
     @Test
-    void shouldFindByIdAndMapToDto() {
+    void shouldFindByIdAndConvertToDto() {
         //given
         when(announcementsRepository.findById(id)).thenReturn(Optional.of(announcement));
         //when
@@ -117,6 +121,9 @@ class AnnouncementServiceTest {
         assertThat(result.getDescription()).isEqualTo("Andrzej, czyli ja to miłośnik zwierząt chętnie spędzający z nimi czas, nie masz co zrobić ze swoim zwierzakiem, zadzwoń do Andrzeja");
         assertThat(result.getPhoneNumber()).isEqualTo("+48666666666");
         assertThat(result.getPriceAdditionComment()).isEqualTo("z FV będzie drożej");
+        assertThat(result.getNameOfAdvertiser()).isEqualTo("Andrzej");
+        verify(addAndEditMapper).toDto(announcement);
+        verify(announcementsRepository).findById(id);
     }
 
     @Test
@@ -124,8 +131,12 @@ class AnnouncementServiceTest {
         //given
         when(announcementsRepository.findById(id)).thenReturn(Optional.empty());
         //when
+        Throwable thrown = catchThrowable(() -> announcementService.findByIdConvertToDto(id));
         //then
-        Assertions.assertThrows(AnnouncementNotFoundException.class, () -> announcementService.findById(id));
+        assertThat(thrown)
+                .isExactlyInstanceOf(AnnouncementNotFoundException.class)
+                .hasMessage("Brak ogłoszenia o numerze ID = " + id);
+        verify(announcementsRepository).findById(id);
     }
 
     @Test
@@ -137,5 +148,18 @@ class AnnouncementServiceTest {
         //then
         verify(announcementsRepository).findById(id);
         verify(announcementsRepository).delete(announcement);
+    }
+
+    @Test
+    void shouldThrowExceptionWhenNotFoundAnnouncementToDeleteById() {
+        //given
+        when(announcementsRepository.findById(id)).thenReturn(Optional.empty());
+        //when
+        Throwable thrown = catchThrowable(() -> announcementService.deleteById(id));
+        //then
+        assertThat(thrown)
+                .isExactlyInstanceOf(AnnouncementNotFoundException.class)
+                .hasMessage("Brak ogłoszenia o numerze ID = " + id);
+        verify(announcementsRepository).findById(id);
     }
 }
