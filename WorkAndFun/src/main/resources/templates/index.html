@@ -172,7 +172,7 @@
     <!-- OGŁOSZENIA -->
     <div class="row" >
         <div class="m-2 index-announcement bg-default" th:each="announcement, stat : ${announcements}" th:unless="${stat.index > 2}">
-            <a th:href="@{/}" class="index-announcement-link">
+            <a th:href="@{/details-announcement/{announcement.id}}" class="index-announcement-link">
             <h5 class="announcement-header index-announcement-h" th:text="${announcement.header}"></h5>
             <p th:text="${announcement.fullLocalization}"></p>
             <div class="index-announcement-description">

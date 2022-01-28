@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--/* Bootstrap CSS */-->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
+    <title>Szczegóły ogłoszenia</title>
+</head>
+
+
+<body class="bg-light p-3">
+<div class="flex">
+    <div class="container-lg">
+        <div class="row mb-1">
+            <div class="col-md-12" th:insert="~{fragments/navbar :: nav}">
+            </div>
+        </div>
+        <div class="row">
+            <div class="announcement-details-frame rounded col-lg-6">
+
+                <h1 class="m-3 text-center"><I>Szczegóły ogłoszenia:</I></h1>
+                <p class="m-2 font-weight-bold text-center"
+                   th:text="${allDetails.getType().getValue() + ': ' + allDetails.getServiceType().getServiceTypeName()}"></p>
+
+
+                <h4 class="m-2 border-info rounded  text-center" th:text="${allDetails.getHeader()}"></h4>
+
+                <p class="m-2 font-weight-bold text-center"> Opis: </p>
+                <p class="m-2 border-info rounded " th:text="${allDetails.getDescription()}"></p>
+
+
+                <footer class="text-dark text-decoration-none mt-lg-4">
+                    <hr>
+                    <div class="row align-bottom">
+                        <div class="col-md-3">
+                            <ul class="list-unstyled">
+                                <li>
+                                    <p class="announcement-details-xsmall-m1">id ogłoszenia:</p>
+                                </li>
+                                <li>
+                                    <p class="announcement-details-xsmall-m1">data: </p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                            <ul class="list-unstyled">
+                                <li><p class="announcement-details-xsmall-m1" th:text="${allDetails.getId()}"></p></li>
+                                <li><p class="announcement-details-xsmall-m1" th:text="${allDetails.getDate()}"></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </footer>
+
+
+            </div>
+            <div class="m-2 flex-md-column rounded">
+                <div class="announcement-details-frame rounded">
+                    <h2 class="m-3"><I> Cena: </I></h2>
+
+                    <h1 style="text-align: right" class="m-2 text-primary font-weight-bold"
+                        th:text="${allDetails.getPrice() + ' zł'}"></h1>
+
+                    <h5 style="text-align: right" class="m-2 text-primary"
+                        th:text="${'Do negocjacji: ' + allDetails.getIsPriceNegotiable()}"></h5>
+
+                    <h6 class="m-1"><I>Dodatkowy komentarz do ceny:</I></h6>
+                    <p class="m-2 font-italic small" th:text="${allDetails.getPriceAdditionComment()}"></p>
+
+
+                </div>
+                <div class="announcement-details-frame rounded">
+
+                    <h3 class="m-3 text-center"><I>Dane kontaktowe:</I></h3>
+
+                    <h4 class="m-2" th:text="${allDetails.getCity()}"></h4>
+                    <h6 class="m-2" th:text="${allDetails.getVoivodeship().getVoivodeshipName()}"></h6>
+                    <p class="m-2" th:text="${allDetails.getCityDistrict()}"></p>
+                    <p class="m-2 small" th:text="${allDetails.getUnit()}">osiedle</p>
+
+                    <p class="m-1">Imię:</p>
+                    <h6 class="m-2" th:text="${allDetails.getNameOfAdvertiser()}"></h6>
+                    <p class="m-1">Nr telefonu:</p>
+                    <p class="m-2" th:text="${allDetails.getPhoneNumber()}"></p>
+                    <p class="m-1">e-mail:</p>
+                    <p class="m-2" th:text="${allDetails.getEmail()}"></p>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" th:insert="~{fragments/footer :: footer}">
+        </div>
+    </div>
+</div>
+<script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+
+</html>
