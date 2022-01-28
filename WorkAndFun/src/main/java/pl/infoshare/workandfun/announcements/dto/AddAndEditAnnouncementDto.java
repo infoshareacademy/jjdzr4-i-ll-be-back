@@ -53,5 +53,4 @@ public class AddAndEditAnnouncementDto {
     private String phoneNumber;
     @Pattern(regexp = ".*")
     private String priceAdditionComment = "";
-    private LocalDateTime date;
 }
