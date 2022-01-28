@@ -24,6 +24,10 @@
     height: 190px
 }
 
+.announcement-header:hover {
+    text-decoration-color: black;
+}
+
 .price {
     margin-bottom: 0;
 }

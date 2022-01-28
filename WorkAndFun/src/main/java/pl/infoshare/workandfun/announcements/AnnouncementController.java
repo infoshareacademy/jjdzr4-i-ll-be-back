@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
@@ -25,11 +26,12 @@ public class AnnouncementController {
         this.quickViewAnnouncementService = quickViewAnnouncementService;
     }
 
-    @GetMapping("details-announcement/{id}")
-    public String getAnnouncementDetails(Model model, @PathVariable Long id) {
+    @GetMapping("details/{id}")
+    public String getAnnouncementDetails(@PathVariable Long id,
+                                               Model model) {
         model.addAttribute("allDetails", announcementService.findByIdConvertToDto(id));
         model.addAttribute("service", quickViewAnnouncementService);
-        return "announcementDetails";
+        return "announcement-details";
     }
 
     @GetMapping("all")
