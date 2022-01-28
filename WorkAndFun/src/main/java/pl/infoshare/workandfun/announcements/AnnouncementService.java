@@ -16,7 +16,9 @@ import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.mappers.AddAndEditMapper;
 import pl.infoshare.workandfun.announcements.mappers.QuickViewAnnouncementMapper;
 import pl.infoshare.workandfun.exception.AnnouncementNotFoundException;
+
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,7 +43,7 @@ public class AnnouncementService {
                 .collect(Collectors.<QuickViewAnnouncementDto>toList());
     }
 
-    public List<Announcement> findAllByQuerySpec(AnnouncementSpec announcementSpec){
+    public List<Announcement> findAllByQuerySpec(AnnouncementSpec announcementSpec) {
         return announcementsRepository.findAll(announcementSpec);
     }
 
@@ -55,7 +57,9 @@ public class AnnouncementService {
 
     public void deleteById(Long id) {
         announcementsRepository.findById(id)
-                .ifPresentOrElse(announcementsRepository::delete, () -> { throw new AnnouncementNotFoundException(id); });
+                .ifPresentOrElse(announcementsRepository::delete, () -> {
+                    throw new AnnouncementNotFoundException(id);
+                });
     }
 
     public void save(AddAndEditAnnouncementDto dto) {
@@ -69,19 +73,71 @@ public class AnnouncementService {
         return announcementsRepository.save(entity);
     }
 
+    public Iterable<QuickViewAnnouncementDto> searchAllByParameter(String parameter) {
+        List<QuickViewAnnouncementDto> announcementDtoList = (List<QuickViewAnnouncementDto>) findAllSortedByCreateDateDescConvertToDto();
+        if (parameter.isBlank()) {
+            return announcementDtoList;
+        } else {
+            return announcementDtoList.stream()
+                    .filter(searchFilter(parameter)).collect(Collectors.<QuickViewAnnouncementDto>toList());
+        }
+    }
+
+    private Predicate<QuickViewAnnouncementDto> searchFilter(String param) {
+        return quickViewAnnouncementDto -> quickViewAnnouncementDto.toString().toLowerCase().contains(param.toLowerCase());
+    }
+
     @EventListener(ApplicationReadyEvent.class)
     public void fillDB() {
         announcementsRepository.save(new Announcement(1L, Type.SERVICE_OFFER, "Wyprowadzam psy, koty, myszy, konie, słonie",
-                ServiceType.INNE, "Warszawa","","", "200", null, Voivodeship.MAZOWIECKIE, null,"Andrzej",
+                ServiceType.INNE, "Warszawa", "", "", "200", null, Voivodeship.MAZOWIECKIE, null, "Andrzej",
                 "andrzej@aa.pl", false, "Andrzej, czyli ja to miłośnik zwierząt chętnie spędzający z nimi czas, nie masz" +
                 " co zrobić ze swoim zwierzakiem, zadzwoń do Andrzeja", "+48666666666", "z FV będzie drożej"));
         announcementsRepository.save(new Announcement(2L, Type.SERVICE_OFFER, "Zbuduję Ci chatę",
-                ServiceType.BUDOWA_DOMU_BUDOWA_OD_PODSTAW, "Wrocław","","", "50000", null, Voivodeship.DOLNOSLASKIE, null,"Piotrek",
+                ServiceType.BUDOWA_DOMU_BUDOWA_OD_PODSTAW, "Wrocław", "", "", "50000", null, Voivodeship.DOLNOSLASKIE, null, "Piotrek",
                 "piotrek@b.pl", true, "Nie masz chaty? Zbuduję! Mach chatę? Zbuduję Ci nową! Nie krępuj się i dzwoń śmiało!"
                 , "+48777777777", ""));
         announcementsRepository.save(new Announcement(3L, Type.SERVICE_OFFER, "Profesjonalne obieranie cebuli",
-                ServiceType.INNE, "Gdańsk","","", "10", null, Voivodeship.POMORSKIE, null,"Polcebulex",
+                ServiceType.INNE, "Gdańsk", "", "", "10", null, Voivodeship.POMORSKIE, null, "Polcebulex",
                 "polcebulex@wp.pl", false, "1kg obranej cebuli za 10gr. Czas realizacji na zamówienia do pół tony to 5 dni roboczych." +
                 "Zapraszamy do składania zamówień w wiodącej firmie obierającej cebulę w regionie pomorskim.", "+48888888888", ""));
+
+        announcementsRepository.save(new Announcement(
+                4L,
+                Type.SERVICE_OFFER,
+                "Wkręcam żarówki TANIO!",
+                ServiceType.ELEKTRYK,
+                "Wrocław",
+                "Krzyki",
+                "Powstańców Śląskich",
+                "10",
+                null,
+                Voivodeship.DOLNOSLASKIE,
+                null,
+                "PiotrPiotrowski",
+                "example@gmail.com",
+                false,
+                "Wkręcam żarówki.",
+                "+48123456789",
+                "cena za sztukę"));
+
+        announcementsRepository.save(new Announcement(
+                5L,
+                Type.SERVICE_OFFER,
+                "Diagnostyka i serwis aut elektrycznych",
+                ServiceType.MOTORYZACJA,
+                "Legnica",
+                "",
+                "",
+                "do ustalenia indywidualnie",
+                null,
+                Voivodeship.DOLNOSLASKIE,
+                null,
+                "Leszek",
+                "rexoAuto@gmail.com",
+                false,
+                "Diagnostyka i serwis aut elektrycznych. Pomagam przy zakupie auta elektrycznego",
+                "+48741741741",
+                ""));
     }
 }

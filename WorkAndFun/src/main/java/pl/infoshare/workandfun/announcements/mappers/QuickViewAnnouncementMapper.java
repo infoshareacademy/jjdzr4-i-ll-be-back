@@ -27,8 +27,7 @@ public class QuickViewAnnouncementMapper {
     }
 
     private String setFullLocalization(Announcement entity) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(entity.getCity());
+        StringBuilder sb = new StringBuilder(entity.getCity());
         if (!(entity.getCityDistrict().isEmpty() || entity.getCityDistrict().isBlank())){
             sb.append(", ").append(entity.getCityDistrict());
         }
