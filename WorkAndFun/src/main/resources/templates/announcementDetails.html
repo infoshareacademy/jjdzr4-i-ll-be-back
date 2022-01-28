@@ -25,8 +25,9 @@
             <div class="m-2 col-lg-6 bg-default">
 
                 <h1 class="m-3 text-center"><I>Szczegóły ogłoszenia:</I></h1>
-                <p class="m-2 font-weight-bold text-center" th:text="${allDetails.getType().getValue() + ': ' + allDetails.getServiceType().getServiceTypeName()}"></p>
-<!--                <p class="m-2" th:text="${allDetails.getServiceType().getServiceTypeName()}"></p>-->
+                <p class="m-2 font-weight-bold text-center"
+                   th:text="${allDetails.getType().getValue() + ': ' + allDetails.getServiceType().getServiceTypeName()}"></p>
+
 
                 <h4 class="m-2 border-info rounded bg-light text-center" th:text="${allDetails.getHeader()}"></h4>
 
@@ -40,17 +41,17 @@
                         <div class="col-md-3">
                             <ul class="list-unstyled">
                                 <li>
-                                    <p class="m-1" style="font-size: x-small">id ogłoszenia:</p>
+                                    <p class="announcement-details-xsmall-m1">id ogłoszenia:</p>
                                 </li>
                                 <li>
-                                    <p class="m-1" style="font-size: x-small">data: </p>
+                                    <p class="announcement-details-xsmall-m1">data: </p>
                                 </li>
                             </ul>
                         </div>
                         <div class="col-md-3">
                             <ul class="list-unstyled">
-                                <li><p class="m-1" style="font-size: x-small" th:text="${allDetails.getId()}"></p></li>
-                                <li><p class="m-1" style="font-size: x-small" th:text="${allDetails.getDate()}"></p>
+                                <li><p class="announcement-details-xsmall-m1" th:text="${allDetails.getId()}"></p></li>
+                                <li><p class="announcement-details-xsmall-m1" th:text="${allDetails.getDate()}"></p>
                                 </li>
                             </ul>
                         </div>
@@ -65,7 +66,7 @@
 
                     <h1 style="text-align: right" class="m-2 text-primary font-weight-bold"
                         th:text="${allDetails.getPrice() + ' zł'}"></h1>
-                    <!--                    czy cena do negocjacji:-->
+
                     <h5 style="text-align: right" class="m-2 text-primary"
                         th:text="${'Do negocjacji: ' + allDetails.getIsPriceNegotiable()}"></h5>
 

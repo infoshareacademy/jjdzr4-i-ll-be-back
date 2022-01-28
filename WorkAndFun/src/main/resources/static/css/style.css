@@ -113,3 +113,8 @@
     text-decoration: none;
     color: black;
 }
+
+.announcement-details-xsmall-m1{
+    margin: 2px;
+    font-size: x-small;
+}

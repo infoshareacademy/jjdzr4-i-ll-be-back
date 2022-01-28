@@ -7,7 +7,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
-//import pl.infoshare.workandfun.announcements.dto.ViewAnnouncementDetailsDtoController;
 
 import javax.validation.Valid;
 
@@ -16,32 +15,27 @@ public class AnnouncementController {
 
     private final AnnouncementService announcementService;
     private final QuickViewAnnouncementService quickViewAnnouncementService;
-//    private final ViewAnnouncementDetailsDtoController viewAnnouncementDetailsDtoController;
 
     @Autowired
-    public AnnouncementController(AnnouncementService announcementService, QuickViewAnnouncementService quickViewAnnouncementService/*, ViewAnnouncementDetailsDtoController viewAnnouncementDetailsDtoController*/) {
+    public AnnouncementController(AnnouncementService announcementService, QuickViewAnnouncementService quickViewAnnouncementService) {
         this.announcementService = announcementService;
         this.quickViewAnnouncementService = quickViewAnnouncementService;
-//        this.viewAnnouncementDetailsDtoController = viewAnnouncementDetailsDtoController;
     }
 
     //DO PRZENIESIENIA GDZIE INDZIEJ
     @GetMapping("/")
-    public String getIndex(Model model){
+    public String getIndex(Model model) {
         model.addAttribute("announcements", announcementService.findAllSortedByCreateDateDescConvertToDto());
         model.addAttribute("service", quickViewAnnouncementService);
         return "index";
     }
 
-    // KONTROLER DO WYŚWIETLANIA KONKRETNEGO OGLOSZENIA
     @GetMapping("details-announcement/{id}")
-    public String getAnnouncementDetails(Model model, @PathVariable Long id){
+    public String getAnnouncementDetails(Model model, @PathVariable Long id) {
         model.addAttribute("allDetails", announcementService.findByIdConvertToDto(id));
-//        model.addAttribute("allDetails",viewAnnouncementDetailsDtoController.viewAllDetails(id));
-        model.addAttribute("service",quickViewAnnouncementService);
+        model.addAttribute("service", quickViewAnnouncementService);
         return "announcementDetails";
     }
-
 
     @GetMapping("list-announcements")
     public String getAllAnnouncementsDateDesc(Model model) {
@@ -51,7 +45,7 @@ public class AnnouncementController {
     }
 
     @GetMapping("add-announcement")
-    public String announcementForm(Model model){
+    public String announcementForm(Model model) {
         model.addAttribute("announcement", new AddAndEditAnnouncementDto());
         return "announcement-form";
     }
@@ -59,7 +53,7 @@ public class AnnouncementController {
     @PostMapping("add-announcement")
     public String save(@Valid @ModelAttribute("announcement") AddAndEditAnnouncementDto addAndEditAnnouncementDto,
                        BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "announcement-form";
         }
         announcementService.save(addAndEditAnnouncementDto);
@@ -67,7 +61,7 @@ public class AnnouncementController {
     }
 
     @GetMapping("edit/{id}")
-    public String announcementEditForm(Model model, @PathVariable Long id){
+    public String announcementEditForm(Model model, @PathVariable Long id) {
         model.addAttribute("announcement", announcementService.findByIdConvertToDto(id));
         return "announcement-form-update";
     }
@@ -75,7 +69,7 @@ public class AnnouncementController {
     @PutMapping("edit/{id}")
     public String saveAfterEdit(@PathVariable("id") Long id, @Valid @ModelAttribute("announcement") AddAndEditAnnouncementDto dto,
                                 BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "announcement-form-update";
         }
         announcementService.update(id, dto);
