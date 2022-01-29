@@ -24,6 +24,10 @@
     height: 190px
 }
 
+.announcement-header:hover {
+    text-decoration-color: black;
+}
+
 .price {
     margin-bottom: 0;
 }
@@ -123,12 +127,6 @@
     background-color: #fdfdfd;
     border: 4px solid gray;
     margin: 2px;
-}
-
-.announcement-details-frame:hover{
-    border: 6px solid darkseagreen;
-    border-radius: .25rem;
-    background-color: #e2f3eb;
 }
 
 .border-mint {

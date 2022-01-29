@@ -25,11 +25,12 @@ public class AnnouncementController {
         this.quickViewAnnouncementService = quickViewAnnouncementService;
     }
 
-    @GetMapping("details-announcement/{id}")
-    public String getAnnouncementDetails(Model model, @PathVariable Long id) {
+    @GetMapping("details/{id}")
+    public String getAnnouncementDetails(@PathVariable Long id,
+                                         Model model) {
         model.addAttribute("allDetails", announcementService.findByIdConvertToDto(id));
         model.addAttribute("service", quickViewAnnouncementService);
-        return "announcementDetails";
+        return "announcement-details";
     }
 
     @GetMapping("all")
@@ -38,7 +39,6 @@ public class AnnouncementController {
         model.addAttribute("service", quickViewAnnouncementService);
         return "all-announcements";
     }
-
 
     @GetMapping("add-new")
     public String announcementForm(Model model) {
