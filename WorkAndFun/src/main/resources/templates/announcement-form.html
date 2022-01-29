@@ -8,148 +8,135 @@
     <!--/* Bootstrap CSS */-->
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="css/util.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.18/dist/css/bootstrap-select.min.css">
 </head>
 <body class="bg-light p-3">
     <div class="container-lg">
         <div class="row mb-1">
             <div class="col-md-12" th:insert="~{fragments/navbar :: nav}">
-
             </div>
         </div>
     <nav>
     </nav>
-    <h2 class="white-text-shadow" th:text="#{announcement.headline}"></h2>
+    <h1 class="white-text-shadow" th:text="#{announcement.headline}"></h1>
     <div>
         <form th:object="${announcement}" th:action="@{/add-announcement}" method="post">
-
             <label th:for="type_input_id" th:text="#{announcement.type}"></label>
             <br>
-            <select id="type_input_id" th:field="*{type}">
+            <select class="custom-select" id="type_input_id" th:field="*{type}">
                 <option th:each="typeOpt : ${T(pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Type).values()}"
                         th:value="${typeOpt}" th:text="${typeOpt.value}"></option>
             </select>
             <br>
             <br>
-            <label th:for="header_input_id" th:text="#{announcement.header}"></label>
-            <br>
-            <input type="text" id="header_input_id" th:field="*{header}">
-            <br>
-            <br>
-            <div th:if="${#fields.hasErrors('header')}" th:class="'alert alert-danger'">
-            <br>
-                <ul>
-                    <li th:each="err : ${#fields.errors('header')}" th:text="${err}"></li>
-                </ul>
+            <label th:for="header_input_id"></label>
+            <div class="wrap-input1 validate-input">
+                <input class="input1" type="text" placeholder="Nagłówek" id="header_input_id" th:field="*{header}">
             </div>
+            <div th:if="${#fields.hasErrors('header')}" th:class="'myalert'">
+                    <p th:each="err : ${#fields.errors('header')}" th:text="${err}"></p>
+
+            </div>
+            <br>
             <label th:for="serviceType_input_id" th:text="#{announcement.type.service}"></label>
             <br>
-            <select id="serviceType_input_id" th:field="*{serviceType}">
+            <select class="custom-select" id="serviceType_input_id" th:field="*{serviceType}">
                 <option th:each="serviceTypeOpt : ${T(pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.ServiceType).values()}"
                         th:value="${serviceTypeOpt}" th:text="${serviceTypeOpt.serviceTypeName}"></option>
             </select>
             <br>
+            <label th:for="city_input_id"></label>
             <br>
-            <label th:for="city_input_id" th:text="#{announcement.city}"></label>
-            <br>
-            <input type="text" id="city_input_id" th:field="*{city}">
-            <br>
-            <br>
-            <div th:if="${#fields.hasErrors('city')}" th:class="'alert alert-danger'">
-                <br>
-                <ul>
-                    <li th:each="err : ${#fields.errors('city')}" th:text="${err}"></li>
-                </ul>
+            <div class="wrap-input1 validate-input">
+                <input class="input1" type="text" id="city_input_id" placeholder="Miasto" th:field="*{city}">
             </div>
-            <label th:for="cityDistrict_input_id" th:text="#{announcement.cityDistrict}"></label>
+            <div th:if="${#fields.hasErrors('city')}" th:class="'myalert'">
+                    <p th:each="err : ${#fields.errors('city')}" th:text="${err}"></p>
+            </div>
+            <label th:for="cityDistrict_input_id"></label>
             <br>
-            <input type="text" id="cityDistrict_input_id" th:field="*{cityDistrict}">
+            <input type="text" class="input1" id="cityDistrict_input_id" th:field="*{cityDistrict}" placeholder="Dzielnica">
             <br>
-            <br>
-            <div th:if="${#fields.hasErrors('cityDistrict')}" th:class="'alert alert-danger'">
+            <div th:if="${#fields.hasErrors('cityDistrict')}" th:class="'myalert'">
                 <ul>
                     <li th:each="err : ${#fields.errors('cityDistrict')}" th:text="${err}"></li>
                 </ul>
             </div>
-            <label th:for="unit_input_id" th:text="#{announcement.unit}"></label>
+            <label th:for="unit_input_id"></label>
             <br>
-            <input type="text" id="unit_input_id" th:field="*{unit}">
-            <br>
-            <br>
-            <div th:if="${#fields.hasErrors('unit')}" th:class="'alert alert-danger'">
+            <div class="wrap-input1 validate-input">
+            <input type="text" class="input1" id="unit_input_id" th:field="*{unit}" placeholder="Osiedle">
+            </div>
+            <div th:if="${#fields.hasErrors('unit')}" th:class="'myalert'">
                 <ul>
                     <li th:each="err : ${#fields.errors('unit')}" th:text="${err}"></li>
                 </ul>
             </div>
-            <label th:for="price_input_id" th:text="#{announcement.price}"></label>
+            <label th:for="price_input_id"></label>
             <br>
-            <input  type="text" id="price_input_id" value="do ustalenia indywidualnie" th:field="*{price}">
-            <p th:text="#{announcement.price.ind}"></p>
-            <div th:if="${#fields.hasErrors('price')}" th:class="'alert alert-danger'">
-                <ul>
-                    <li th:each="err : ${#fields.errors('price')}" th:text="${err}"></li>
-                </ul>
+            <div class="wrap-input1 validate-input">
+            <input  type="text" class="input1" id="price_input_id" value="do ustalenia indywidualnie'" placeholder="Cena lub 'do ustalenia indywidualnie" th:field="*{price}">
+            </div>
+            <div th:if="${#fields.hasErrors('price')}" th:class="'myalert'">
+                    <p th:each="err : ${#fields.errors('price')}" th:text="${err}"></p>
             </div>
             <label th:for="isPriceNegotiable_input_id" th:text="#{announcement.isPriceNegotiable}"></label>
-            <input type="checkbox" id="isPriceNegotiable_input_id" th:field="*{isPriceNegotiable}">
+            <input type="checkbox" class="custom-checkbox" id="isPriceNegotiable_input_id" th:field="*{isPriceNegotiable}">
             <br>
             <br>
             <label th:for="voivodeship_input_id" th:text="#{announcement.voivodeship}"></label>
             <br>
-            <select id="voivodeship_input_id" th:field="*{voivodeship}">
+            <select class="custom-select" id="voivodeship_input_id" th:field="*{voivodeship}">
                 <option th:each="voivodeshipOpt : ${T(pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship).values()}"
                         th:value="${voivodeshipOpt}" th:text="${voivodeshipOpt.voivodeshipName}"></option>
             </select>
             <br>
+            <label th:for="nameOfAdvertiser_input_id"></label>
             <br>
-            <label th:for="nameOfAdvertiser_input_id" th:text="#{announcement.nameOfAdvertiser}"></label>
-            <br>
-            <input type="text" id="nameOfAdvertiser_input_id" th:field="*{nameOfAdvertiser}">
-            <br>
-            <br>
-            <div th:if="${#fields.hasErrors('nameOfAdvertiser')}" th:class="'alert alert-danger'">
-                <ul>
-                    <li th:each="err : ${#fields.errors('nameOfAdvertiser')}" th:text="${err}"></li>
-                </ul>
+            <div class="wrap-input1 validate-input">
+            <input type="text" class="input1" id="nameOfAdvertiser_input_id" placeholder="Imię" th:field="*{nameOfAdvertiser}">
             </div>
-            <label th:for="email_input_id" th:text="#{announcement.email}"></label>
-            <br>
-            <input type="text" id="email_input_id" th:field="*{email}">
-            <br>
-            <br>
-            <div th:if="${#fields.hasErrors('email')}" th:class="'alert alert-danger'">
-            <ul>
-                <li th:each="err : ${#fields.errors('email')}" th:text="${err}"></li>
-            </ul>
+            <div th:if="${#fields.hasErrors('nameOfAdvertiser')}" th:class="'myalert'">
+                    <p th:each="err : ${#fields.errors('nameOfAdvertiser')}" th:text="${err}"></p>
             </div>
-            <label th:for="phoneNumber_input_id" th:text="#{announcement.phoneNumber}"></label>
+            <label th:for="email_input_id"></label>
             <br>
-            <input type="text" id="phoneNumber_input_id" th:field="*{phoneNumber}">
-            <br>
-            <br>
-            <div th:if="${#fields.hasErrors('phoneNumber')}" th:class="'alert alert-danger'">
-                <ul>
-                    <li th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}"></li>
-                </ul>
+            <div class="wrap-input1 validate-input">
+            <input type="text" id="email_input_id" class="input1" placeholder="Email" th:field="*{email}">
             </div>
-            <label th:for="description_input_id" th:text="#{announcement.description}"></label>
-            <br>
-            <textarea type="text" id="description_input_id" th:field="*{description}"></textarea>
-            <br>
-            <br>
-            <div th:class="'alert alert-danger'" th:if="${#fields.hasErrors('description')}">
-                <ul>
-                    <li th:each="err : ${#fields.errors('description')}" th:text="${err}"></li>
-                </ul>
+            <div th:if="${#fields.hasErrors('email')}" th:class="'myalert'">
+                <p th:each="err : ${#fields.errors('email')}" th:text="${err}"></p>
             </div>
-            <label th:for="priceAdditionComment_input_id" th:text="#{announcement.priceAdditionComment}"></label>
+            <label th:for="phoneNumber_input_id"></label>
             <br>
-            <input type="text" id="priceAdditionComment_input_id" th:field="*{priceAdditionComment}">
+            <div class="wrap-input1 validate-input">
+                <input type="text" id="phoneNumber_input_id" class="input1" placeholder="Numer telefonu" th:field="*{phoneNumber}">
+            </div>
+            <div th:if="${#fields.hasErrors('phoneNumber')}" th:class="'myalert'">
+                    <p th:each="err : ${#fields.errors('phoneNumber')}" th:text="${err}"></p>
+            </div>
+            <label th:for="description_input_id"></label>
             <br>
+            <div class="wrap-input1 validate-input">
+                <textarea class="input1" type="text" placeholder="Opis" id="description_input_id" th:field="*{description}"></textarea>
+            </div>
+            <div th:class="'myalert'" th:if="${#fields.hasErrors('description')}">
+                    <p th:each="err : ${#fields.errors('description')}" th:text="${err}"></p>
+            </div>
+            <label th:for="priceAdditionComment_input_id"></label>
             <br>
-            <div th:if="${#fields.hasErrors('priceAdditionComment')}" th:class="'alert alert-danger'">
-                <ul>
-                    <li th:each="err : ${#fields.errors('priceAdditionComment')}" th:text="${err}"></li>
-                </ul>
+            <div class="wrap-input1 validate-input">
+                <input type="text" class="input1" placeholder="Komenatrz odnośnie ceny" id="priceAdditionComment_input_id" th:field="*{priceAdditionComment}">
+            </div>
+            <br>
+            <div th:if="${#fields.hasErrors('priceAdditionComment')}" th:class="'myalert'">
+                    <p th:each="err : ${#fields.errors('priceAdditionComment')}" th:text="${err}"></p>
             </div>
             <button type="submit" th:text="#{announcement.create}" class="btn btn-primary my-2 my-sm-0"></button>
         </form>
