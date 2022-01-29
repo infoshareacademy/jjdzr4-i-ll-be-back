@@ -40,7 +40,6 @@ public class AnnouncementController {
         return "all-announcements";
     }
 
-
     @GetMapping("add-new")
     public String announcementForm(Model model) {
         model.addAttribute("announcement", new AddAndEditAnnouncementDto());
