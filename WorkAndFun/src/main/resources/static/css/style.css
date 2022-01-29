@@ -129,12 +129,6 @@
     margin: 2px;
 }
 
-.announcement-details-frame:hover{
-    border: 6px solid darkseagreen;
-    border-radius: .25rem;
-    background-color: #e2f3eb;
-}
-
 .border-mint {
     border: 2px solid #d9e800 !important ;
 }
