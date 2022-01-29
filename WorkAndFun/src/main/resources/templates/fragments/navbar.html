@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -20,9 +20,9 @@
 
     <div class="collapse navbar-collapse " id="bs-example-navbar-collapse-1">
 
-        <form class="form-inline justify-content-center ml-md-4">
-            <input class="form-control mr-sm-2" type="text">
-            <button class="btn btn-primary my-2 my-sm-0" type="submit">
+        <form class="form-inline justify-content-center ml-md-4" th:action="@{/announcement/search}" th:method="get">
+            <input th:name="param" class="form-control mr-sm-2" type="search">
+            <button class="btn btn-primary my-2 my-sm-0" type="submit" th:text="#{announcement.search}">
                 Szukaj
             </button>
         </form>
@@ -38,7 +38,7 @@
                     Mój profil <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link font-weight-bold btn btn-mint" th:href="@{/add-announcement}">
+                <a class="nav-link font-weight-bold btn btn-mint" th:href="@{/announcement/add-new}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-plus-circle" viewBox="0 0 16 16">
                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>

@@ -47,8 +47,13 @@ public class AddAndEditAnnouncementDto {
     private String email;
     @NotNull
     private Boolean isPriceNegotiable = false;
+<<<<<<< HEAD
     @Size (min = 30, max=500,message = "Długość opisu musi mieścić się w zakresie od 30 do 500 znaków")
     @NotBlank(message = "Nie może być odstępem")
+=======
+    @Size (min = 15, max=500)
+    @NotBlank
+>>>>>>> origin/master
     private String description;
     @Pattern(regexp = "(\\+48)?\\d{9}", message = "Musisz podać numer w formacie +48123456789")
     private String phoneNumber;

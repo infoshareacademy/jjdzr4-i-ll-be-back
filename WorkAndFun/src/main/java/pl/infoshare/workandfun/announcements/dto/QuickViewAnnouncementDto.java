@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -19,4 +20,10 @@ public class QuickViewAnnouncementDto {
     private boolean isIndividualPrice;
     private String fullLocalization;
     private String description;
+
+    @Override
+    public String toString() {
+        return header + " " + price + " " + isPriceNegotiable + " " + date + " "
+                + isIndividualPrice + " " + fullLocalization + " " + description;
+    }
 }
