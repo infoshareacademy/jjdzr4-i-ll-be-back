@@ -23,14 +23,14 @@
         <div class="row">
             <div class="announcement-details-frame rounded col-lg-6">
 
-                <h1 class="m-3 text-center"><I>Szczegóły ogłoszenia:</I></h1>
+
+                <h2 class="m-2 border-info rounded  text-center" th:text="${allDetails.getHeader()}"></h2>
+
                 <p class="m-2 font-weight-bold text-center"
                    th:text="${allDetails.getType().getValue() + ': ' + allDetails.getServiceType().getServiceTypeName()}"></p>
 
-                <h4 class="m-2 border-info rounded  text-center" th:text="${allDetails.getHeader()}"></h4>
 
-                <p class="m-2 font-weight-bold text-center"> Opis: </p>
-                <p class="m-2 border-info rounded " th:text="${allDetails.getDescription()}"></p>
+                <p class="m-2 mt-3 border-info rounded " th:text="${allDetails.getDescription()}"></p>
 
                 <footer class="text-dark text-decoration-none mt-lg-4">
                     <hr>
@@ -54,7 +54,7 @@
                     </div>
                 </footer>
             </div>
-            <div class="m-2 flex-md-column rounded">
+            <div class="flex-md-column rounded">
                 <div class="announcement-details-frame rounded">
                     <h2 class="m-3"><I> Cena: </I></h2>
 
