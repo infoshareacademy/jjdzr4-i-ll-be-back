@@ -198,14 +198,12 @@ class AnnouncementServiceTest {
                         "150", false, LocalDateTime.of(2022, 1, 10, 11, 25), false, "Kraków",
                         "Mam bus, pomogę z przeprowadzką")));
         doReturn(quickViewAnnouncementDtoList).when(announcementService).findAllSortedByCreateDateDescConvertToDto();
-//        given(announcementService.findAllSortedByCreateDateDescConvertToDto()).willReturn(quickViewAnnouncementDtoList);
         String parameter = "przeprowadz";
         //when
-        var actualResult = announcementService.searchAllByParameter(parameter);
+        Iterable<QuickViewAnnouncementDto> actualResult = announcementService.searchAllByParameter(parameter);
         //then
         assertThat(actualResult)
                 .hasSize(1)
-                .hasExactlyElementsOfTypes(QuickViewAnnouncementDto.class)
                 .element(0).usingRecursiveComparison().isEqualTo(quickViewAnnouncementDtoList.get(2));
     }
 
@@ -225,33 +223,10 @@ class AnnouncementServiceTest {
         doReturn(quickViewAnnouncementDtoList).when(announcementService).findAllSortedByCreateDateDescConvertToDto();
         String parameter = "";
         //when
-        var actualResult = announcementService.searchAllByParameter(parameter);
+        Iterable<QuickViewAnnouncementDto> actualResult = announcementService.searchAllByParameter(parameter);
         //then
         assertThat(actualResult)
                 .hasSize(quickViewAnnouncementDtoList.size())
-                .hasOnlyElementsOfType(QuickViewAnnouncementDto.class)
                 .usingRecursiveComparison().isEqualTo(quickViewAnnouncementDtoList);
-    }
-
-
-    @Test
-    void shouldFillDB() {
-        //given
-        Announcement usedAnnouncement = new Announcement(
-                5L, Type.SERVICE_OFFER, "Diagnostyka i serwis aut elektrycznych", ServiceType.MOTORYZACJA, "Legnica",
-                "", "", "do ustalenia indywidualnie", null, Voivodeship.DOLNOSLASKIE, null,
-                "Leszek", "rexoAuto@gmail.com", false,
-                "Diagnostyka i serwis aut elektrycznych. Pomagam przy zakupie auta elektrycznego",
-                "+48741741741", "");
-        given(announcementsRepository.save(captor.capture())).willReturn(this.announcement);
-        //when
-        announcementService.fillDB();
-        //then
-        assertThat(captor.getValue()).usingRecursiveComparison().isEqualTo(usedAnnouncement);
-        verify(announcementsRepository, times(captor.getAllValues().size())).save(any(Announcement.class));
-        List<Announcement> announcements = captor.getAllValues();
-        for (Announcement announcement : announcements) {
-            verify(announcementsRepository).save(announcement);
-        }
     }
 }
