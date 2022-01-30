@@ -69,7 +69,7 @@ public class AnnouncementService {
 
     public Announcement update(Long id, AddAndEditAnnouncementDto dto) {
         Announcement entity = findById(id);
-        BeanUtils.copyProperties(dto, entity, "date");
+        BeanUtils.copyProperties(dto, entity);
         return announcementsRepository.save(entity);
     }
 
