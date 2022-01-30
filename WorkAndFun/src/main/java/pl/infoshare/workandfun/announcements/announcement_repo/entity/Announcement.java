@@ -17,32 +17,52 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@Table(name = Announcement.TABLE_NAME)
 public class Announcement implements Comparable<Announcement> {
 
+    public static final String TABLE_NAME = "announcement";
+    public static final String COLUMN_PREFIX = "a_";
     public static final String INDIVIDUAL_PRICE_KEY = "do ustalenia indywidualnie";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = COLUMN_PREFIX + "id", nullable = false)
     private Long id;
     @Enumerated(EnumType.STRING)
+    @Column(name = COLUMN_PREFIX + "type")
     private Type type;
+    @Column(name = COLUMN_PREFIX + "header")
     private String header;
     @Enumerated(EnumType.STRING)
+    @Column(name = COLUMN_PREFIX + "service_type")
     private ServiceType serviceType;
+    @Column(name = COLUMN_PREFIX + "city")
     private String city;
+    @Column(name = COLUMN_PREFIX + "city_district")
     private String cityDistrict;
+    @Column(name = COLUMN_PREFIX + "unit")
     private String unit; //osiedle
+    @Column(name = COLUMN_PREFIX + "price")
     private String price;
+    @Column(name = COLUMN_PREFIX + "client_id")
     private Integer clientId;
     @Enumerated(EnumType.STRING)
+    @Column(name = COLUMN_PREFIX + "voivodeship")
     private Voivodeship voivodeship;
     @CreationTimestamp
+    @Column(name = COLUMN_PREFIX + "date")
     private LocalDateTime date;
+    @Column(name = COLUMN_PREFIX + "name_of_advertiser")
     private String nameOfAdvertiser;
+    @Column(name = COLUMN_PREFIX + "email")
     private String email;
+    @Column(name = COLUMN_PREFIX + "is_price_negotiable")
     private Boolean isPriceNegotiable = false;
+    @Column(name = COLUMN_PREFIX + "description")
     private String description;
+    @Column(name = COLUMN_PREFIX + "phone_number")
     private String phoneNumber;
+    @Column(name = COLUMN_PREFIX + "price_addition_comment")
     private String priceAdditionComment = "";
 
     @Override
