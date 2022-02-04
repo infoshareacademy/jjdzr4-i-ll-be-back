@@ -1,5 +1,8 @@
 package pl.infoshare.workandfun.announcements;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,21 +47,24 @@ class AnnouncementServiceTest {
     private AnnouncementService announcementService;
 
     private Announcement announcement;
+    private Announcement comparableAnnouncement;
     private Long id;
 
     @BeforeEach
-    void init() {
+    void init() throws JsonProcessingException {
         announcement = new Announcement(1L, Type.SERVICE_OFFER, "Wyprowadzam psy, koty, myszy, konie, słonie",
                 ServiceType.INNE, "Warszawa", "dzielnica", "osiedle", "200", null, Voivodeship.MAZOWIECKIE, LocalDateTime.of(2020, 10, 10, 10, 10), "Andrzej",
                 "andrzej@aa.pl", false, "Andrzej, czyli ja to miłośnik zwierząt chętnie spędzający z nimi czas, nie masz" +
                 " co zrobić ze swoim zwierzakiem, zadzwoń do Andrzeja", "+48666666666", "z FV będzie drożej");
         id = 1L;
+        ObjectMapper om = new ObjectMapper().registerModule(new JavaTimeModule());
+        comparableAnnouncement = om.readValue(om.writeValueAsString(announcement), Announcement.class);
     }
 
     @Test
-    void shouldFindAllSortedByCreateDateDescConvertToDto() {
+    void shouldFindAllSortedByCreateDateDescConvertToDto() throws JsonProcessingException {
         //given
-        List<Announcement> announcements = List.of(this.announcement);
+        List<Announcement> announcements = List.of(announcement);
         when(announcementsRepository.findAllByOrderByDateDesc()).thenReturn(announcements);
         //when
         final var result = announcementService.findAllSortedByCreateDateDescConvertToDto();
@@ -67,10 +73,10 @@ class AnnouncementServiceTest {
         assertThat(((Collection<?>) result))
                 .hasSize(1)
                 .hasExactlyElementsOfTypes(QuickViewAnnouncementDto.class);
-        assertThat(firstElement).usingRecursiveComparison().ignoringFields("isIndividualPrice", "fullLocalization").isEqualTo(this.announcement);
+        assertThat(firstElement).usingRecursiveComparison().ignoringFields("isIndividualPrice", "fullLocalization").isEqualTo(comparableAnnouncement);
         assertThat(firstElement.getFullLocalization()).isEqualTo("Warszawa, dzielnica, osiedle");
         assertThat(firstElement.isIndividualPrice()).isFalse();
-        verify(quickViewAnnouncementMapper, times(announcements.size())).toDto(this.announcement);
+        verify(quickViewAnnouncementMapper, times(announcements.size())).toDto(announcement);
     }
 
     @Test
@@ -109,7 +115,7 @@ class AnnouncementServiceTest {
         //when
         final var result = announcementService.findByIdConvertToDto(id);
         //then
-        assertThat(result).usingRecursiveComparison().isEqualTo(announcement);
+        assertThat(result).usingRecursiveComparison().isEqualTo(comparableAnnouncement);
         verify(addAndEditMapper).toDto(announcement);
         verify(announcementsRepository).findById(id);
     }
