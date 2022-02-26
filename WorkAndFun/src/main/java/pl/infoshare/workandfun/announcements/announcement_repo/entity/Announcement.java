@@ -8,6 +8,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.ServiceType;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Type;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship;
+import pl.infoshare.workandfun.users.User;
+
 import javax.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -44,8 +46,9 @@ public class Announcement implements Comparable<Announcement> {
     private String unit; //osiedle
     @Column(name = COLUMN_PREFIX + "price")
     private String price;
-    @Column(name = COLUMN_PREFIX + "client_id")
-    private Integer clientId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_user_id")
+    private User owner;
     @Enumerated(EnumType.STRING)
     @Column(name = COLUMN_PREFIX + "voivodeship", nullable = false)
     private Voivodeship voivodeship;
