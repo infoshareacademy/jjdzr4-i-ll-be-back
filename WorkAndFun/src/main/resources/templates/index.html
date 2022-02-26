@@ -196,7 +196,12 @@
                 <div th:class="'index-announcement-description'">
                     <p th:class="'index-announcement-description-text'" th:text="${announcement.description}"></p>
                 </div>
-                <p th:text="${announcement.price + ' zł'}"></p>
+                <div th:if="${announcement.individualPrice}">
+                    <p th:text="${announcement.price}"></p>
+                </div>
+                <div th:unless="${announcement.individualPrice}">
+                    <p th:text="${announcement.price} + ' zł'"></p>
+                </div>
             </a>
         </div>
     </div>
