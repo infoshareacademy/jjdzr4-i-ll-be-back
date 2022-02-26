@@ -29,14 +29,14 @@ public class Announcement implements Comparable<Announcement> {
     @Column(name = COLUMN_PREFIX + "id", nullable = false)
     private Long id;
     @Enumerated(EnumType.STRING)
-    @Column(name = COLUMN_PREFIX + "type")
+    @Column(name = COLUMN_PREFIX + "type", nullable = false)
     private Type type;
-    @Column(name = COLUMN_PREFIX + "header")
+    @Column(name = COLUMN_PREFIX + "header", nullable = false)
     private String header;
     @Enumerated(EnumType.STRING)
-    @Column(name = COLUMN_PREFIX + "service_type")
+    @Column(name = COLUMN_PREFIX + "service_type", nullable = false)
     private ServiceType serviceType;
-    @Column(name = COLUMN_PREFIX + "city")
+    @Column(name = COLUMN_PREFIX + "city", nullable = false)
     private String city;
     @Column(name = COLUMN_PREFIX + "city_district")
     private String cityDistrict;
@@ -47,16 +47,16 @@ public class Announcement implements Comparable<Announcement> {
     @Column(name = COLUMN_PREFIX + "client_id")
     private Integer clientId;
     @Enumerated(EnumType.STRING)
-    @Column(name = COLUMN_PREFIX + "voivodeship")
+    @Column(name = COLUMN_PREFIX + "voivodeship", nullable = false)
     private Voivodeship voivodeship;
     @CreationTimestamp
     @Column(name = COLUMN_PREFIX + "date")
     private LocalDateTime date;
     @Column(name = COLUMN_PREFIX + "name_of_advertiser")
     private String nameOfAdvertiser;
-    @Column(name = COLUMN_PREFIX + "email")
+    @Column(name = COLUMN_PREFIX + "email", nullable = false)
     private String email;
-    @Column(name = COLUMN_PREFIX + "is_price_negotiable")
+    @Column(name = COLUMN_PREFIX + "is_price_negotiable", nullable = false)
     private Boolean isPriceNegotiable = false;
     @Column(name = COLUMN_PREFIX + "description")
     private String description;
