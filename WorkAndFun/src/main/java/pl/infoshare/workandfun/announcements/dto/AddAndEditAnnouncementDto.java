@@ -47,7 +47,7 @@ public class AddAndEditAnnouncementDto {
     private String email;
     @NotNull
     private Boolean isPriceNegotiable = false;
-    @Size (min = 15, max=500)
+    @Size (min = 15, max=255)
     @NotBlank
     private String description;
     @Pattern(regexp = "(\\+48)?\\d{9}", message = "Musisz podać numer w formacie +48123456789")

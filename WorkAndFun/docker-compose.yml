@@ -10,7 +10,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8081:8080"
     depends_on:
       - db
     environment:
@@ -32,7 +32,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: superSecretPassword
     ports:
-      - "3306:3306"
+      - "3310:3306"
     networks:
       - backend
 
@@ -46,4 +46,3 @@ volumes:
 
 networks:
   backend:
-#    name: backend
