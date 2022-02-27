@@ -14,7 +14,7 @@ services:
     depends_on:
       - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3310/main_db?createDatabaseIfNotExist=true&serverTimezone=UTC&useLegacyDatetimeCode=false
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/main_db?createDatabaseIfNotExist=true&serverTimezone=UTC&useLegacyDatetimeCode=false
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: superSecretPassword
     networks:
@@ -32,7 +32,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: superSecretPassword
     ports:
-      - "3310:3306"
+      - "3306:3306"
     networks:
       - backend
 
@@ -46,3 +46,4 @@ volumes:
 
 networks:
   backend:
+#    name: backend
