@@ -38,11 +38,6 @@ services:
 
 volumes:
   db_workandfun_data:
-#    driver: local
-#    driver_opts:
-#      type: 'none'
-#      o: 'bind'
-#      device: '/home/maks/WorkAndFun_db/my_db'
 
 networks:
   backend:

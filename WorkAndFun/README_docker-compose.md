@@ -1,6 +1,6 @@
 # Instrukcja do korzystania z docker-compose.yml
 
-##UWAGA! Wszystkie komendy ```docker-compose``` należy wykonywać z poziomu foldera, w którym znajduje się plik docker-compose.yml
+##UWAGA! Wszystkie komendy ```docker-compose``` należy wykonywać z poziomu folderu, w którym znajduje się plik docker-compose.yml
 <br></br>
 ### Z aplikacji można korzystać na 2 sposoby:
 ### 1) Można odpalać aplikację lokalnie, przez IntelliJ, i łączyć się z DB, która jest w kontenerze.
