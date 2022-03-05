@@ -44,7 +44,7 @@ public class User {
     private String lastName;
     @Column(name = COLUMN_PREFIX + "phone_number")
     private String phoneNumber;
-    @Column(name = COLUMN_PREFIX + "email", nullable = false)
+    @Column(name = COLUMN_PREFIX + "email", nullable = false, unique = true)
     private String email;
     @Column(name = COLUMN_PREFIX + "age")
     private int age;

@@ -28,7 +28,7 @@ public class Announcement implements Comparable<Announcement> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = COLUMN_PREFIX + "id", nullable = false)
+    @Column(name = COLUMN_PREFIX + "id")
     private Long id;
     @Enumerated(EnumType.STRING)
     @Column(name = COLUMN_PREFIX + "type", nullable = false)
