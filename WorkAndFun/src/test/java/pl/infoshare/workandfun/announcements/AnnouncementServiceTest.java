@@ -62,7 +62,7 @@ class AnnouncementServiceTest {
     }
 
     @Test
-    void shouldFindAllSortedByCreateDateDescConvertToDto() throws JsonProcessingException {
+    void shouldFindAllSortedByCreateDateDescConvertToDto() {
         //given
         List<Announcement> announcements = List.of(announcement);
         when(announcementsRepository.findAllByOrderByDateDesc()).thenReturn(announcements);
