@@ -48,6 +48,7 @@
         <Logger name="pl.infoshare.workandfun.announcements.mappers.AddAndEditMapper" level="debug"/>
         <Logger name="pl.infoshare.workandfun.announcements.AnnouncementService" level="debug"/>
         <Logger name="pl.infoshare.workandfun.announcements.AnnouncementAPI" level="debug"/>
+        <Logger name="pl.infoshare.workandfun.mainpage.Index" level="info"/>
        <!-- <Logger name="com.example.loggers.log4j2.repository" level="debug">
             <AppenderRef ref="AsyncExerciseFile" level="debug"/>
         </Logger>
