@@ -13,7 +13,7 @@ public class AddAndEditMapper {
     private static final Logger LOGGER = LogManager.getLogger(AddAndEditMapper.class);
 
     public Announcement toEntity(AddAndEditAnnouncementDto dto) {
-        LOGGER.debug("Converting DTO to entity");
+        LOGGER.trace("Converting DTO to entity");
         Announcement entity = new Announcement();
         entity.setType(dto.getType());
         entity.setHeader(dto.getHeader());
@@ -30,12 +30,12 @@ public class AddAndEditMapper {
         entity.setPriceAdditionComment(dto.getPriceAdditionComment());
         entity.setNameOfAdvertiser(dto.getNameOfAdvertiser());
         entity.setId(dto.getId());
-        LOGGER.debug("Conversion successfull");
+        LOGGER.trace("Conversion successfull");
         return entity;
     }
 
     public AddAndEditAnnouncementDto toDto(Announcement entity) {
-        LOGGER.debug("Converting entity to DTO");
+        LOGGER.trace("Converting entity to DTO");
         AddAndEditAnnouncementDto dto = new AddAndEditAnnouncementDto();
         dto.setCity(entity.getCity());
         dto.setDescription(entity.getDescription());
@@ -52,7 +52,7 @@ public class AddAndEditMapper {
         dto.setPriceAdditionComment(entity.getPriceAdditionComment());
         dto.setNameOfAdvertiser(entity.getNameOfAdvertiser());
         dto.setId(entity.getId());
-        LOGGER.debug("Conversion successfull");
+        LOGGER.trace("Conversion successfull");
         return dto;
     }
 }

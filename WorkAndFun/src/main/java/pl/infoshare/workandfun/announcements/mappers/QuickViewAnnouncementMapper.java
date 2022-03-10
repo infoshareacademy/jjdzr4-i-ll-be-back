@@ -1,5 +1,7 @@
 package pl.infoshare.workandfun.announcements.mappers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
@@ -8,8 +10,10 @@ import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 public class QuickViewAnnouncementMapper {
 
     public static final String INDIVIDUAL_PRICE_KEY_WORD = "do ustalenia indywidualnie";
+    private static final Logger LOGGER = LogManager.getLogger(QuickViewAnnouncementMapper.class);
 
     public QuickViewAnnouncementDto toDto(Announcement entity) {
+        LOGGER.trace("Converting entity to DTO");
         QuickViewAnnouncementDto dto = new QuickViewAnnouncementDto();
         dto.setId(entity.getId());
         dto.setHeader(entity.getHeader());
@@ -19,10 +23,12 @@ public class QuickViewAnnouncementMapper {
         dto.setIndividualPrice(checkIsPriceIndividual(entity));
         dto.setFullLocalization(setFullLocalization(entity));
         dto.setDescription(entity.getDescription());
+        LOGGER.trace("Conversion successfull");
         return dto;
     }
 
     private boolean checkIsPriceIndividual(Announcement entity) {
+        LOGGER.trace("Checking if price is to be determined individually");
         return entity.getPrice().equalsIgnoreCase(INDIVIDUAL_PRICE_KEY_WORD);
     }
 

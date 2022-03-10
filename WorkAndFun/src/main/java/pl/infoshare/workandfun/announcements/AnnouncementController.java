@@ -59,7 +59,7 @@ public class AnnouncementController {
                        BindingResult bindingResult) {
         LOGGER.info("User tries to add new announcement");
         if (bindingResult.hasErrors()) {
-            LOGGER.info("Announcement save failed due to incorrect form filling by the user");
+            LOGGER.info("Announcement save failed due to incorrectly filled form");
             return "announcement-form";
         }
         LOGGER.info("Announcement form filled correctly, saving to database");
@@ -79,7 +79,7 @@ public class AnnouncementController {
                                 BindingResult bindingResult) {
         LOGGER.info("User tries to edit announcement (id: {})", dto.getId());
         if (bindingResult.hasErrors()) {
-            LOGGER.info("Announcement edit failed due to nonbinding results in announcement form (id: {})", dto.getId());
+            LOGGER.info("Announcement edit failed due to incorrectly filled form (id: {})", dto.getId());
             return "announcement-form-update";
         }
         announcementService.update(id, dto);
@@ -96,9 +96,9 @@ public class AnnouncementController {
         model.addAttribute("service", quickViewAnnouncementService);
         model.addAttribute("isSuccess", !announcementDtoList.isEmpty());
         if(announcementDtoList.isEmpty())
-            LOGGER.info("Search list is empty (query: {})", param);
+            LOGGER.info("No announcements found (query: {})", param);
         else
-            LOGGER.info("Full search list returned (query: {})", param);
+            LOGGER.info("Search list returned (query: {})", param);
         return "searched-announcements";
     }
 }

@@ -12,6 +12,7 @@
         <Property name="LOG_FILE">log4j2-app.log</Property>
         <Property name="EXERCISE_FILE_LOG_PATTERN">%d{HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN} : %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
     </Properties>
+
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT" follow="true">
             <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}" charset="${sys:CONSOLE_LOG_CHARSET}"/>
@@ -21,43 +22,24 @@
                      filePattern="${sys:LOG_PATH}/$${date:yyyy-MM}/app-%d{yyyy-MM-dd-HH}-%i.log.gz">
             <PatternLayout pattern="${sys:FILE_LOG_PATTERN}" charset="${sys:FILE_LOG_CHARSET}"/>
             <Policies>
-                <SizeBasedTriggeringPolicy size="10 MB"/>
+                <SizeBasedTriggeringPolicy size="10 KB"/>
             </Policies>
         </RollingFile>
-        <Async name="AsyncLogFile" bufferSize="80">
-            <AppenderRef ref="LogFile" />
-        </Async>
-
-        <RollingFile name="ExerciseFile" fileName="${sys:LOG_PATH}/${sys:LOG_FILE}"
-                     filePattern="${sys:LOG_PATH}/$${date:yyyy-MM-dd}/app-%d{yyyy-MM-dd-HH}-%i.log.gz">
-            <PatternLayout pattern="${sys:FILE_LOG_PATTERN}" charset="${sys:FILE_LOG_CHARSET}"/>
-            <Policies>
-                <SizeBasedTriggeringPolicy size="10 MB"/>
-            </Policies>
-        </RollingFile>
-
-        <Async name="AsyncExerciseFile" bufferSize="80">
-            <AppenderRef ref="ExerciseFile" />
-        </Async>
-
     </Appenders>
+
     <Loggers>
+        <Logger name="pl.infoshare.workandfun.mainpage.Index" level="info"/>
         <Logger name="pl.infoshare.workandfun.announcements.AnnouncementController" level="info"/>
         <Logger name="pl.infoshare.workandfun.announcements.AnnouncementService" level="info"/>
         <Logger name="pl.infoshare.workandfun.exception.AnnouncementNotFoundException" level="info"/>
-        <Logger name="pl.infoshare.workandfun.announcements.mappers.AddAndEditMapper" level="debug"/>
         <Logger name="pl.infoshare.workandfun.announcements.AnnouncementService" level="debug"/>
         <Logger name="pl.infoshare.workandfun.announcements.AnnouncementAPI" level="debug"/>
-        <Logger name="pl.infoshare.workandfun.mainpage.Index" level="info"/>
-       <!-- <Logger name="com.example.loggers.log4j2.repository" level="debug">
-            <AppenderRef ref="AsyncExerciseFile" level="debug"/>
-        </Logger>
-        <AsyncLogger name="com.example.loggers.log4j2.rest.HelloRestController" level="trace" />
-        -->
+        <Logger name="pl.infoshare.workandfun.announcements.mappers.AddAndEditMapper" level="trace"/>
+        <Logger name="pl.infoshare.workandfun.announcements.mappers.QuickViewAnnouncementMapper" level="trace"/>
+
         <Root level="info">
-            <AppenderRef ref="Console"/>
-            <AppenderRef ref="LogFile"/>
-        <!--    <AppenderRef ref="AsyncFile"/>-->
+            <AppenderRef ref="Console" level="info"/>
+            <AppenderRef ref="LogFile" level="trace"/>
         </Root>
     </Loggers>
 </Configuration>
