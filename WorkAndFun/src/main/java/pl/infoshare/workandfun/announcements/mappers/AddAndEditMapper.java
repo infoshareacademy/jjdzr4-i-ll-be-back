@@ -1,12 +1,19 @@
 package pl.infoshare.workandfun.announcements.mappers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
+import pl.infoshare.workandfun.announcements.AnnouncementController;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
 import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
 
 @Component
 public class AddAndEditMapper {
+
+    private static final Logger LOGGER = LogManager.getLogger(AddAndEditMapper.class);
+
     public Announcement toEntity(AddAndEditAnnouncementDto dto) {
+        LOGGER.debug("Converting DTO to entity");
         Announcement entity = new Announcement();
         entity.setType(dto.getType());
         entity.setHeader(dto.getHeader());
@@ -23,10 +30,12 @@ public class AddAndEditMapper {
         entity.setPriceAdditionComment(dto.getPriceAdditionComment());
         entity.setNameOfAdvertiser(dto.getNameOfAdvertiser());
         entity.setId(dto.getId());
+        LOGGER.debug("Conversion successfull");
         return entity;
     }
 
     public AddAndEditAnnouncementDto toDto(Announcement entity) {
+        LOGGER.debug("Converting entity to DTO");
         AddAndEditAnnouncementDto dto = new AddAndEditAnnouncementDto();
         dto.setCity(entity.getCity());
         dto.setDescription(entity.getDescription());
@@ -43,6 +52,7 @@ public class AddAndEditMapper {
         dto.setPriceAdditionComment(entity.getPriceAdditionComment());
         dto.setNameOfAdvertiser(entity.getNameOfAdvertiser());
         dto.setId(entity.getId());
+        LOGGER.debug("Conversion successfull");
         return dto;
     }
 }

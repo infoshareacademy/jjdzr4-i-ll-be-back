@@ -1,5 +1,7 @@
 package pl.infoshare.workandfun.announcements;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -27,6 +29,7 @@ public class AnnouncementService {
     private final AnnouncementsRepository announcementsRepository;
     private final AddAndEditMapper addAndEditMapper;
     private final QuickViewAnnouncementMapper quickViewAnnouncementMapper;
+    private static final Logger LOGGER = LogManager.getLogger(AnnouncementService.class);
 
     @Autowired
     public AnnouncementService(AnnouncementsRepository announcementsRepository, AddAndEditMapper addAndEditMapper, QuickViewAnnouncementMapper quickViewAnnouncementMapper) {
@@ -65,6 +68,7 @@ public class AnnouncementService {
     public void save(AddAndEditAnnouncementDto dto) {
         Announcement announcement = addAndEditMapper.toEntity(dto);
         announcementsRepository.save(announcement);
+        LOGGER.info("Announcement successfully saved to database (id: {})", announcement.getId());
     }
 
     public Announcement update(Long id, AddAndEditAnnouncementDto dto) {
@@ -76,8 +80,10 @@ public class AnnouncementService {
     public Iterable<QuickViewAnnouncementDto> searchAllByParameter(String parameter) {
         List<QuickViewAnnouncementDto> announcementDtoList = (List<QuickViewAnnouncementDto>) findAllSortedByCreateDateDescConvertToDto();
         if (parameter.isBlank()) {
+            LOGGER.debug("Returning all announcements list - query is blank");
             return announcementDtoList;
         } else {
+            LOGGER.debug("Returning search list (query: {})", parameter);
             return announcementDtoList.stream()
                     .filter(searchFilter(parameter)).collect(Collectors.<QuickViewAnnouncementDto>toList());
         }
