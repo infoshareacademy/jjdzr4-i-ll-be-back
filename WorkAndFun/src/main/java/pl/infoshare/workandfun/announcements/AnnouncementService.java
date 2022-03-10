@@ -39,6 +39,7 @@ public class AnnouncementService {
     }
 
     public Iterable<QuickViewAnnouncementDto> findAllSortedByCreateDateDescConvertToDto() {
+        LOGGER.debug("Request for all announcements sorted by create date");
         List<Announcement> announcements = (List<Announcement>) announcementsRepository.findAllByOrderByDateDesc();
         return announcements
                 .stream()
@@ -51,18 +52,22 @@ public class AnnouncementService {
     }
 
     public Announcement findById(Long id) {
+        LOGGER.debug("Repository request to find by id: {}", id);
         return announcementsRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException(id));
     }
 
     public AddAndEditAnnouncementDto findByIdConvertToDto(Long id) {
+        LOGGER.debug("Repository request to find by id and convert to dto, id: {}", id);
         return addAndEditMapper.toDto(announcementsRepository.findById(id).orElseThrow(() -> new AnnouncementNotFoundException(id)));
     }
 
     public void deleteById(Long id) {
+        LOGGER.debug("Repository request to delete by id: {}", id);
         announcementsRepository.findById(id)
                 .ifPresentOrElse(announcementsRepository::delete, () -> {
                     throw new AnnouncementNotFoundException(id);
                 });
+        LOGGER.debug("Deleted announcement, id: {}", id);
     }
 
     public void save(AddAndEditAnnouncementDto dto) {

@@ -23,13 +23,13 @@ public class AnnouncementAPI {
 
     @GetMapping("search-announcement")
     public ResponseEntity<List<Announcement>> findAllByQuerySpec(AnnouncementSpec announcementSpec) {
-        LOGGER.debug("API request to find all announcemets");
+        LOGGER.debug("Announcement API request to find all announcemets");
         return ResponseEntity.ok(announcementService.findAllByQuerySpec(announcementSpec));
     }
 
     @GetMapping("search/{id}")
     public ResponseEntity<Announcement> findById(@PathVariable Long id) {
-        LOGGER.debug("API request to search by id: {}", id);
+        LOGGER.debug("API request to find by id: {}", id);
         return ResponseEntity.ok(announcementService.findById(id));
     }
 
