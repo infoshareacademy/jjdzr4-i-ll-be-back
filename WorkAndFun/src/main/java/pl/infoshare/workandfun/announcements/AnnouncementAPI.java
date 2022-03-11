@@ -1,5 +1,7 @@
 package pl.infoshare.workandfun.announcements;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import java.util.List;
 public class AnnouncementAPI {
 
     private final AnnouncementService announcementService;
+    private static final Logger LOGGER = LogManager.getLogger(AnnouncementAPI.class);
 
     @Autowired
     public AnnouncementAPI(AnnouncementService announcementService) {
@@ -20,16 +23,19 @@ public class AnnouncementAPI {
 
     @GetMapping("search-announcement")
     public ResponseEntity<List<Announcement>> findAllByQuerySpec(AnnouncementSpec announcementSpec) {
+        LOGGER.debug("Announcement API request to find all announcemets");
         return ResponseEntity.ok(announcementService.findAllByQuerySpec(announcementSpec));
     }
 
     @GetMapping("search/{id}")
     public ResponseEntity<Announcement> findById(@PathVariable Long id) {
+        LOGGER.debug("API request to find by id: {}", id);
         return ResponseEntity.ok(announcementService.findById(id));
     }
 
     @DeleteMapping("delete-announcement/{id}")
     public void deleteById(@PathVariable Long id) {
+        LOGGER.debug("API request to delete by id: {}", id);
         announcementService.deleteById(id);
     }
 }
