@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,7 +37,7 @@
                     </svg>
                     Mój profil <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item active mr-sm-2 text-light">
                 <a class="nav-link font-weight-bold btn btn-mint" th:href="@{/announcement/add-new}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-plus-circle" viewBox="0 0 16 16">
@@ -45,6 +45,18 @@
                         <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
                     </svg>
                     Stwórz ogłoszenie <span class="sr-only">(current)
+                            </span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link font-weight-bold btn btn-outline-secondary" sec:authorize="!isAuthenticated()" th:href="@{/sign-in}">
+                    Zaloguj się <span class="sr-only">(current)
+                            </span>
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link font-weight-bold btn btn-outline-secondary" sec:authorize="isAuthenticated()" th:href="@{/sign-out}">
+                    Wyloguj się <span class="sr-only">(current)
                             </span>
                 </a>
             </li>
