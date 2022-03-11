@@ -38,8 +38,8 @@
         <Logger name="pl.infoshare.workandfun.announcements.mappers.QuickViewAnnouncementMapper" level="trace"/>
 
         <Root level="info">
-            <AppenderRef ref="Console" level="info"/>
-            <AppenderRef ref="LogFile" level="trace"/>
+            <AppenderRef ref="Console" level="debug"/>
+            <AppenderRef ref="LogFile" level="info"/>
         </Root>
     </Loggers>
 </Configuration>
