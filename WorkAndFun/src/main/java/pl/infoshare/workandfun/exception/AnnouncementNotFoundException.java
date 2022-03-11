@@ -2,7 +2,6 @@ package pl.infoshare.workandfun.exception;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pl.infoshare.workandfun.announcements.AnnouncementController;
 
 public class AnnouncementNotFoundException extends RuntimeException{
 

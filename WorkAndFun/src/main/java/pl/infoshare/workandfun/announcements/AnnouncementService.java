@@ -79,7 +79,7 @@ public class AnnouncementService {
     public Announcement update(Long id, AddAndEditAnnouncementDto dto) {
         Announcement entity = findById(id);
         BeanUtils.copyProperties(dto, entity);
-        LOGGER.info("Announcement successfully updated to database (id: {})", entity.getId());
+        LOGGER.info("Announcement successfully saved to database (id: {})", entity.getId());
         return announcementsRepository.save(entity);
     }
 
