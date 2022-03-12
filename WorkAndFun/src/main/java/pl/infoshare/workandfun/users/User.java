@@ -9,6 +9,7 @@ import pl.infoshare.workandfun.announcements.announcement_repo.entity.additional
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,17 +26,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_PREFIX + "id", nullable = false)
     private Long id;
-    @Column(name = COLUMN_PREFIX + "username", nullable = false)
+    @Column(name = COLUMN_PREFIX + "username", nullable = false, unique = true)
     private String username;
     @Column(name = COLUMN_PREFIX + "password", nullable = false)
     private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<UserRole> roles;
+    private Set<UserRole> roles;
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<Announcement> ownAnnouncements;
     @Column(name = COLUMN_PREFIX + "first_name", nullable = false)

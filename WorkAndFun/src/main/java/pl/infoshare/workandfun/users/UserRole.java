@@ -23,7 +23,7 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_PREFIX + "id", nullable = false)
     private Long id;
-    @Column(name = COLUMN_PREFIX + "name", nullable = false)
+    @Column(name = COLUMN_PREFIX + "name", nullable = false, unique = true)
     private String name;
     @ManyToMany(mappedBy = "roles")
     private List<User> user;
