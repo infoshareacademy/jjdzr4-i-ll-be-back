@@ -11,5 +11,5 @@ ALTER TABLE user
     ADD CONSTRAINT uc_user_u_username UNIQUE (u_username);
 
 insert into roles (r_id, r_name)
-values (1, 'user'),
+values (1, 'admin'),
        (2, 'application_user');

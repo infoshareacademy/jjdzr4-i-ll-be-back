@@ -30,7 +30,7 @@ public class User {
     private String username;
     @Column(name = COLUMN_PREFIX + "password", nullable = false)
     private String password;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -49,10 +49,26 @@ public class User {
     private String email;
     @Column(name = COLUMN_PREFIX + "age")
     private int age;
+    @Enumerated(EnumType.STRING)
     @Column(name = COLUMN_PREFIX + "voivodeship", nullable = false)
     private Voivodeship voivodeship;
     @Column(name = COLUMN_PREFIX + "city", nullable = false)
     private String city;
     @Column(name = COLUMN_PREFIX + "city_district")
     private String cityDistrict;
+
+    public User(String username, String password, Set<UserRole> roles, List<Announcement> ownAnnouncements, String firstName, String lastName, String phoneNumber, String email, int age, Voivodeship voivodeship, String city, String cityDistrict) {
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+        this.ownAnnouncements = ownAnnouncements;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.age = age;
+        this.voivodeship = voivodeship;
+        this.city = city;
+        this.cityDistrict = cityDistrict;
+    }
 }
