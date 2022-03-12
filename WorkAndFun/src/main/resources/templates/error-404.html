@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
 
@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<a href="/" class="btn btn-primary btn-lg active btn-block" role="button" aria-pressed="true">BACK TO MAIN SITE</a>
+<a href="/" class="btn btn-primary btn-lg active btn-block" role="button" aria-pressed="true" th:text="#{errors.main}"></a>
 <img th:src="@{/img/errors-img/error404.png}" width="50%" alt="image" class="center"/>
 
 
