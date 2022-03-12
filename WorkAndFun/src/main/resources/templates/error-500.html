@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title th:text="#{index.title}"></title>
+</head>
+<body>
+
+<a href="/" class="btn btn-primary btn-lg active btn-block" role="button" aria-pressed="true" th:text="#{errors.main}"></a>
+<img th:src="@{/img/errors-img/error500.jpg}" width="50%" alt="image" class="center"/>
+
+
+</body>
+</html>
