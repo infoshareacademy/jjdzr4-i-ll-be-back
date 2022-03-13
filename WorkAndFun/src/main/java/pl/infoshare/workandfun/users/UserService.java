@@ -1,42 +1,30 @@
 package pl.infoshare.workandfun.users;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship;
+import pl.infoshare.workandfun.users.mappers.UserToUserDtosMapper;
 
-import java.util.Collections;
-import java.util.Set;
+import javax.transaction.Transactional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final UserToUserDtosMapper userToUserDtosMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserToUserDtosMapper userToUserDtosMapper) {
         this.userRepository = userRepository;
+        this.userToUserDtosMapper = userToUserDtosMapper;
     }
 
-//    @EventListener(ApplicationReadyEvent.class)
-//    public void initSomeUsers() {
-//        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//        User user1 = new User(
-//                "admin",
-//                encoder.encode("SuperTajneHaslo123"),
-//                Set.of(new UserRole("admin2", Collections.emptyList()), new UserRole("application_user2", Collections.emptyList())),
-//                Collections.emptyList(),
-//                "Kamila",
-//                "Strzelecka",
-//                "472384232",
-//                "kamstrzel@gmail.com",
-//                18,
-//                Voivodeship.OPOLSKIE,
-//                "Opole",
-//                null);
-//        User save = userRepository.save(user1);
-//    }
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User userFound = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User: " + username + " does not exist"));
+        return userToUserDtosMapper.toSecurityDto(userFound);
+    }
 }
