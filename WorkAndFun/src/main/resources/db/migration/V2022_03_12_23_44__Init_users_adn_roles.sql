@@ -6,7 +6,8 @@ insert into user (u_id, u_username, u_password, u_first_name, u_last_name
 , u_phone_number, u_email, u_age, u_voivodeship, u_city, u_city_district)
 values ('1',
         'admin',
-        '{bcrypt}$2a$12$/PbjLvwZtU8tdf5PCEs31eSh5pgXt6SCF/s4Ydi.Zs/febRNFNssS',
+        # haslo
+        '{bcrypt}$2a$12$PMQXm6f3syTVg7ltyTVkMesqwSElEcJI/lL7O4sv2wwcuPjGEuYUq',
         'Kamila',
         'Strzelecka',
         '472384232',
@@ -17,7 +18,8 @@ values ('1',
         null),
        ('2',
         'MKowalski',
-        '{bcrypt}$2a$12$saq7ZwbCDQd37RuJ9XIdru9JzBUe/URC7SoGqqcgRB1ump0NEc5BW',
+        # haslo1
+        '{bcrypt}$2a$12$jRkfYN72seRNfvPwWzAvR.FrFUzFWCx/0cLolli1FvUjczU6cufz2',
         'Mariusz',
         'Kowalski',
         '987789654',
