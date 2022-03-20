@@ -10,6 +10,7 @@
         <Property name="FILE_LOG_CHARSET">UTF-8</Property>
         <Property name="LOG_PATH">logs</Property>
         <Property name="LOG_FILE">log4j2-app.log</Property>
+        <Property name="LOG_FILE_SECURITY">log4j2-app-security.log</Property>
         <Property name="EXERCISE_FILE_LOG_PATTERN">%d{HH:mm:ss.SSS} ${LOG_LEVEL_PATTERN} : %m%n${sys:LOG_EXCEPTION_CONVERSION_WORD}</Property>
     </Properties>
 
@@ -19,6 +20,14 @@
         </Console>
 
         <RollingFile name="LogFile" fileName="${sys:LOG_PATH}/${sys:LOG_FILE}"
+                     filePattern="${sys:LOG_PATH}/$${date:yyyy-MM}/app-%d{yyyy-MM-dd-HH}-%i.log.gz">
+            <PatternLayout pattern="${sys:FILE_LOG_PATTERN}" charset="${sys:FILE_LOG_CHARSET}"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="LogFileSecurity" fileName="${sys:LOG_PATH}/${sys:LOG_FILE_SECURITY}"
                      filePattern="${sys:LOG_PATH}/$${date:yyyy-MM}/app-%d{yyyy-MM-dd-HH}-%i.log.gz">
             <PatternLayout pattern="${sys:FILE_LOG_PATTERN}" charset="${sys:FILE_LOG_CHARSET}"/>
             <Policies>
@@ -36,6 +45,9 @@
         <Logger name="pl.infoshare.workandfun.announcements.AnnouncementAPI" level="debug"/>
         <Logger name="pl.infoshare.workandfun.announcements.mappers.AddAndEditMapper" level="trace"/>
         <Logger name="pl.infoshare.workandfun.announcements.mappers.QuickViewAnnouncementMapper" level="trace"/>
+        <Logger name="org.springframework.security" level="DEBUG" additivity="false">
+            <AppenderRef ref="LogFileSecurity" level="debug"/>
+        </Logger>
 
         <Root level="info">
             <AppenderRef ref="Console" level="debug"/>

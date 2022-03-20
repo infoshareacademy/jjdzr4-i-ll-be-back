@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import pl.infoshare.workandfun.announcements.AnnouncementAPI;
 import pl.infoshare.workandfun.announcements.AnnouncementService;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
 
