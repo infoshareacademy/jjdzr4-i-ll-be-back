@@ -12,6 +12,7 @@ import pl.infoshare.workandfun.users.dto.UserAddingDto;
 @Controller
 public class UserController {
 
+    //TODO: implement LOGGERS
     private final UserService userService;
 
     @Autowired

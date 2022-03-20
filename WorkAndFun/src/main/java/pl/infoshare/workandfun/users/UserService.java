@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 @Transactional
 public class UserService implements UserDetailsService {
 
+    //TODO: implement LOGGERS
     private static final String SIMPLE_USER_ROLE = "APPLICATION_USER";
 
     private final PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
