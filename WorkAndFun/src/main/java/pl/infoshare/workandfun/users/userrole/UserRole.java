@@ -1,9 +1,10 @@
-package pl.infoshare.workandfun.users;
+package pl.infoshare.workandfun.users.userrole;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.infoshare.workandfun.users.User;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,8 +29,4 @@ public class UserRole {
     @ManyToMany(mappedBy = "roles")
     private List<User> user;
 
-    public UserRole(String name, List<User> user) {
-        this.name = name;
-        this.user = user;
-    }
 }
