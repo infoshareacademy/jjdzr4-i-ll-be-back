@@ -3,14 +3,15 @@ package pl.infoshare.workandfun.users;
 import lombok.*;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship;
+import pl.infoshare.workandfun.users.userrole.UserRole;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
-@NoArgsConstructor
-@RequiredArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -55,18 +56,12 @@ public class User {
     @Column(name = COLUMN_PREFIX + "city_district")
     private String cityDistrict;
 
-    public User(String username, String password, Set<UserRole> roles, List<Announcement> ownAnnouncements, String firstName, String lastName, String phoneNumber, String email, int age, Voivodeship voivodeship, String city, String cityDistrict) {
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-        this.ownAnnouncements = ownAnnouncements;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.age = age;
-        this.voivodeship = voivodeship;
-        this.city = city;
-        this.cityDistrict = cityDistrict;
+    public User() {
+        this.roles = new HashSet<>();
+        this.ownAnnouncements = new ArrayList<>();
+    }
+
+    public void addRoleToSet(UserRole userRole) {
+        this.roles.add(userRole);
     }
 }

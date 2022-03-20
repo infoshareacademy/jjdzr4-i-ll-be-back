@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.infoshare.workandfun.announcements.mappers.AnnouncementDtoForUserDtoMapper;
 import pl.infoshare.workandfun.users.User;
-import pl.infoshare.workandfun.users.UserRole;
+import pl.infoshare.workandfun.users.userrole.UserRole;
 import pl.infoshare.workandfun.users.dto.UserAddingDto;
 import pl.infoshare.workandfun.users.dto.UserSecurityDto;
 
@@ -43,17 +43,17 @@ public class UserToUserDtosMapper {
         return dto;
     }
 
-    public UserAddingDto toEntity(User userEntity) {
-        LOGGER.trace("Converting entity to DTO");
-        UserAddingDto userAddingDto = new UserAddingDto();
-        userAddingDto.setUsername(userEntity.getUsername());
-        userAddingDto.setPassword(userEntity.getPassword());
-        userAddingDto.setFirstName(userEntity.getFirstName());
-        userAddingDto.setLastName(userEntity.getLastName());
-        userAddingDto.setEmail(userEntity.getEmail());
-        userAddingDto.setVoivodeship(userEntity.getVoivodeship());
-        userAddingDto.setCity(userEntity.getCity());
+    public User toEntity(UserAddingDto addingDto) {
+        LOGGER.trace("Converting adding DTO to entity");
+        User userEntity = new User();
+        userEntity.setUsername(addingDto.getUsername());
+        userEntity.setPassword(addingDto.getPassword());
+        userEntity.setFirstName(addingDto.getFirstName());
+        userEntity.setLastName(addingDto.getLastName());
+        userEntity.setEmail(addingDto.getEmail());
+        userEntity.setVoivodeship(addingDto.getVoivodeship());
+        userEntity.setCity(addingDto.getCity());
         LOGGER.trace("Conversion successfull");
-        return userAddingDto;
+        return userEntity;
     }
 }
