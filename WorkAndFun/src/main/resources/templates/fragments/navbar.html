@@ -49,20 +49,20 @@
                             </span>
                 </a>
             </li>
-            <li class="nav-item active mr-sm-2 text-light">
-                <a class="nav-link font-weight-bold btn btn-outline-secondary btn-sm" sec:authorize="!isAuthenticated()" th:href="@{/sign-in}">
+            <li class="nav-item active mr-sm-2 text-light" sec:authorize="!isAuthenticated()">
+                <a class="nav-link font-weight-bold btn btn-outline-secondary btn-sm" th:href="@{/sign-in}">
                     Zaloguj się <span class="sr-only">(current)
                             </span>
                 </a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link font-weight-bold btn btn-outline-secondary btn-sm" sec:authorize="!isAuthenticated()" th:href="@{/sign-in}">
+            <li class="nav-item active" sec:authorize="!isAuthenticated()" >
+                <a class="nav-link font-weight-bold btn btn-outline-secondary btn-sm" th:href="@{/users}">
                     Zarejestruj się <span class="sr-only">(current)
                             </span>
                 </a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link font-weight-bold btn btn-outline-secondary btn-sm" sec:authorize="isAuthenticated()" th:href="@{/sign-out}">
+            <li class="nav-item active" sec:authorize="isAuthenticated()" >
+                <a class="nav-link font-weight-bold btn btn-outline-secondary btn-sm"th:href="@{/sign-out}">
                     Wyloguj się <span class="sr-only">(current)
                             </span>
                 </a>
