@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--/* Bootstrap CSS */-->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <title th:text="#{index.title}"></title>
+</head>
+
+<body class="bg-light p-3">
+<div class="container-lg">
+
+    <div class="row mb-1">
+        <div class="col-md-12" th:insert="~{fragments/navbar :: nav}"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+
+                <nav aria-label="my-custom-pagination" class="mb-5">
+                    <ul class="pagination">
+                        <li th:class="${announcements.isFirst()} ? 'page-item disabled' : 'page-item'">
+                            <a class="page-link" th:text="'&laquo;'"
+                               th:href="@{allp(page=${announcements.previousOrFirstPageable().getPageNumber()+1})}"></a>
+                        </li>
+
+                        <li th:each="actPageNumb : ${threeClosestPage}"
+                            th:class="${announcements.getNumber()+1 == actPageNumb} ? 'page-item active' : 'page-item'">
+                            <a class="page-link" th:text="${actPageNumb}" th:href="@{allp(page=${actPageNumb})}"></a>
+                        </li>
+
+                        <li th:class="${announcements.isLast()} ? 'page-item disabled' : 'page-item'">
+                            <a class="page-link" th:text="'&raquo;'"
+                               th:href="@{allp(page=${announcements.nextOrLastPageable().getPageNumber()+1})}"></a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="announcement-frame d-block bg-white form-group col-12"
+                     th:each="announcement : ${announcements.content}">
+                    <div class="row">
+                        <div class="big-left-side col-8 col-md-10">
+                            <div class="announcement-left-side-header p-3 col-8 col-md-10">
+                                <a th:href="@{/announcement/details/{announcId}(announcId=${announcement.id})}"
+                                   th:class="'announcement-header'">
+                                    <h4 class="announcement-header text-dark" th:text="${announcement.header}"></h4>
+                                </a>
+                            </div>
+                            <div class="col-12">
+                                <p class="announcement-left-side-date-and-location"
+                                   th:text="${announcement.fullLocalization} + ' - ' + ${service.formatAnnouncementCreateDate(announcement)}"></p>
+                            </div>
+                        </div>
+
+                        <div class="announcement-right-side p-3 text-center my-auto col-4 col-md-2">
+                            <div th:if="${announcement.individualPrice}">
+                                <p class="price">
+                                    <img th:src="@{/img/price.png}" width="100%" alt="image"/>
+                                </p>
+                            </div>
+                            <div th:unless="${announcement.individualPrice}">
+                                <p class="price">
+                                    <b th:text="${announcement.price + ' zł'}"></b>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav aria-label="my-custom-pagination" class="mt-5">
+                    <ul class="pagination">
+                        <li th:class="${announcements.isFirst()} ? 'page-item disabled' : 'page-item'">
+                            <a class="page-link" th:text="'&laquo;'"
+                               th:href="@{allp(page=${announcements.previousOrFirstPageable().getPageNumber()+1})}"></a>
+                        </li>
+
+                        <li th:each="actPageNumb : ${threeClosestPage}"
+                            th:class="${announcements.getNumber()+1 == actPageNumb} ? 'page-item active' : 'page-item'">
+                            <a class="page-link" th:text="${actPageNumb}" th:href="@{allp(page=${actPageNumb})}"></a>
+                        </li>
+
+                        <li th:class="${announcements.isLast()} ? 'page-item disabled' : 'page-item'">
+                            <a class="page-link" th:text="'&raquo;'"
+                               th:href="@{allp(page=${announcements.nextOrLastPageable().getPageNumber()+1})}"></a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12" th:insert="~{fragments/footer :: footer}"></div>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

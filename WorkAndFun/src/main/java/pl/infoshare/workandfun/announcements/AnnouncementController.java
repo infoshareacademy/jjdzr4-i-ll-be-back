@@ -3,6 +3,7 @@ package pl.infoshare.workandfun.announcements;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,7 +13,11 @@ import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("announcement")
@@ -45,6 +50,34 @@ public class AnnouncementController {
         model.addAttribute("service", quickViewAnnouncementService);
         LOGGER.info("Showing all announcements");
         return "all-announcements";
+    }
+
+    @GetMapping("allp")
+    public String getAllAnnouncementsDateDescPage(Model model,
+                                                  @RequestParam(defaultValue = "1") Integer page) {
+        LOGGER.info("Received request for all announcements");
+        if (page < 1) {
+            page = 1;
+        }
+        Page<QuickViewAnnouncementDto> dto = announcementService.findAllSortedByCreateDateDescConvertToDto(page - 1, 5);
+        model.addAttribute("announcements", dto);
+
+        int totalPages = dto.getTotalPages();
+        List<Integer> threeClosestPage;
+        if (dto.getTotalPages() < 3) {
+            threeClosestPage = List.of(1, 2);
+        } else if (page == 1) {
+            threeClosestPage = List.of(page, page + 1, page + 2);
+        } else if (page >= totalPages) {
+            threeClosestPage = List.of(totalPages - 2, totalPages - 1, totalPages);
+        } else {
+            threeClosestPage = List.of(page - 1, page, page + 1);
+        }
+        model.addAttribute("threeClosestPage", threeClosestPage);
+
+        model.addAttribute("service", quickViewAnnouncementService);
+        LOGGER.info("Showing all announcements");
+        return "all-announcements-paginated";
     }
 
     @GetMapping("add-new")
