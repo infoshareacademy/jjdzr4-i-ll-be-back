@@ -28,8 +28,8 @@
                             <h1 class="h3 mb-3 font-weight-normal" th:text="#{sign-in.sign-in-please}"></h1>
                             <div th:if="${param.error}" class="alert alert-danger" th:text="#{sign-in.invalidCredentials}"></div>
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                            <label for="username" class="sr-only" th:text="#{sign-in.email}"></label>
-                            <input type="text" id="username" name="username" class="form-control" th:placeholder="#{sign-in.email}" required="" autofocus="">
+                            <label for="username" class="sr-only" th:text="#{sign-in.login}"></label>
+                            <input type="text" id="username" name="username" class="form-control" th:placeholder="#{sign-in.login}" required="" autofocus="">
                             <label for="password" class="sr-only" th:text="#{sign-in.password}"></label>
                             <input type="password" id="password" name="password" class="form-control" th:placeholder="#{sign-in.password}" required="">
                             <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{sign-in.SignIn}"></button>
