@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import pl.infoshare.workandfun.announcements.announcement_repo.AnnouncementSpec;
 import pl.infoshare.workandfun.announcements.announcement_repo.AnnouncementsRepository;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
@@ -71,6 +74,25 @@ class AnnouncementServiceTest {
         final var firstElement = result.iterator().next();
         //then
         assertThat(((Collection<?>) result))
+                .hasSize(1)
+                .hasExactlyElementsOfTypes(QuickViewAnnouncementDto.class);
+        assertThat(firstElement).usingRecursiveComparison().ignoringFields("isIndividualPrice", "fullLocalization").isEqualTo(comparableAnnouncement);
+        assertThat(firstElement.getFullLocalization()).isEqualTo("Warszawa, dzielnica, osiedle");
+        assertThat(firstElement.isIndividualPrice()).isFalse();
+        verify(quickViewAnnouncementMapper, times(announcements.size())).toDto(announcement);
+    }
+
+    @Test
+    void shouldFindAllSortedByCreateDateDescConvertToDtoPage() {
+        //given
+        List<Announcement> announcements = List.of(announcement);
+        PageImpl<Announcement> page = new PageImpl<>(announcements);
+        when(announcementsRepository.findAllByOrderByDateDesc(any())).thenReturn(page);
+        //when
+        final var result = announcementService.findAllSortedByCreateDateDescConvertToDto(0, 1);
+        final var firstElement = result.iterator().next();
+        //then
+        assertThat((Page<?>) result)
                 .hasSize(1)
                 .hasExactlyElementsOfTypes(QuickViewAnnouncementDto.class);
         assertThat(firstElement).usingRecursiveComparison().ignoringFields("isIndividualPrice", "fullLocalization").isEqualTo(comparableAnnouncement);

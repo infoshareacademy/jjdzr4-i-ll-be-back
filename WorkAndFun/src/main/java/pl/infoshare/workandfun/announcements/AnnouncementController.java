@@ -13,11 +13,7 @@ import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("announcement")
@@ -44,17 +40,7 @@ public class AnnouncementController {
     }
 
     @GetMapping("all")
-    public String getAllAnnouncementsDateDesc(Model model) {
-        LOGGER.info("Received request for all announcements");
-        model.addAttribute("announcements", announcementService.findAllSortedByCreateDateDescConvertToDto());
-        model.addAttribute("service", quickViewAnnouncementService);
-        LOGGER.info("Showing all announcements");
-        return "all-announcements";
-    }
-
-    @GetMapping("allp")
-    public String getAllAnnouncementsDateDescPage(Model model,
-                                                  @RequestParam(defaultValue = "1") Integer page) {
+    public String getAllAnnouncementsDateDesc(Model model, @RequestParam(defaultValue = "1") Integer page) {
         LOGGER.info("Received request for all announcements");
         if (page < 1) {
             page = 1;
@@ -77,7 +63,7 @@ public class AnnouncementController {
 
         model.addAttribute("service", quickViewAnnouncementService);
         LOGGER.info("Showing all announcements");
-        return "all-announcements-paginated";
+        return "all-announcements";
     }
 
     @GetMapping("add-new")
@@ -128,7 +114,7 @@ public class AnnouncementController {
         model.addAttribute("searchedAnnouncements", announcementDtoList);
         model.addAttribute("service", quickViewAnnouncementService);
         model.addAttribute("isSuccess", !announcementDtoList.isEmpty());
-        if(announcementDtoList.isEmpty())
+        if (announcementDtoList.isEmpty())
             LOGGER.info("No announcements found (query: {})", param);
         else
             LOGGER.info("Search list returned (query: {})", param);
