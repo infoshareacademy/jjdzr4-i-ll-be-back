@@ -20,6 +20,7 @@
     </nav>
     <h1 th:text="#{announcement.update}"></h1>
     <form th:object="${announcement}" th:action="@{/announcement/edit/{id}(id=${announcement.id})}" th:method="put">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <label th:for="type_input_id" th:text="#{announcement.type}"></label>
         <br>
         <select id="type_input_id" class="custom-select" th:field="*{type}">

@@ -28,6 +28,7 @@
                     Ponad 100 000 sprawdzonych profesjonalistów do wykonywania zadań
                 </p>
                 <form class="form-inline justify-content-center" th:action="@{/announcement/search}" th:method="get">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                     <input th:name="param" class="form-control mr-sm-2" type="search">
                     <button class="btn btn-primary my-2 my-sm-0" type="submit" th:text="#{announcement.search}">
                         Szukaj

@@ -1,9 +1,10 @@
-package pl.infoshare.workandfun.users;
+package pl.infoshare.workandfun.users.userrole;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.infoshare.workandfun.users.User;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,8 +24,9 @@ public class UserRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_PREFIX + "id", nullable = false)
     private Long id;
-    @Column(name = COLUMN_PREFIX + "name", nullable = false)
+    @Column(name = COLUMN_PREFIX + "name", nullable = false, unique = true)
     private String name;
     @ManyToMany(mappedBy = "roles")
     private List<User> user;
+
 }

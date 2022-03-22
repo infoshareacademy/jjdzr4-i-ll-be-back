@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:text="#{user-add.title}"></title>
+    <link th:href="@{/css/form.css}" rel="stylesheet" type="text/css"/>
+    <!--/* Bootstrap CSS */-->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+
+</head>
+
+<body class="bg-light p-3">
+
+<div class="container-lg">
+    <div class="row mb-1">
+        <div class="col-md-12" th:insert="~{fragments/navbar :: nav}"></div>
+    </div>
+    <h1 class="white-text-shadow" th:text="#{user-add.sign-up}"></h1>
+    <div>
+        <form th:object="${newUser}" th:action="@{/sign-up}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputUsername1">Nazwa użytkownika</label>
+                    <input type="text" class="form-control" id="inputUsername1" th:field="*{username}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputPassword1">Hasło</label>
+                    <input type="password" class="form-control" id="inputPassword1" th:field="*{password}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputFirstName1">Imię</label>
+                    <input type="text" class="form-control" id="inputFirstName1" th:field="*{firstName}">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="inputLastName1">Nazwisko</label>
+                    <input type="text" class="form-control" id="inputLastName1" th:field="*{lastName}">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputEmail1">Email</label>
+                    <input type="email" class="form-control" id="inputEmail1" th:field="*{email}">
+                </div>
+                <div class="form-group col-md-4">
+                    <label th:for="'voivodeship_input_id2'" th:text="#{announcement.voivodeship}"></label>
+                    <select th:class="'form-control'" th:id="'voivodeship_input_id2'" th:field="*{voivodeship}" required>
+                        <option th:value="''" th:text="#{user-add.select-voivodeship}" th:disabled th:selected hidden></option>
+                        <option th:each="voivodeshipOpt : ${T(pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship).values()}"
+                                th:value="${voivodeshipOpt}" th:text="${voivodeshipOpt.voivodeshipName}"></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="inputCity1">Miasto</label>
+                    <input type="text" class="form-control" id="inputCity1" th:field="*{city}">
+                </div>
+            </div>
+            <button  type="submit" class="mt-2 btn btn-primary">Zarejestruj się</button>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>

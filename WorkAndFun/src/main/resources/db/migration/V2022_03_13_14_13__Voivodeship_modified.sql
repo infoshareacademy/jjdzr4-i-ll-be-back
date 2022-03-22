@@ -1,0 +1,2 @@
+ALTER TABLE user
+    MODIFY u_voivodeship VARCHAR(255) NOT NULL;

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--/* Bootstrap CSS */-->
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/style.css}" rel="stylesheet"/>
+    <link th:href="@{/css/signin.css}" rel="stylesheet"/>
+    <title th:text="#{index.title}"></title>
+</head>
+
+<body class="bg-light p-3">
+<div class="container-lg">
+
+    <div class="row mb-1">
+        <div class="col-md-12" th:insert="~{fragments/navbar :: nav}"></div>
+    </div>
+
+    <div class="container-lg">
+        <br>
+        <div class="row mt-5">
+            <div class="col-lg-12">
+                <my-log-in-tag>
+                    <div class="container text-center">
+                        <form class="form-signin" th:action="@{/api/sign-in}" method="post">
+                            <h1 class="h3 mb-3 font-weight-normal" th:text="#{sign-in.sign-in-please}"></h1>
+                            <div th:if="${param.error}" class="alert alert-danger" th:text="#{sign-in.invalidCredentials}"></div>
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                            <label for="username" class="sr-only" th:text="#{sign-in.login}"></label>
+                            <input type="text" id="username" name="username" class="form-control" th:placeholder="#{sign-in.login}" required="" autofocus="">
+                            <label for="password" class="sr-only" th:text="#{sign-in.password}"></label>
+                            <input type="password" id="password" name="password" class="form-control" th:placeholder="#{sign-in.password}" required="">
+                            <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{sign-in.SignIn}"></button>
+                            <p class="mt-5 mb-3 text-muted" th:text="#{sign-in.C}"></p>
+                        </form>
+                    </div>
+                </my-log-in-tag>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-12" th:insert="~{fragments/footer :: footer}"></div>
+    </div>
+</div>
+
+<script th:src="@{/js/jquery-3.3.1.slim.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+</body>
+</html>
