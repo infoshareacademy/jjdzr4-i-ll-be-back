@@ -30,8 +30,8 @@
             <br>
             <br>
             <label th:for="header_input_id"></label>
-            <div class="wrap-input1 validate-input">
-                <input class="input1" type="text" placeholder="Nagłówek" id="header_input_id" th:field="*{header}">
+            <div class="mb-3 validate-input">
+                <input class="form-control" type="text" placeholder="Nagłówek" id="header_input_id" th:field="*{header}">
             </div>
             <div th:if="${#fields.hasErrors('header')}" th:class="'myalert'">
                 <p th:each="err : ${#fields.errors('header')}" th:text="${err}"></p>
@@ -47,15 +47,15 @@
             <br>
             <label th:for="city_input_id"></label>
             <br>
-            <div class="wrap-input1 validate-input">
-                <input class="input1" type="text" id="city_input_id" placeholder="Miasto" th:field="*{city}">
+            <div class="mb-3 validate-input">
+                <input class="form-control" type="text" id="city_input_id" placeholder="Miasto" th:field="*{city}">
             </div>
             <div th:if="${#fields.hasErrors('city')}" th:class="'myalert'">
                 <p th:each="err : ${#fields.errors('city')}" th:text="${err}"></p>
             </div>
             <label th:for="cityDistrict_input_id"></label>
             <br>
-            <input type="text" class="input1" id="cityDistrict_input_id" th:field="*{cityDistrict}"
+            <input type="text" class="form-control" id="cityDistrict_input_id" th:field="*{cityDistrict}"
                    placeholder="Dzielnica">
             <br>
             <div th:if="${#fields.hasErrors('cityDistrict')}" th:class="'myalert'">
@@ -65,8 +65,8 @@
             </div>
             <label th:for="unit_input_id"></label>
             <br>
-            <div class="wrap-input1 validate-input">
-                <input type="text" class="input1" id="unit_input_id" th:field="*{unit}" placeholder="Osiedle">
+            <div class="wrap-form-control validate-input">
+                <input type="text" class="form-control" id="unit_input_id" th:field="*{unit}" placeholder="Osiedle">
             </div>
             <div th:if="${#fields.hasErrors('unit')}" th:class="'myalert'">
                 <ul>
@@ -75,8 +75,8 @@
             </div>
             <label th:for="price_input_id"></label>
             <br>
-            <div class="wrap-input1 validate-input">
-                <input type="text" class="input1" id="price_input_id" value="do ustalenia indywidualnie'"
+            <div class="wrap-form-control validate-input">
+                <input type="text" class="form-control" id="price_input_id" value="do ustalenia indywidualnie'"
                        placeholder="Cena lub 'do ustalenia indywidualnie" th:field="*{price}">
             </div>
             <div th:if="${#fields.hasErrors('price')}" th:class="'myalert'">
@@ -96,8 +96,8 @@
             <br>
             <label th:for="nameOfAdvertiser_input_id"></label>
             <br>
-            <div class="wrap-input1 validate-input">
-                <input type="text" class="input1" id="nameOfAdvertiser_input_id" placeholder="Imię"
+            <div class="wrap-form-control validate-input">
+                <input type="text" class="form-control" id="nameOfAdvertiser_input_id" placeholder="Imię"
                        th:field="*{nameOfAdvertiser}">
             </div>
             <div th:if="${#fields.hasErrors('nameOfAdvertiser')}" th:class="'myalert'">
@@ -105,16 +105,16 @@
             </div>
             <label th:for="email_input_id"></label>
             <br>
-            <div class="wrap-input1 validate-input">
-                <input type="text" id="email_input_id" class="input1" placeholder="Email" th:field="*{email}">
+            <div class="wrap-form-control validate-input">
+                <input type="text" id="email_input_id" class="form-control" placeholder="Email" th:field="*{email}">
             </div>
             <div th:if="${#fields.hasErrors('email')}" th:class="'myalert'">
                 <p th:each="err : ${#fields.errors('email')}" th:text="${err}"></p>
             </div>
             <label th:for="phoneNumber_input_id"></label>
             <br>
-            <div class="wrap-input1 validate-input">
-                <input type="text" id="phoneNumber_input_id" class="input1" placeholder="Numer telefonu"
+            <div class="wrap-form-control validate-input">
+                <input type="text" id="phoneNumber_input_id" class="form-control" placeholder="Numer telefonu"
                        th:field="*{phoneNumber}">
             </div>
             <div th:if="${#fields.hasErrors('phoneNumber')}" th:class="'myalert'">
@@ -122,8 +122,8 @@
             </div>
             <label th:for="description_input_id"></label>
             <br>
-            <div class="wrap-input1 validate-input">
-                <textarea class="input1" type="text" placeholder="Opis" id="description_input_id"
+            <div class="wrap-form-control validate-input">
+                <textarea class="form-control" type="text" placeholder="Opis" id="description_input_id"
                           th:field="*{description}"></textarea>
             </div>
             <div th:class="'myalert'" th:if="${#fields.hasErrors('description')}">
@@ -131,8 +131,8 @@
             </div>
             <label th:for="priceAdditionComment_input_id"></label>
             <br>
-            <div class="wrap-input1 validate-input">
-                <input type="text" class="input1" placeholder="Komenatrz odnośnie ceny"
+            <div class="wrap-form-control validate-input">
+                <input type="text" class="form-control" placeholder="Komenatrz odnośnie ceny"
                        id="priceAdditionComment_input_id" th:field="*{priceAdditionComment}">
             </div>
             <br>
