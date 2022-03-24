@@ -60,11 +60,12 @@
                 <label th:for="city_input_id" th:text="#{announcement.city}"></label>
                 <input class="form-control" type="text" id="city_input_id" placeholder="Miasto"
                        th:field="*{city}">
+                <div th:if="${#fields.hasErrors('city')}" th:class="'myalert'">
+                    <p th:each="err : ${#fields.errors('city')}" th:text="${err}"></p>
+                </div>
             </div>
-            <div th:if="${#fields.hasErrors('city')}" th:class="'myalert'">
-                <p th:each="err : ${#fields.errors('city')}" th:text="${err}"></p>
             </div>
-        </div>
+
         <div class="row">
             <div class="col-md-6">
                 <label th:for="cityDistrict_input_id" th:text="#{announcement.cityDistrict}"></label>

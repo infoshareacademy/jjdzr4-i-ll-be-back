@@ -33,7 +33,7 @@ public class AddAndEditAnnouncementDto {
     private String cityDistrict;
     @Pattern(regexp = "\\D*", message = "Proszę podać Osiedle!")
     private String unit; //osiedle
-    @NotBlank
+    @NotBlank(message = "Nie może być spacją")
     @Pattern(regexp = "(do ustalenia indywidualnie)|[0-9]{1,9}",message = "Musisz wpisać 'do ustalenia indywidualnie' lub liczbę mniejszą od miliarda")
     private String price;
     @Enumerated(EnumType.STRING)
@@ -43,12 +43,12 @@ public class AddAndEditAnnouncementDto {
     private String nameOfAdvertiser;
     @Email
     @NotBlank(message = "Nie może być spacją")
-    @NotEmpty
+    @NotEmpty(message = "Nie może być puste")
     private String email;
     @NotNull
     private Boolean isPriceNegotiable = false;
-    @Size (min = 15, max=255)
-    @NotBlank
+    @Size (min = 15, max=255, message = "Długość opisu musi mieścić się w zakresie od 15 do 255 liter")
+    @NotBlank(message = "Nie może być puste")
     private String description;
     @Pattern(regexp = "(\\+48)?\\d{9}", message = "Musisz podać numer w formacie +48123456789")
     private String phoneNumber;
