@@ -12,7 +12,9 @@ import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("announcement")
@@ -56,15 +58,17 @@ public class AnnouncementController {
 
     @PostMapping("add-new")
     public String save(@Valid @ModelAttribute("announcement") AddAndEditAnnouncementDto addAndEditAnnouncementDto,
-                       BindingResult bindingResult) {
+                       BindingResult bindingResult, Model model) {
         LOGGER.info("User tries to add new announcement");
         if (bindingResult.hasErrors()) {
             LOGGER.info("Announcement save failed due to incorrectly filled form");
             return "announcement-form";
         }
         LOGGER.info("Announcement form filled correctly, saving to database");
-        announcementService.save(addAndEditAnnouncementDto);
-        return "announcement-form-success";
+        Long id = announcementService.save(addAndEditAnnouncementDto);
+        model.addAttribute("allDetails", announcementService.findByIdConvertToDto(id));
+        model.addAttribute("service", quickViewAnnouncementService);
+        return "announcement-details";
     }
 
     @GetMapping("edit/{id}")

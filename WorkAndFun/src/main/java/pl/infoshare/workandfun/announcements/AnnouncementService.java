@@ -65,10 +65,11 @@ public class AnnouncementService {
         LOGGER.debug("Deleted announcement, id: {}", id);
     }
 
-    public void save(AddAndEditAnnouncementDto dto) {
+    public Long save(AddAndEditAnnouncementDto dto) {
         Announcement announcement = addAndEditMapper.toEntity(dto);
         announcementsRepository.save(announcement);
         LOGGER.info("Announcement successfully saved to database (id: {})", announcement.getId());
+        return announcement.getId();
     }
 
     public Announcement update(Long id, AddAndEditAnnouncementDto dto) {
