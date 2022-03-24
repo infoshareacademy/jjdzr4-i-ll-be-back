@@ -1,17 +1,17 @@
 package pl.infoshare.workandfun.users;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.Voivodeship;
+import pl.infoshare.workandfun.users.userrole.UserRole;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -25,17 +25,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = COLUMN_PREFIX + "id", nullable = false)
     private Long id;
-    @Column(name = COLUMN_PREFIX + "username", nullable = false)
+    @Column(name = COLUMN_PREFIX + "username", nullable = false, unique = true)
     private String username;
     @Column(name = COLUMN_PREFIX + "password", nullable = false)
     private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    private List<UserRole> roles;
+    private Set<UserRole> roles;
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<Announcement> ownAnnouncements;
     @Column(name = COLUMN_PREFIX + "first_name", nullable = false)
@@ -48,10 +48,20 @@ public class User {
     private String email;
     @Column(name = COLUMN_PREFIX + "age")
     private int age;
+    @Enumerated(EnumType.STRING)
     @Column(name = COLUMN_PREFIX + "voivodeship", nullable = false)
     private Voivodeship voivodeship;
     @Column(name = COLUMN_PREFIX + "city", nullable = false)
     private String city;
     @Column(name = COLUMN_PREFIX + "city_district")
     private String cityDistrict;
+
+    public User() {
+        this.roles = new HashSet<>();
+        this.ownAnnouncements = new ArrayList<>();
+    }
+
+    public void addRoleToSet(UserRole userRole) {
+        this.roles.add(userRole);
+    }
 }

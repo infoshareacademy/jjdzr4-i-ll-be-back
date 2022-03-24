@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ErrorHandlingController implements ErrorController {
 
-    private static final Logger LOGGER = LogManager.getLogger(AnnouncementController.class);
+    private static final Logger LOGGER = LogManager.getLogger(ErrorHandlingController.class);
 
 
     @RequestMapping("/error")
