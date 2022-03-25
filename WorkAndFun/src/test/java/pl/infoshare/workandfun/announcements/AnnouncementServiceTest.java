@@ -19,6 +19,8 @@ import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.mappers.AddAndEditMapper;
 import pl.infoshare.workandfun.announcements.mappers.QuickViewAnnouncementMapper;
 import pl.infoshare.workandfun.exception.AnnouncementNotFoundException;
+import pl.infoshare.workandfun.users.User;
+import pl.infoshare.workandfun.users.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,12 +38,16 @@ class AnnouncementServiceTest {
 
     @Mock
     private AnnouncementsRepository announcementsRepository;
+    @Mock
+    private UserRepository userRepository;
     @Spy
     private AddAndEditMapper addAndEditMapper;
     @Spy
     private QuickViewAnnouncementMapper quickViewAnnouncementMapper;
     @Captor
     private ArgumentCaptor<Announcement> captor;
+    @Captor
+    private ArgumentCaptor<String> captorUsername;
     @InjectMocks
     @Spy
     private AnnouncementService announcementService;
@@ -160,17 +166,23 @@ class AnnouncementServiceTest {
     @Test
     void shouldSave() {
         //given
+        String usernameSample = "testUsername";
         AddAndEditAnnouncementDto dto = new AddAndEditAnnouncementDto(1L, Type.SERVICE_OFFER, "Wyprowadzam psy, koty, myszy, konie, słonie",
                 ServiceType.INNE, "Warszawa", "dzielnica", "osiedle", "200", Voivodeship.MAZOWIECKIE, "Andrzej", "andrzej@aa.pl",
                 false, "Andrzej, czyli ja to miłośnik zwierząt chętnie spędzający z nimi czas, nie masz co zrobić ze swoim zwierzakiem, zadzwoń do Andrzeja",
                 "+48666666666", "z FV będzie drożej");
+        User testUser = new User();
+        testUser.setUsername(usernameSample);
+        given(userRepository.findByUsername(captorUsername.capture())).willReturn(Optional.of(testUser));
         given(addAndEditMapper.toEntity(dto)).willCallRealMethod();
         given(announcementsRepository.save(captor.capture())).willReturn(announcement);
         //when
-        announcementService.save(dto);
+        announcementService.save(dto, usernameSample);
         //then
         verify(addAndEditMapper).toEntity(dto);
         verify(announcementsRepository).save(any(Announcement.class));
+        verify(userRepository).findByUsername(usernameSample);
+        assertThat(captor.getValue().getOwner()).isSameAs(testUser);
     }
 
     @Test
