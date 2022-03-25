@@ -80,7 +80,7 @@ public class AnnouncementController {
 
     @PutMapping("edit/{id}")
     public String saveAfterEdit(@PathVariable("id") Long id, @Valid @ModelAttribute("announcement") AddAndEditAnnouncementDto dto,
-                                BindingResult bindingResult) {
+                                BindingResult bindingResult, Model model) {
         LOGGER.info("User tries to edit announcement (id: {})", dto.getId());
         if (bindingResult.hasErrors()) {
             LOGGER.info("Announcement edit failed due to incorrectly filled form (id: {})", dto.getId());
@@ -88,7 +88,9 @@ public class AnnouncementController {
         }
         announcementService.update(id, dto);
         LOGGER.info("Announcement successfully edited (id: {})", dto.getId());
-        return "announcement-form-update-success";
+        model.addAttribute("allDetails", dto);
+        model.addAttribute("service", quickViewAnnouncementService);
+        return "announcement-details";
     }
 
     @GetMapping("search")
