@@ -19,7 +19,7 @@
 
     <h1 th:text="#{announcement.update}"></h1>
 
-    <form th:object="${announcement}" th:action="@{/announcement/add-new}" method="post">
+    <form th:object="${announcement}" th:action="@{/announcement/edit/{id}(id=${announcement.id})}" th:method="put">
         <div class="mb-3">
             <label th:for="header_input_id" th:text="#{announcement.header}"></label>
             <input class="form-control" type="text" placeholder="Naglowek" id="header_input_id"
