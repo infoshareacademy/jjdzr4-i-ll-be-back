@@ -102,4 +102,22 @@ public class AnnouncementController {
             LOGGER.info("Search list returned (query: {})", param);
         return "searched-announcements";
     }
+
+    @GetMapping("/service-type")
+    public String getAllByServiceType(@RequestParam(name = "serviceType") String serviceType,
+                                             Model model) {
+        LOGGER.info("Received search request (query: {}) ", serviceType);
+        List<QuickViewAnnouncementDto> announcementDtoList = (List<QuickViewAnnouncementDto>) announcementService.findAllByServiceType(serviceType);
+        model.addAttribute("searchedAnnouncementsByServiceType", announcementDtoList);
+        String serviceTypeModified = serviceType.replace('_',' ');
+        serviceTypeModified = serviceTypeModified.substring(0, 1).toUpperCase() + serviceTypeModified.substring(1);
+        model.addAttribute("enteredServiceType", serviceTypeModified);
+        model.addAttribute("service", quickViewAnnouncementService);
+        model.addAttribute("isSuccess", !announcementDtoList.isEmpty());
+        if(announcementDtoList.isEmpty())
+            LOGGER.info("No announcements found (service type: {})", serviceType);
+        else
+            LOGGER.info("Search list returned (service type: {})", serviceType);
+        return "announcements-filtered-by-service-type";
+    }
 }

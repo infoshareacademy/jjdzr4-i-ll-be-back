@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import pl.infoshare.workandfun.announcements.announcement_repo.AnnouncementSpec;
 import pl.infoshare.workandfun.announcements.announcement_repo.AnnouncementsRepository;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
+import pl.infoshare.workandfun.announcements.announcement_repo.entity.additionals.ServiceType;
 import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.mappers.AddAndEditMapper;
@@ -95,6 +96,14 @@ public class AnnouncementService {
             return announcementDtoList.stream()
                     .filter(searchFilter(parameter)).collect(Collectors.<QuickViewAnnouncementDto>toList());
         }
+    }
+
+    public Iterable<QuickViewAnnouncementDto> findAllByServiceType(String serviceType) throws IllegalArgumentException {
+        List<Announcement> announcementList = (List<Announcement>) announcementsRepository.findAllByServiceTypeEquals(ServiceType.valueOf(serviceType.toUpperCase()));
+        LOGGER.debug("Returning all announcements list by selected service type: {}", serviceType);
+        return announcementList.stream()
+                .map(quickViewAnnouncementMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     private Predicate<QuickViewAnnouncementDto> searchFilter(String param) {

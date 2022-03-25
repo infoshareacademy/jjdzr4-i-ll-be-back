@@ -247,4 +247,9 @@ class AnnouncementServiceTest {
                 .hasSize(quickViewAnnouncementDtoList.size())
                 .usingRecursiveComparison().isEqualTo(quickViewAnnouncementDtoList);
     }
+
+    @Test
+    void shouldFindAllByServiceType() {
+        //TODO: implement test
+    }
 }
