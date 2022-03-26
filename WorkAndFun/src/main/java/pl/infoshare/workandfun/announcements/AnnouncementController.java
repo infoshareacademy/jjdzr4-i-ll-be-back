@@ -12,6 +12,7 @@ import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -75,14 +76,14 @@ public class AnnouncementController {
 
     @PostMapping("add-new")
     public String save(@Valid @ModelAttribute("announcement") AddAndEditAnnouncementDto addAndEditAnnouncementDto,
-                       BindingResult bindingResult) {
+                       BindingResult bindingResult, HttpServletRequest request) {
         LOGGER.info("User tries to add new announcement");
         if (bindingResult.hasErrors()) {
             LOGGER.info("Announcement save failed due to incorrectly filled form");
             return "announcement-form";
         }
         LOGGER.info("Announcement form filled correctly, saving to database");
-        announcementService.save(addAndEditAnnouncementDto);
+        announcementService.save(addAndEditAnnouncementDto, request.getUserPrincipal().getName());
         return "announcement-form-success";
     }
 
@@ -119,5 +120,23 @@ public class AnnouncementController {
         else
             LOGGER.info("Search list returned (query: {})", param);
         return "searched-announcements";
+    }
+
+    @GetMapping("/service-type")
+    public String getAllByServiceType(@RequestParam(name = "serviceType") String serviceType,
+                                             Model model) {
+        LOGGER.info("Received search request (query: {}) ", serviceType);
+        List<QuickViewAnnouncementDto> announcementDtoList = (List<QuickViewAnnouncementDto>) announcementService.findAllByServiceType(serviceType);
+        model.addAttribute("searchedAnnouncementsByServiceType", announcementDtoList);
+        String serviceTypeModified = serviceType.replace('_',' ');
+        serviceTypeModified = serviceTypeModified.substring(0, 1).toUpperCase() + serviceTypeModified.substring(1);
+        model.addAttribute("enteredServiceType", serviceTypeModified);
+        model.addAttribute("service", quickViewAnnouncementService);
+        model.addAttribute("isSuccess", !announcementDtoList.isEmpty());
+        if(announcementDtoList.isEmpty())
+            LOGGER.info("No announcements found (service type: {})", serviceType);
+        else
+            LOGGER.info("Search list returned (service type: {})", serviceType);
+        return "announcements-filtered-by-service-type";
     }
 }
