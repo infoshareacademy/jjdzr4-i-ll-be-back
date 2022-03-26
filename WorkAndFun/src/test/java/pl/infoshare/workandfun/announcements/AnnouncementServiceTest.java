@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import pl.infoshare.workandfun.announcements.announcement_repo.AnnouncementSpec;
 import pl.infoshare.workandfun.announcements.announcement_repo.AnnouncementsRepository;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
@@ -19,6 +22,8 @@ import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.mappers.AddAndEditMapper;
 import pl.infoshare.workandfun.announcements.mappers.QuickViewAnnouncementMapper;
 import pl.infoshare.workandfun.exception.AnnouncementNotFoundException;
+import pl.infoshare.workandfun.users.User;
+import pl.infoshare.workandfun.users.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -36,12 +41,16 @@ class AnnouncementServiceTest {
 
     @Mock
     private AnnouncementsRepository announcementsRepository;
+    @Mock
+    private UserRepository userRepository;
     @Spy
     private AddAndEditMapper addAndEditMapper;
     @Spy
     private QuickViewAnnouncementMapper quickViewAnnouncementMapper;
     @Captor
     private ArgumentCaptor<Announcement> captor;
+    @Captor
+    private ArgumentCaptor<String> captorUsername;
     @InjectMocks
     @Spy
     private AnnouncementService announcementService;
@@ -71,6 +80,25 @@ class AnnouncementServiceTest {
         final var firstElement = result.iterator().next();
         //then
         assertThat(((Collection<?>) result))
+                .hasSize(1)
+                .hasExactlyElementsOfTypes(QuickViewAnnouncementDto.class);
+        assertThat(firstElement).usingRecursiveComparison().ignoringFields("isIndividualPrice", "fullLocalization").isEqualTo(comparableAnnouncement);
+        assertThat(firstElement.getFullLocalization()).isEqualTo("Warszawa, dzielnica, osiedle");
+        assertThat(firstElement.isIndividualPrice()).isFalse();
+        verify(quickViewAnnouncementMapper, times(announcements.size())).toDto(announcement);
+    }
+
+    @Test
+    void shouldFindAllSortedByCreateDateDescConvertToDtoPage() {
+        //given
+        List<Announcement> announcements = List.of(announcement);
+        PageImpl<Announcement> page = new PageImpl<>(announcements);
+        when(announcementsRepository.findAllByOrderByDateDesc(any())).thenReturn(page);
+        //when
+        final var result = announcementService.findAllSortedByCreateDateDescConvertToDto(0, 1);
+        final var firstElement = result.iterator().next();
+        //then
+        assertThat((Page<?>) result)
                 .hasSize(1)
                 .hasExactlyElementsOfTypes(QuickViewAnnouncementDto.class);
         assertThat(firstElement).usingRecursiveComparison().ignoringFields("isIndividualPrice", "fullLocalization").isEqualTo(comparableAnnouncement);
@@ -160,17 +188,23 @@ class AnnouncementServiceTest {
     @Test
     void shouldSave() {
         //given
+        String usernameSample = "testUsername";
         AddAndEditAnnouncementDto dto = new AddAndEditAnnouncementDto(1L, Type.SERVICE_OFFER, "Wyprowadzam psy, koty, myszy, konie, słonie",
                 ServiceType.INNE, "Warszawa", "dzielnica", "osiedle", "200", Voivodeship.MAZOWIECKIE, "Andrzej", "andrzej@aa.pl",
                 false, "Andrzej, czyli ja to miłośnik zwierząt chętnie spędzający z nimi czas, nie masz co zrobić ze swoim zwierzakiem, zadzwoń do Andrzeja",
                 "+48666666666", "z FV będzie drożej");
+        User testUser = new User();
+        testUser.setUsername(usernameSample);
+        given(userRepository.findByUsername(captorUsername.capture())).willReturn(Optional.of(testUser));
         given(addAndEditMapper.toEntity(dto)).willCallRealMethod();
         given(announcementsRepository.save(captor.capture())).willReturn(announcement);
         //when
-        announcementService.save(dto);
+        announcementService.save(dto, usernameSample);
         //then
         verify(addAndEditMapper).toEntity(dto);
         verify(announcementsRepository).save(any(Announcement.class));
+        verify(userRepository).findByUsername(usernameSample);
+        assertThat(captor.getValue().getOwner()).isSameAs(testUser);
     }
 
     @Test
@@ -234,5 +268,10 @@ class AnnouncementServiceTest {
         assertThat(actualResult)
                 .hasSize(quickViewAnnouncementDtoList.size())
                 .usingRecursiveComparison().isEqualTo(quickViewAnnouncementDtoList);
+    }
+
+    @Test
+    void shouldFindAllByServiceType() {
+        //TODO: implement test
     }
 }

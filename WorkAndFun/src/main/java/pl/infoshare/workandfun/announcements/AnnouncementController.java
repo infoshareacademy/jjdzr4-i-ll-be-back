@@ -3,6 +3,7 @@ package pl.infoshare.workandfun.announcements;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,7 @@ import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
@@ -41,9 +43,27 @@ public class AnnouncementController {
     }
 
     @GetMapping("all")
-    public String getAllAnnouncementsDateDesc(Model model) {
+    public String getAllAnnouncementsDateDesc(Model model, @RequestParam(defaultValue = "1") Integer page) {
         LOGGER.info("Received request for all announcements");
-        model.addAttribute("announcements", announcementService.findAllSortedByCreateDateDescConvertToDto());
+        if (page < 1) {
+            page = 1;
+        }
+        Page<QuickViewAnnouncementDto> dto = announcementService.findAllSortedByCreateDateDescConvertToDto(page - 1, 5);
+        model.addAttribute("announcements", dto);
+
+        int totalPages = dto.getTotalPages();
+        List<Integer> threeClosestPage;
+        if (dto.getTotalPages() < 3) {
+            threeClosestPage = List.of(1, 2);
+        } else if (page == 1) {
+            threeClosestPage = List.of(page, page + 1, page + 2);
+        } else if (page >= totalPages) {
+            threeClosestPage = List.of(totalPages - 2, totalPages - 1, totalPages);
+        } else {
+            threeClosestPage = List.of(page - 1, page, page + 1);
+        }
+        model.addAttribute("threeClosestPage", threeClosestPage);
+
         model.addAttribute("service", quickViewAnnouncementService);
         LOGGER.info("Showing all announcements");
         return "all-announcements";
@@ -58,14 +78,14 @@ public class AnnouncementController {
 
     @PostMapping("add-new")
     public String save(@Valid @ModelAttribute("announcement") AddAndEditAnnouncementDto addAndEditAnnouncementDto,
-                       BindingResult bindingResult, Model model) {
+                       BindingResult bindingResult, HttpServletRequest request, Model model) {
         LOGGER.info("User tries to add new announcement");
         if (bindingResult.hasErrors()) {
             LOGGER.info("Announcement save failed due to incorrectly filled form");
             return "announcement-form";
         }
         LOGGER.info("Announcement form filled correctly, saving to database");
-        Long id = announcementService.save(addAndEditAnnouncementDto);
+        Long id = announcementService.save(addAndEditAnnouncementDto, request.getUserPrincipal().getName());
         model.addAttribute("allDetails", announcementService.findByIdConvertToDto(id));
         model.addAttribute("service", quickViewAnnouncementService);
         model.addAttribute("isNew", true);
@@ -103,10 +123,28 @@ public class AnnouncementController {
         model.addAttribute("searchedAnnouncements", announcementDtoList);
         model.addAttribute("service", quickViewAnnouncementService);
         model.addAttribute("isSuccess", !announcementDtoList.isEmpty());
-        if(announcementDtoList.isEmpty())
+        if (announcementDtoList.isEmpty())
             LOGGER.info("No announcements found (query: {})", param);
         else
             LOGGER.info("Search list returned (query: {})", param);
         return "searched-announcements";
+    }
+
+    @GetMapping("/service-type")
+    public String getAllByServiceType(@RequestParam(name = "serviceType") String serviceType,
+                                             Model model) {
+        LOGGER.info("Received search request (query: {}) ", serviceType);
+        List<QuickViewAnnouncementDto> announcementDtoList = (List<QuickViewAnnouncementDto>) announcementService.findAllByServiceType(serviceType);
+        model.addAttribute("searchedAnnouncementsByServiceType", announcementDtoList);
+        String serviceTypeModified = serviceType.replace('_',' ');
+        serviceTypeModified = serviceTypeModified.substring(0, 1).toUpperCase() + serviceTypeModified.substring(1);
+        model.addAttribute("enteredServiceType", serviceTypeModified);
+        model.addAttribute("service", quickViewAnnouncementService);
+        model.addAttribute("isSuccess", !announcementDtoList.isEmpty());
+        if(announcementDtoList.isEmpty())
+            LOGGER.info("No announcements found (service type: {})", serviceType);
+        else
+            LOGGER.info("Search list returned (service type: {})", serviceType);
+        return "announcements-filtered-by-service-type";
     }
 }

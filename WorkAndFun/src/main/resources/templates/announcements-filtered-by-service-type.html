@@ -8,7 +8,6 @@
 
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <title th:text="#{index.title}"></title>
-    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 
 <body class="bg-light p-3">
@@ -20,7 +19,7 @@
 
     <div th:class="'row'">
         <div th:if="${isSuccess}" th:class="'p-3 form d-block form-group col-12 border border-mint'">
-            <h4 th:class="'m-0'" th:text="#{announcement.search.results}"></h4>
+            <h4 th:class="'m-0'" th:text="#{announcement.search.results} + ' ' + ${enteredServiceType}"></h4>
         </div>
         <div th:unless="${isSuccess}" th:class="'p-3 form d-block form-group col-12 border border-secondary'">
             <h4 th:class="'m-0'" th:text="#{announcement.search.no-results}"></h4>
@@ -31,7 +30,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="announcement-frame d-block bg-white form-group col-12"
-                     th:each="announcement, stat : ${searchedAnnouncements}">
+                     th:each="announcement, stat : ${searchedAnnouncementsByServiceType}">
                     <div class="row">
                         <div class="big-left-side col-8 col-md-10">
                             <div class="announcement-left-side-header p-3 col-8 col-md-10">
