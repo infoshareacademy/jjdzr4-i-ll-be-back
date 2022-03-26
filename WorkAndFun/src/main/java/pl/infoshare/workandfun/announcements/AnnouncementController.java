@@ -68,6 +68,7 @@ public class AnnouncementController {
         Long id = announcementService.save(addAndEditAnnouncementDto);
         model.addAttribute("allDetails", announcementService.findByIdConvertToDto(id));
         model.addAttribute("service", quickViewAnnouncementService);
+        model.addAttribute("isNew", true);
         return "announcement-details";
     }
 
@@ -90,6 +91,7 @@ public class AnnouncementController {
         LOGGER.info("Announcement successfully edited (id: {})", dto.getId());
         model.addAttribute("allDetails", dto);
         model.addAttribute("service", quickViewAnnouncementService);
+        model.addAttribute("isUpdated", true);
         return "announcement-details";
     }
 

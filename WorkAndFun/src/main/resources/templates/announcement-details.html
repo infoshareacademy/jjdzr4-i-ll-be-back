@@ -20,6 +20,15 @@
             <div class="col-md-12" th:insert="~{fragments/navbar :: nav}">
             </div>
         </div>
+
+
+        <div th:if="${isNew}" th:class="'p-3 form d-block form-group col-12'">
+            <h2 th:class="'m-0'" th:text="#{announcement.added}"></h2>
+        </div>
+        <div th:if="${isUpdated}" th:class="'p-3 form d-block form-group col-12'">
+            <h2 th:class="'m-0'" th:text="#{announcement.updateSuccess}"></h2>
+        </div>
+
         <div class="row">
             <div class="announcement-details-frame rounded col-lg-6">
 
