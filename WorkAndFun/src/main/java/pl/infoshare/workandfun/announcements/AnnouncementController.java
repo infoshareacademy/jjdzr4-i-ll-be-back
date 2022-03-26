@@ -3,6 +3,7 @@ package pl.infoshare.workandfun.announcements;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,9 +41,27 @@ public class AnnouncementController {
     }
 
     @GetMapping("all")
-    public String getAllAnnouncementsDateDesc(Model model) {
+    public String getAllAnnouncementsDateDesc(Model model, @RequestParam(defaultValue = "1") Integer page) {
         LOGGER.info("Received request for all announcements");
-        model.addAttribute("announcements", announcementService.findAllSortedByCreateDateDescConvertToDto());
+        if (page < 1) {
+            page = 1;
+        }
+        Page<QuickViewAnnouncementDto> dto = announcementService.findAllSortedByCreateDateDescConvertToDto(page - 1, 5);
+        model.addAttribute("announcements", dto);
+
+        int totalPages = dto.getTotalPages();
+        List<Integer> threeClosestPage;
+        if (dto.getTotalPages() < 3) {
+            threeClosestPage = List.of(1, 2);
+        } else if (page == 1) {
+            threeClosestPage = List.of(page, page + 1, page + 2);
+        } else if (page >= totalPages) {
+            threeClosestPage = List.of(totalPages - 2, totalPages - 1, totalPages);
+        } else {
+            threeClosestPage = List.of(page - 1, page, page + 1);
+        }
+        model.addAttribute("threeClosestPage", threeClosestPage);
+
         model.addAttribute("service", quickViewAnnouncementService);
         LOGGER.info("Showing all announcements");
         return "all-announcements";
@@ -96,7 +115,7 @@ public class AnnouncementController {
         model.addAttribute("searchedAnnouncements", announcementDtoList);
         model.addAttribute("service", quickViewAnnouncementService);
         model.addAttribute("isSuccess", !announcementDtoList.isEmpty());
-        if(announcementDtoList.isEmpty())
+        if (announcementDtoList.isEmpty())
             LOGGER.info("No announcements found (query: {})", param);
         else
             LOGGER.info("Search list returned (query: {})", param);

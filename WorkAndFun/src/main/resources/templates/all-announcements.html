@@ -8,6 +8,7 @@
 
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <title th:text="#{index.title}"></title>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 
 <body class="bg-light p-3">
@@ -20,14 +21,34 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row">
+
+                <nav aria-label="my-custom-pagination" class="mb-5">
+                    <ul class="pagination">
+                        <li th:class="${announcements.isFirst()} ? 'page-item disabled' : 'page-item'">
+                            <a class="page-link" th:text="'&laquo;'"
+                               th:href="@{all(page=${announcements.previousOrFirstPageable().getPageNumber()+1})}"></a>
+                        </li>
+
+                        <li th:each="actPageNumb : ${threeClosestPage}"
+                            th:class="${announcements.getNumber()+1 == actPageNumb} ? 'page-item active' : 'page-item'">
+                            <a class="page-link" th:text="${actPageNumb}" th:href="@{all(page=${actPageNumb})}"></a>
+                        </li>
+
+                        <li th:class="${announcements.isLast()} ? 'page-item disabled' : 'page-item'">
+                            <a class="page-link" th:text="'&raquo;'"
+                               th:href="@{all(page=${announcements.nextOrLastPageable().getPageNumber()+1})}"></a>
+                        </li>
+                    </ul>
+                </nav>
+
                 <div class="announcement-frame d-block bg-white form-group col-12"
-                     th:each="announcement, stat : ${announcements}">
+                     th:each="announcement : ${announcements.content}">
                     <div class="row">
                         <div class="big-left-side col-8 col-md-10">
                             <div class="announcement-left-side-header p-3 col-8 col-md-10">
                                 <a th:href="@{/announcement/details/{announcId}(announcId=${announcement.id})}"
                                    th:class="'announcement-header'">
-                                <h4 class="announcement-header text-dark" th:text="${announcement.header}"></h4>
+                                    <h4 class="announcement-header text-dark" th:text="${announcement.header}"></h4>
                                 </a>
                             </div>
                             <div class="col-12">
@@ -50,6 +71,26 @@
                         </div>
                     </div>
                 </div>
+
+                <nav aria-label="my-custom-pagination" class="mt-5">
+                    <ul class="pagination">
+                        <li th:class="${announcements.isFirst()} ? 'page-item disabled' : 'page-item'">
+                            <a class="page-link" th:text="'&laquo;'"
+                               th:href="@{all(page=${announcements.previousOrFirstPageable().getPageNumber()+1})}"></a>
+                        </li>
+
+                        <li th:each="actPageNumb : ${threeClosestPage}"
+                            th:class="${announcements.getNumber()+1 == actPageNumb} ? 'page-item active' : 'page-item'">
+                            <a class="page-link" th:text="${actPageNumb}" th:href="@{all(page=${actPageNumb})}"></a>
+                        </li>
+
+                        <li th:class="${announcements.isLast()} ? 'page-item disabled' : 'page-item'">
+                            <a class="page-link" th:text="'&raquo;'"
+                               th:href="@{all(page=${announcements.nextOrLastPageable().getPageNumber()+1})}"></a>
+                        </li>
+                    </ul>
+                </nav>
+
             </div>
         </div>
     </div>

@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import pl.infoshare.workandfun.announcements.announcement_repo.AnnouncementSpec;
@@ -46,6 +48,14 @@ public class AnnouncementService {
                 .stream()
                 .map(quickViewAnnouncementMapper::toDto)
                 .collect(Collectors.<QuickViewAnnouncementDto>toList());
+    }
+
+    public Page<QuickViewAnnouncementDto> findAllSortedByCreateDateDescConvertToDto(Integer page, Integer size) {
+        LOGGER.debug("Request for all announcements sorted by create date");
+        PageRequest pr = PageRequest.of(page, size);
+        Page<Announcement> announcements = announcementsRepository.findAllByOrderByDateDesc(pr);
+        return announcements
+                .map(quickViewAnnouncementMapper::toDto);
     }
 
     public List<Announcement> findAllByQuerySpec(AnnouncementSpec announcementSpec) {

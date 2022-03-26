@@ -3,7 +3,6 @@ package pl.infoshare.workandfun.announcements.mappers;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
-import pl.infoshare.workandfun.announcements.AnnouncementController;
 import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
 import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
 
