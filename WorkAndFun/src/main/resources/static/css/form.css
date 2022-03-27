@@ -9,11 +9,8 @@
     font-family: FontAwesome;
     clear:both;
     font-weight: bold;
-    font-size: 115%;
 }
-.myalert p:hover{
-    font-size:130%;
-}
+
 label{
     font-family: FontAwesome;
     font-size: 115%;
@@ -359,10 +356,6 @@ textarea.input1 + .shadow-input1 {
 
 /*------------------------------------------------------------------
 [ Alert validate ]*/
-
-.validate-input {
-    position: relative;
-}
 
 .alert-validate::before {
     content: attr(data-validate);

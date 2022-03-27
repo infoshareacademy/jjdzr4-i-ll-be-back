@@ -14,7 +14,9 @@ import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("announcement")
@@ -76,15 +78,18 @@ public class AnnouncementController {
 
     @PostMapping("add-new")
     public String save(@Valid @ModelAttribute("announcement") AddAndEditAnnouncementDto addAndEditAnnouncementDto,
-                       BindingResult bindingResult, HttpServletRequest request) {
+                       BindingResult bindingResult, HttpServletRequest request, Model model) {
         LOGGER.info("User tries to add new announcement");
         if (bindingResult.hasErrors()) {
             LOGGER.info("Announcement save failed due to incorrectly filled form");
             return "announcement-form";
         }
         LOGGER.info("Announcement form filled correctly, saving to database");
-        announcementService.save(addAndEditAnnouncementDto, request.getUserPrincipal().getName());
-        return "announcement-form-success";
+        Long id = announcementService.save(addAndEditAnnouncementDto, request.getUserPrincipal().getName());
+        model.addAttribute("allDetails", announcementService.findByIdConvertToDto(id));
+        model.addAttribute("service", quickViewAnnouncementService);
+        model.addAttribute("isNew", true);
+        return "announcement-details";
     }
 
     @GetMapping("edit/{id}")
@@ -96,7 +101,7 @@ public class AnnouncementController {
 
     @PutMapping("edit/{id}")
     public String saveAfterEdit(@PathVariable("id") Long id, @Valid @ModelAttribute("announcement") AddAndEditAnnouncementDto dto,
-                                BindingResult bindingResult) {
+                                BindingResult bindingResult, Model model) {
         LOGGER.info("User tries to edit announcement (id: {})", dto.getId());
         if (bindingResult.hasErrors()) {
             LOGGER.info("Announcement edit failed due to incorrectly filled form (id: {})", dto.getId());
@@ -104,7 +109,10 @@ public class AnnouncementController {
         }
         announcementService.update(id, dto);
         LOGGER.info("Announcement successfully edited (id: {})", dto.getId());
-        return "announcement-form-update-success";
+        model.addAttribute("allDetails", dto);
+        model.addAttribute("service", quickViewAnnouncementService);
+        model.addAttribute("isUpdated", true);
+        return "announcement-details";
     }
 
     @GetMapping("search")

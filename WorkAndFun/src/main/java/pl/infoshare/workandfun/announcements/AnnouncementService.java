@@ -81,12 +81,13 @@ public class AnnouncementService {
         LOGGER.debug("Deleted announcement, id: {}", id);
     }
 
-    public void save(AddAndEditAnnouncementDto dto, String username) {
+    public Long save(AddAndEditAnnouncementDto dto, String username) {
         Announcement announcement = addAndEditMapper.toEntity(dto);
         User foundUser = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User: " + username + " does not exist"));
         announcement.setOwner(foundUser);
         announcementsRepository.save(announcement);
         LOGGER.info("Announcement successfully saved to database (id: {})", announcement.getId());
+        return announcement.getId();
     }
 
     public Announcement update(Long id, AddAndEditAnnouncementDto dto) {
