@@ -53,6 +53,15 @@
                             </span>
                 </a>
             </li>
+            <li th:class="'nav-item dropdown'" sec:authorize="isAuthenticated()">
+                <a  th:class="'nav-link dropdown-toggle home-icon'"
+                    data-toggle="dropdown" role="button" th:href="@{/}">
+                    <img th:src="@{/img/icons/user.png}" th:alt="'Home'" th:width="25px" th:height="25px"/>
+                </a>
+                <div th:class="'dropdown-menu'">
+                    <a th:class="'dropdown-item'" th:href="@{/}" th:text="#{user.own.announcement}"></a>
+                </div>
+            </li>
         </ul>
     </div>
 </nav>
