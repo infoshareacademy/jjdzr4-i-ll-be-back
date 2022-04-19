@@ -141,3 +141,7 @@
     margin-top: 5px;
     margin-left: 5px;
 }
+
+.custom-cell {
+    vertical-align: middle !important ;
+}

@@ -147,4 +147,13 @@ public class AnnouncementController {
             LOGGER.info("Search list returned (service type: {})", serviceType);
         return "announcements-filtered-by-service-type";
     }
+
+    @GetMapping("/my-announcements")
+    public String getOwnAnnouncements(HttpServletRequest request,
+                                                              Model model) {
+        String username = request.getUserPrincipal().getName();
+        model.addAttribute("ownAnnouncements", announcementService.findAllByOwner(username));
+        model.addAttribute("service", quickViewAnnouncementService);
+        return "own-announcements";
+    }
 }
