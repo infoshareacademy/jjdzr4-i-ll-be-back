@@ -47,6 +47,10 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public User findByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User: " + username + " does not exist"));
+    }
+
     private User addSimpleUser(UserAddingDto userAddingDto) {
         User newUser = userToUserDtosMapper.toEntity(userAddingDto);
         newUser.addRoleToSet(userRoleService.findByName(SIMPLE_USER_ROLE));
