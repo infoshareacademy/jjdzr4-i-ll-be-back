@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+
+  app:
+    image: workandfun
+    container_name: workandfun_app
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/main_db?createDatabaseIfNotExist=true&serverTimezone=UTC&useLegacyDatetimeCode=false
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: superSecretPassword
+    networks:
+      - backend
+
+  db:
+    image: mysql:8.0.28
+    container_name: workandfun_mysql_db
+    volumes:
+      - db_workandfun_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: superSecretRootPassword
+      MYSQL_DATABASE: main_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: superSecretPassword
+    ports:
+      - "3310:3306"
+    networks:
+      - backend
+
+volumes:
+  db_workandfun_data:
+
+networks:
+  backend:
