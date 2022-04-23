@@ -25,7 +25,7 @@ docker-compose up -d --build
 ```
 docker-compose up db
 ```
-#### Po uruchomieniu kontener z aplikacją jest dostępny na porcie 8081 (http://localhost:8081/). Z kolei kontener z aplikacją komunikuje się z kontenerem z DB po porcie 3306, czyli po porcie wewnętrznym kontenera.
+#### Po uruchomieniu kontener z aplikacją jest dostępny na porcie 8081 (http://localhost:8081/). Baza danych jest wystawiona na porcie 3310 (z kolei kontener z aplikacją komunikuje się z kontenerem z DB po porcie 3306, czyli po porcie wewnętrznym kontenera z DB).
 
 ### Dla ciekawskich:
 
