@@ -8,15 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.infoshare.workandfun.announcements.announcement_repo.entity.Announcement;
 import pl.infoshare.workandfun.announcements.dto.AddAndEditAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementDto;
 import pl.infoshare.workandfun.announcements.dto.QuickViewAnnouncementService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("announcement")
@@ -93,9 +92,15 @@ public class AnnouncementController {
     }
 
     @GetMapping("edit/{id}")
-    public String announcementEditForm(Model model, @PathVariable Long id) {
+    public String announcementEditForm(HttpServletRequest request, Model model, @PathVariable Long id) {
         LOGGER.info("Received request for announcement edit form (announcement id: {})", id);
-        model.addAttribute("announcement", announcementService.findByIdConvertToDto(id));
+        String username = request.getUserPrincipal().getName();
+        Announcement foundAnnouncement = announcementService.findById(id);
+        if (foundAnnouncement.getOwner().getUsername().equals(username)) {
+            model.addAttribute("announcement", announcementService.findByIdConvertToDto(id));
+        } else {
+            return "redirect:error";
+        }
         return "announcement-form-update";
     }
 
@@ -132,16 +137,16 @@ public class AnnouncementController {
 
     @GetMapping("/service-type")
     public String getAllByServiceType(@RequestParam(name = "serviceType") String serviceType,
-                                             Model model) {
+                                      Model model) {
         LOGGER.info("Received search request (query: {}) ", serviceType);
         List<QuickViewAnnouncementDto> announcementDtoList = (List<QuickViewAnnouncementDto>) announcementService.findAllByServiceType(serviceType);
         model.addAttribute("searchedAnnouncementsByServiceType", announcementDtoList);
-        String serviceTypeModified = serviceType.replace('_',' ');
+        String serviceTypeModified = serviceType.replace('_', ' ');
         serviceTypeModified = serviceTypeModified.substring(0, 1).toUpperCase() + serviceTypeModified.substring(1);
         model.addAttribute("enteredServiceType", serviceTypeModified);
         model.addAttribute("service", quickViewAnnouncementService);
         model.addAttribute("isSuccess", !announcementDtoList.isEmpty());
-        if(announcementDtoList.isEmpty())
+        if (announcementDtoList.isEmpty())
             LOGGER.info("No announcements found (service type: {})", serviceType);
         else
             LOGGER.info("Search list returned (service type: {})", serviceType);
@@ -150,10 +155,24 @@ public class AnnouncementController {
 
     @GetMapping("/my-announcements")
     public String getOwnAnnouncements(HttpServletRequest request,
-                                                              Model model) {
+                                      Model model) {
         String username = request.getUserPrincipal().getName();
         model.addAttribute("ownAnnouncements", announcementService.findAllByOwner(username));
         model.addAttribute("service", quickViewAnnouncementService);
         return "own-announcements";
+    }
+
+    @DeleteMapping("delete/{id}")
+    public String deleteById(@PathVariable Long id, HttpServletRequest request) {
+        LOGGER.debug("API request to delete by id: {}", id);
+
+        String username = request.getUserPrincipal().getName();
+        Announcement foundAnnouncement = announcementService.findById(id);
+        if (foundAnnouncement.getOwner().getUsername().equals(username)) {
+            announcementService.deleteById(id);
+            return "own-announcements";
+        } else {
+            return "redirect:error";
+        }
     }
 }

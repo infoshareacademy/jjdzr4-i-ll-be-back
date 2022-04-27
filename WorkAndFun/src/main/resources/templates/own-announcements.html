@@ -32,6 +32,7 @@
                             <th th:class="'custom-cell'" th:text="#{announcement.price}"></th>
                             <th th:class="'custom-cell'" th:text="#{announcement.date}"></th>
                             <th th:class="'custom-cell'" th:text="''"></th>
+                            <th th:class="'custom-cell'" th:text="''"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -62,7 +63,16 @@
                             </td>
                             <td>
                                 <div th:class="'col-12 fix-button text-center custom-cell'">
-                                    <form th:action="@{/delete-announcement/{id}(id=${announcement.id})}"
+                                    <form th:action="@{/announcement/edit/{id}(id=${announcement.id})}"
+                                          th:method="get">
+                                        <button type="submit" th:class="'btn btn-xs btn-info'"
+                                                th:text="#{button.edit}"></button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td>
+                                <div th:class="'col-12 fix-button text-center custom-cell'">
+                                    <form th:action="@{/announcement/delete/{id}(id=${announcement.id})}"
                                           th:method="delete">
                                         <button type="submit" th:class="'btn btn-xs btn-secondary'"
                                                 th:text="#{button.delete}"></button>
