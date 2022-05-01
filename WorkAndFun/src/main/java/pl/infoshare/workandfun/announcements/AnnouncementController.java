@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -162,15 +163,30 @@ public class AnnouncementController {
         return "own-announcements";
     }
 
-    @DeleteMapping("delete/{id}")
-    public String deleteById(@PathVariable Long id, HttpServletRequest request) {
-        LOGGER.debug("API request to delete by id: {}", id);
+    @GetMapping("delete/{id}")
+    public String getDeleteById(HttpServletRequest request, Model model, @PathVariable Long id) {
+        LOGGER.info("Received request for announcement delete form (announcement id: {})", id);
+        String username = request.getUserPrincipal().getName();
+        Announcement foundAnnouncement = announcementService.findById(id);
+        if (foundAnnouncement.getOwner().getUsername().equals(username)) {
+            model.addAttribute("announcementToDelete", announcementService.findByIdConvertToDto(id));
+        } else {
+            LOGGER.info("ERROR: announcement doesn't belong to this user (announcement id: {})", id);
+            return "redirect:error";
+        }
+        return "delete-confirmation-ask";
+    }
 
+    @DeleteMapping("delete/{id}")
+    public String deleteById(@PathVariable("id") Long id, @ModelAttribute("announcementToDelete") AddAndEditAnnouncementDto dto,
+                             Model model, HttpServletRequest request) {
+        LOGGER.info("Start deleting the announcement by id: {}", id);
         String username = request.getUserPrincipal().getName();
         Announcement foundAnnouncement = announcementService.findById(id);
         if (foundAnnouncement.getOwner().getUsername().equals(username)) {
             announcementService.deleteById(id);
-            return "own-announcements";
+            LOGGER.info("Announcement {} successfully deleted", id);
+            return "redirect:/announcement/my-announcements";
         } else {
             return "redirect:error";
         }

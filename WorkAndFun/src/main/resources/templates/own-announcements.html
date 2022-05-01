@@ -73,7 +73,7 @@
                             <td>
                                 <div th:class="'col-12 fix-button text-center custom-cell'">
                                     <form th:action="@{/announcement/delete/{id}(id=${announcement.id})}"
-                                          th:method="delete">
+                                          th:method="get">
                                         <button type="submit" th:class="'btn btn-xs btn-secondary'"
                                                 th:text="#{button.delete}"></button>
                                     </form>
