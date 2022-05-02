@@ -33,9 +33,4 @@ public class AnnouncementAPI {
         return ResponseEntity.ok(announcementService.findById(id));
     }
 
-    @DeleteMapping("delete-announcement/{id}")
-    public void deleteById(@PathVariable Long id) {
-        LOGGER.debug("API request to delete by id: {}", id);
-        announcementService.deleteById(id);
-    }
 }

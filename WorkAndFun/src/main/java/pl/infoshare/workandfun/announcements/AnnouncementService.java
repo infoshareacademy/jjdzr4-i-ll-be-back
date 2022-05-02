@@ -117,6 +117,12 @@ public class AnnouncementService {
                 .collect(Collectors.toList());
     }
 
+    public List<QuickViewAnnouncementDto> findAllByOwner(String username) throws UsernameNotFoundException {
+        User foundUser = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User: " + username + " does not exist"));;
+        List<Announcement> announcementsOfUser = announcementsRepository.findAllByOwnerOrderByDateDesc(foundUser);
+        return announcementsOfUser.stream().map(quickViewAnnouncementMapper::toDto).collect(Collectors.toList());
+    }
+
     private Predicate<QuickViewAnnouncementDto> searchFilter(String param) {
         return quickViewAnnouncementDto -> quickViewAnnouncementDto.toString().toLowerCase().contains(param.toLowerCase());
     }

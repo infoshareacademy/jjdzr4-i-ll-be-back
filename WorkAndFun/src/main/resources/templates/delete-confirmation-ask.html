@@ -23,11 +23,10 @@
         <div class="row mt-5">
             <div class="col-lg-12">
                 <div class="container text-center">
-                    <form class="form-signin" method="post" action="/api/sign-out">
-                        <h1 class="h3 mb-3 font-weight-normal" th:text="#{sign-out.question}">Are you sure you want to log out?</h1>
+                    <form th:class="'form-signin'" th:method="delete" th:action="@{/announcement/delete/{announcId}(announcId=${announcementToDelete.id})}">
+                        <h1 class="h3 mb-3 font-weight-normal" th:text="#{delete.question}"></h1>
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{sign-out.logout}">Log Out</button>
-                        <p class="mt-5 mb-3 text-muted" th:text="#{sign-in.C}">© 2022</p>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{button.delete}"></button>
                     </form>
                 </div>
             </div>
